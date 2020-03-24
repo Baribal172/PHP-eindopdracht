@@ -1,0 +1,14 @@
+#loginForm {
+    width: 40%;
+    margin: auto;
+}
+.label {
+    width: 30%;
+}
+.textfield {
+    color: red;
+}
+#submit {
+    width: 50%;
+    margin: auto;
+}
