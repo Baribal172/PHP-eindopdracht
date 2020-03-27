@@ -66,52 +66,56 @@
                 return $this;
         }
 
-
-
         //$user = new CreateAccount();
         // include_once('config.php'); // connection to database
-        public function create() {
-            if ($_SERVER["REQUEST_METHOD"] == "POST") {
-                // check if email is empty
-                if (empty(trim($_POST["email"]))) {
-                    $usernameError = "Please enter username!";
-                } else {
-                    $username = trim($_POST["email"]);
-                    header ("location: /testIndex.php");
-                }
-    
-                // check if full name is empty
-                if (empty(trim($_POST["fullName"]))) {
-                    $fullNameError = "Please enter full name!";
-                } else {
-                    $fullName = trim($_POST["fullName"]);
-                }
-    
-                // check if password is empty
-                if (empty(trim($_POST["password"]))) {
-                    $passwordError = "Please enter password!";
-                } else {
-                    $password = trim($_POST["password"]);
-                }
-    
-    
-    
-                
-                // als er waarden zitten in email, fullName en password
-                // (als deze velden zijn ingevuld)
-                /*if (!empty($email) && !empty($fullName) && !empty($password)) {
-                    try {
-                        $conn = new PDO('mysql:host=localhost;dbname=buddyapptest', "root", "");
-                        echo "Connection succes!";
-                    }
-                    catch (PDOException $error) {
-                        echo "Not able to estabish connection :(";
-                    }
-                    
-                }*/
-            } 
-        }
         
+
+        public function create() {
+            echo "create";
+            if (!empty($email) && !empty($fullName) && !empty($password)) {
+                try {
+                    //$conn = new PDO('mysql:host=localhost;dbname=buddyapptest', "root", "");
+                    echo "Connection succes!";
+
+
+                    if ($_SERVER["REQUEST_METHOD"] == "POST") {
+                        // check if email is empty
+                        if (empty(trim($_POST["email"]))) {
+                            $emailError = "Please enter username!";
+                        } else {
+                            $email = trim($_POST["email"]);
+                            //header ("location: ./testIndex.php"); // na validatie
+                        }
+            
+                        // check if full name is empty
+                        if (empty(trim($_POST["fullName"]))) {
+                            $fullNameError = "Please enter full name!";
+                        } else {
+                            $fullName = trim($_POST["fullName"]);
+                            //header ("location: ./testIndex.php");
+                        }
+            
+                        // check if password is empty
+                        if (empty(trim($_POST["password"]))) {
+                            $passwordError = "Please enter password!";
+                        } else {
+                            $password = trim($_POST["password"]);
+                        }                    
+                    }
+                    header ("location: ./testIndex.php");
+                    $this->validate();
+                }
+                catch (PDOException $error) {
+                    echo "Not able to estabish connection :(";
+                }
+                
+            }
+        }
+
+
+        public function validate() {
+
+        }
 
     }
     

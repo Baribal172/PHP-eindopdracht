@@ -3,7 +3,16 @@
     // klasse toevoegen
     include_once (__DIR__ . "\classes\ClassCreateAccount.php");
 
-    $createAccount = new CreateAccount();
+    if (!empty($_POST)) {
+
+        $createAccount = new CreateAccount();
+        $createAccount->create();
+
+        $email = $_POST['email'];
+        $fullName = $_POST['fullName'];
+        $password = $_POST['password'];
+
+    }
 
 ?>
 <!DOCTYPE html>
