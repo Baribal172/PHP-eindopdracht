@@ -1,4 +1,5 @@
 <?php
+include_once(__DIR__ . "/Db.php");
 
 class User{
     private $id;
@@ -97,12 +98,14 @@ class User{
 
         /**TO ADD PDO EXCEPTION CONNECTION FAILED */
 
-        $statement = $conn->prepare("INSERT INTO users (first_name, last_name, email) VALUES (:firstname, :lastname, :email)");
+        $statement = $conn->prepare("insert into users (first_name, last_name, email) values (:firstname, :lastname, :email)");
 
         /**bind values */
         $firstname = $this->getFirstname();
         $lastname = $this->getLastname();
         $email = $this->getEmail();
+
+        echo $firstname;
 
         $statement->bindValue(":firstname", $firstname);
         $statement->bindValue(":lastname", $lastname);

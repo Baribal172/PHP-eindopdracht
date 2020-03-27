@@ -5,6 +5,6 @@ const SETTINGS = [
           "password" => "zVo)YtOYb#th",
           "host" => "www29.totaalholding.nl",
           "port" => 3306,
-          "dbname" => "bariba1q_PHP Buddy"
+          "dbname" => "bariba1q_PHPBuddyUsers"
          ]
 ];
