@@ -1,5 +1,6 @@
 <?php
 
+<<<<<<< HEAD
 //$user = new CreateAccount();
 // include_once('config.php'); // connection to database
 
@@ -46,6 +47,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $statement->execute();
     }
 }
+=======
+    // klasse toevoegen
+    include_once (__DIR__ . "\classes\ClassCreateAccount.php");
+
+    $createAccount = new CreateAccount();
+>>>>>>> 347b7e18e30874ae61f8091ab6725699f605f96f
 
 ?>
 <!DOCTYPE html>
@@ -63,7 +70,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 <body>
     <div id="loginForm">
         <h1>Create account</h1>
-        <form action="POST">
+        
+        <!-- HAD IK EERST ---------- action & method verkeerd geinterpreteerd -->
+        <!-- <form action="POST"> -->
+
+        <!-- VERBETERD -->
+        <form action="createAccount.php" method="POST">
+
             <label for="email" class="label">E-mail</label>
             <input type="text" name="email" id="email" class="textfield">
             <br>
