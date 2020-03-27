@@ -88,6 +88,7 @@ class User{
         return $this;
     }
 
+
     public function registerUser()
     {
         /**connect to database */
@@ -97,5 +98,13 @@ class User{
 
         $sql = "INSERT INTO users (first_name, last_name, email) VALUES (:firstname, :lastname, :email)";
 
+        $result = $conn->prepare($sql);
+        /**bind parameters */
+        $result->bindParam(":firstname", $firstname);
+        $result->bindParam(":lastname", $lastname);
+        $result->bindParam(":email", $email);
+
+        $result = $conn->query($sql);
+        var_dump($result);
     }
 }

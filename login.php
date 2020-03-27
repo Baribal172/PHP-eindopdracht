@@ -4,6 +4,15 @@ $user1 = new User();
 $user1->setFirstname("Yaiza");
 echo $user1->getFirstname();
 
+if (!empty($_POST)) {
+    $email = $_POST['email'];
+    $password = $_POST['password'];
+    $firstname = $_POST['firstName'];
+    $lastname = $_POST['lastName'];
+
+    
+}
+
 ?>
 
 <!DOCTYPE html>
@@ -18,10 +27,10 @@ echo $user1->getFirstname();
         <h1>Create account</h1>
         <form action="" method="post" class="">
         <label for="firstName" class="label">First name</label>
-            <input type="text" name="firstName" id="firstName" class="textfield">
+            <input type="text" name="firstName" id="firstname" class="textfield">
             <br>
             <label for="lastName" class="label">Last name</label>
-            <input type="text" name="lastName" id="lastName" class="textfield">
+            <input type="text" name="lastName" id="lastname" class="textfield">
             <br>
             <label for="email" class="label">E-mail</label>
             <input type="text" name="email" id="email" class="textfield">
