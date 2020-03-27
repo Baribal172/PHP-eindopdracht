@@ -93,18 +93,23 @@ class User{
     {
         /**connect to database */
         /**echo $con ? 'connected' : 'not connected'; */
-        $conn = new PDO('mysql:host=www29.totaalholding.nl;dbname=bariba1q_PHP buddy', "bariba1q_Glenn", "Ne6aT*fBMp7&");
+        $conn = Db::getConnection();
+
         /**TO ADD PDO EXCEPTION CONNECTION FAILED */
 
-        $sql = "INSERT INTO users (first_name, last_name, email) VALUES (:firstname, :lastname, :email)";
+        $statement = $conn->prepare("INSERT INTO users (first_name, last_name, email) VALUES (:firstname, :lastname, :email)");
 
-        $result = $conn->prepare($sql);
-        /**bind parameters */
-        $result->bindParam(":firstname", $firstname);
-        $result->bindParam(":lastname", $lastname);
-        $result->bindParam(":email", $email);
+        /**bind values */
+        $firstname = $this->getFirstname();
+        $lastname = $this->getLastname();
+        $email = $this->getEmail();
 
-        $result = $conn->query($sql);
+        $statement->bindValue(":firstname", $firstname);
+        $statement->bindValue(":lastname", $lastname);
+        $statement->bindValue(":email", $email);
+
+
+        $result = $statement->execute();
         var_dump($result);
     }
 }

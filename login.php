@@ -1,17 +1,11 @@
 <?php
 include_once(__DIR__ . "/classes/User.php");
 $user1 = new User();
-$user1->setFirstname("Yaiza");
-echo $user1->getFirstname();
+$user1->setFirstname($_POST['firstName']);
+$user1->setLastname($_POST['lastName']);
+$user1->setEmail($_POST['lastName']);
 
-if (!empty($_POST)) {
-    $email = $_POST['email'];
-    $password = $_POST['password'];
-    $firstname = $_POST['firstName'];
-    $lastname = $_POST['lastName'];
-
-    
-}
+$user1->registerUser();
 
 ?>
 
