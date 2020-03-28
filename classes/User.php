@@ -124,11 +124,11 @@ class User{
         $password = $this->getPassword();
 
         /*check if email is valid (and filled in) and ends with student adress*/
-        if ($email != "") {
-            if (filter_var($email, FILTER_VALIDATE_EMAIL)){
+        //if ($email != "") {
+        if (filter_var($email, FILTER_VALIDATE_EMAIL)){
             echo "The mail is valid";
 
-            $statement = $conn->prepare("insert into Users (first_name, last_name, email, password) values (:firstname, :lastname, :email, :password)");
+        $statement = $conn->prepare("insert into Users (first_name, last_name, email, password) values (:firstname, :lastname, :email, :password)");
 
         $statement->bindValue(":firstname", $firstname);
         $statement->bindValue(":lastname", $lastname);
@@ -137,11 +137,10 @@ class User{
 
         $result = $statement->execute();
 
-
         } else {
-            echo "mail invalid";
+            echo "mail format invalid";
         }
-    }
+    
 
             /*check if email is valid and ends with student adress*/
 

@@ -30,13 +30,13 @@ $user1->registerUser();
         <h1>Create account</h1>
         <form method="post" action = "<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>" class="">
         <label for="firstName" class="label">First name</label>
-            <input type="text" name="firstName" id="firstname" class="textfield" required>
+            <input type="text" name="firstName" id="firstname" value = "<?php echo htmlspecialchars (!empty($_POST["firstName"]) ? $_POST["firstName"] : '');?>" class="textfield" required>
             <br>
             <label for="lastName" class="label">Last name</label>
-            <input type="text" name="lastName" id="lastname" class="textfield" required>
+            <input type="text" name="lastName" id="lastname" value = "<?php echo htmlspecialchars (!empty($_POST["lastName"]) ? $_POST["lastName"] : '');?>" class="textfield" required>
             <br>
             <label for="email" class="label">E-mail</label>
-            <input type="text" name="email" id="email" class="textfield" required>
+            <input type="text" name="email" id="email" value = "<?php echo htmlspecialchars (!empty($_POST["email"]) ? $_POST["email"] : '');?>" class="textfield" required>
             <br>
             <label for="password" class="label">Password</label>
             <input type="text" name="password" id="password" class="textfield" required>
