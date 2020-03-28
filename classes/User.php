@@ -124,10 +124,10 @@ class User{
         $password = $this->getPassword();
 
         /*check if email is valid and ends with student adress*/
-        if (filter_var($email, FILTER_VALIDATE_EMAIL)){
-            echo "The mail is valid";
-        } else {
-            echo "The mail is not valid";
+        if (!filter_var($email, FILTER_VALIDATE_EMAIL)){
+            echo "The mail is invalid";
+
+            exit;
         }
 
             /*check if email is valid and ends with student adress*/

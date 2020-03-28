@@ -4,7 +4,7 @@ include_once(__DIR__ . "/classes/User.php");
 $user1 = new User();
 
 /*check if form is empty or not*/
-if (!empty($_POST)) {
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
 $user1->setFirstname($_POST['firstName']);
 $user1->setLastname($_POST['lastName']);
 $user1->setEmail($_POST['email']);
