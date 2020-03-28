@@ -110,8 +110,7 @@ class User{
     }
     
 
-    public function registerUser()
-    {
+    public function registerUser(){
         /**connect to database */
         /**echo $con ? 'connected' : 'not connected'; */
         $conn = Db::getConnection();
@@ -123,40 +122,58 @@ class User{
         $email = $this->getEmail();
         $password = $this->getPassword();
 
-        /*check if email is valid (and filled in) and ends with student adress*/
-        //if ($email != "") {
-        if (filter_var($email, FILTER_VALIDATE_EMAIL)){
-            echo "The mail is valid";
+    /******START VALIDATION STEPS BEFORE SUBMIT******/
+        /*check if form has been submitted before starting validation*/
+        /*this method is better than !empty because it checks if there has been a post request to the server, not possible if post request is empty*/
+        if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
-        $statement = $conn->prepare("insert into Users (first_name, last_name, email, password) values (:firstname, :lastname, :email, :password)");
+        /*check if email is valid (and filled in)*/
+            if (filter_var($email, FILTER_VALIDATE_EMAIL)){
 
-        $statement->bindValue(":firstname", $firstname);
-        $statement->bindValue(":lastname", $lastname);
-        $statement->bindValue(":email", $email);
-        $statement->bindValue(":password", $password);
+            /*check if email ends with student adress*/
+                /*separate string at the # character*/
+                $parts = explode('@', $email);
+                /*use array_pop to define the domain as part of $domain and not $email anymore*/
+                $domain = array_pop($parts);
+                /*check if domain is student.thomasMore.be*/
+                if ($domain == "student.thomasmore.be"){
+                    /*check if email already exists*/
 
-        $result = $statement->execute();
 
-        } else {
+                                    /*prepare to insert form input into database*/
+                                    $statement = $conn->prepare("insert into Users (first_name, last_name, email, password) values (:firstname, :lastname, :email, :password)");
+
+                                    /* bind values from var to sql*/
+                                    $statement->bindValue(":firstname", $firstname);
+                                    $statement->bindValue(":lastname", $lastname);
+                                    $statement->bindValue(":email", $email);
+                                    $statement->bindValue(":password", $password);
+
+                                    /*execute input from fields to database*/
+                                    $result = $statement->execute();
+
+                                    //var_dump($result);
+                }
+                else {
+                    echo "geen studenten email";
+                }
+                
+
+            } else {
             echo "mail format invalid";
-        }
-    
+            }
 
-            /*check if email is valid and ends with student adress*/
-
-    /*check if email already exists*/
 
     /*password*/
 
     /*check if submit worked*/
 
+    /*mail invalid, create error message for user*/
+
     /*submit didn't work, create error for user*/
 
-        /* bind values from var to sql*/
-        
 
-
-        //var_dump($result);
+        }
     }
 
 
