@@ -6,6 +6,7 @@ class User{
     private $firstname;
     private $lastname;
     private $email;
+    private $password;
     
     
 
@@ -88,7 +89,26 @@ class User{
 
         return $this;
     }
+    /**
+     * Get the value of password
+     */ 
+    public function getPassword()
+    {
+        return $this->password;
+    }
 
+    /**
+     * Set the value of password
+     *
+     * @return  self
+     */ 
+    public function setPassword($password)
+    {
+        $this->password = $password;
+
+        return $this;
+    }
+    
 
     public function registerUser()
     {
@@ -98,18 +118,20 @@ class User{
 
         /**TO ADD PDO EXCEPTION CONNECTION FAILED */
 
-        $statement = $conn->prepare("insert into users (first_name, last_name, email) values (:firstname, :lastname, :email)");
+        $statement = $conn->prepare("insert into Users (first_name, last_name, email, password) values (:firstname, :lastname, :email, :password)");
 
         /**bind values */
         $firstname = $this->getFirstname();
         $lastname = $this->getLastname();
         $email = $this->getEmail();
+        $password = $this->getPassword();
 
         echo $firstname;
 
         $statement->bindValue(":firstname", $firstname);
         $statement->bindValue(":lastname", $lastname);
         $statement->bindValue(":email", $email);
+        $statement->bindValue(":password", $password);
 
 
         $result = $statement->execute();
