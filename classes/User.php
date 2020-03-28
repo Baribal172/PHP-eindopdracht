@@ -126,7 +126,7 @@ class User{
         $email = $this->getEmail();
         $password = $this->getPassword();
 
-        echo $firstname;
+        //echo $firstname;
 
         $statement->bindValue(":firstname", $firstname);
         $statement->bindValue(":lastname", $lastname);
@@ -135,6 +135,6 @@ class User{
 
 
         $result = $statement->execute();
-        var_dump($result);
+        //var_dump($result);
     }
 }
