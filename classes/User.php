@@ -115,16 +115,36 @@ class User{
         /**connect to database */
         /**echo $con ? 'connected' : 'not connected'; */
         $conn = Db::getConnection();
-
         /**TO ADD PDO EXCEPTION CONNECTION FAILED */
-
-        $statement = $conn->prepare("insert into Users (first_name, last_name, email, password) values (:firstname, :lastname, :email, :password)");
 
         /**bind values */
         $firstname = $this->getFirstname();
         $lastname = $this->getLastname();
         $email = $this->getEmail();
         $password = $this->getPassword();
+
+        /*check if email is valid and ends with student adress*/
+        if (filter_var($email, FILTER_VALIDATE_EMAIL)){
+            echo "The mail is valid";
+        } else {
+            echo "The mail is not valid";
+        }
+
+            /*check if email is valid and ends with student adress*/
+
+    /*check if email already exists*/
+
+    /*password*/
+
+    /*check if submit worked*/
+
+    /*submit didn't work, create error for user*/
+
+
+
+
+        $statement = $conn->prepare("insert into Users (first_name, last_name, email, password) values (:firstname, :lastname, :email, :password)");
+
 
         //echo $firstname;
 
@@ -137,4 +157,6 @@ class User{
         $result = $statement->execute();
         //var_dump($result);
     }
+
+
 }
