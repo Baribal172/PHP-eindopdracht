@@ -123,12 +123,25 @@ class User{
         $email = $this->getEmail();
         $password = $this->getPassword();
 
-        /*check if email is valid and ends with student adress*/
-        if (!filter_var($email, FILTER_VALIDATE_EMAIL)){
-            echo "The mail is invalid";
+        /*check if email is valid (and filled in) and ends with student adress*/
+        if ($email != "") {
+            if (filter_var($email, FILTER_VALIDATE_EMAIL)){
+            echo "The mail is valid";
 
-            exit;
+            $statement = $conn->prepare("insert into Users (first_name, last_name, email, password) values (:firstname, :lastname, :email, :password)");
+
+        $statement->bindValue(":firstname", $firstname);
+        $statement->bindValue(":lastname", $lastname);
+        $statement->bindValue(":email", $email);
+        $statement->bindValue(":password", $password);
+
+        $result = $statement->execute();
+
+
+        } else {
+            echo "mail invalid";
         }
+    }
 
             /*check if email is valid and ends with student adress*/
 
@@ -140,21 +153,10 @@ class User{
 
     /*submit didn't work, create error for user*/
 
+        /* bind values from var to sql*/
+        
 
 
-
-        $statement = $conn->prepare("insert into Users (first_name, last_name, email, password) values (:firstname, :lastname, :email, :password)");
-
-
-        //echo $firstname;
-
-        $statement->bindValue(":firstname", $firstname);
-        $statement->bindValue(":lastname", $lastname);
-        $statement->bindValue(":email", $email);
-        $statement->bindValue(":password", $password);
-
-
-        $result = $statement->execute();
         //var_dump($result);
     }
 
