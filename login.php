@@ -1,25 +1,64 @@
+<?php
+include_once(__DIR__ . "/classes/User.php");
+$user = new User();
+if (!empty($_POST)) {
+    $email = $_POST['email'];
+    $password = $_POST['password'];
+
+    if (!empty($email) && !empty($password)) {
+        if ($user->checkLogin($email, $password)) {
+            echo "werkt";
+            header("Location: index.php");
+        } else {
+            $error = "wachtwoord en email komen niet overeen";
+        }
+    } else {
+        $error = "email en wachtwoord invullen";
+    }
+}
+
+?>
+
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-    <link rel="stylesheet" href="css/normalize.css">
-    <link rel="stylesheet" href="css/bootstrap.css">
-    <link rel="stylesheet" href="css/style.css">
+    <title>PHP buddyApp</title>
+    <link rel="stylesheet" href="login.css">
 </head>
+
 <body>
-<div id="loginForm">
-        <h1>Log into account</h1>
-        <form action="" method="post" class="">
-            <label for="email" class="label">E-mail</label>
-            <input type="text" name="email" id="email" class="textfield">
-            <br>
-            <label for="password" class="label">Password</label>
-            <input type="text" name="password" id="password" class="textfield">
-            <br>
-            <input type="submit" id="submit">
-        </form>
+    <div class="netflixLogin">
+        <div class="form form--login">
+            <form action="" method="post">
+                <h2 form__title>Login</h2>
+
+                <?php if (isset($error)) : ?>
+                    <div class="form__error">
+                        <p>
+                            <?php echo $error ?>
+                        </p>
+                    </div>
+                <?php endif ?>
+
+                <div class="form__field">
+                    <label for="Email">Studentenmail</label>
+                    <input type="text" id="Email" name="email">
+                </div>
+                <div class="form__field">
+                    <label for="Password">Password</label>
+                    <input type="password" id="Password" name="password">
+                </div>
+
+                <div class="form__field">
+
+                    <button type="submit">Login</button>
+
+                </div>
+            </form>
+        </div>
     </div>
 </body>
+
 </html>
