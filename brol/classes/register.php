@@ -1,5 +1,4 @@
 <?php
-include_once("classes/User.class.php");
 
 //nakijken of formulier verzonden is
 if (!empty($_POST)) {

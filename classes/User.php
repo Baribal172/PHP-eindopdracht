@@ -138,6 +138,7 @@ class User{
                 /*check if domain is student.thomasMore.be*/
                 if ($domain == "student.thomasmore.be"){
                     /*check if email already exists*/
+                    
 
 
                                     /*prepare to insert form input into database*/

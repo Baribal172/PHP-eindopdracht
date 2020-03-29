@@ -3,26 +3,7 @@
 class User
 {
   
-    public function save()
-    {
-        $conn = new PDO('mysql:host=www29.totaalholding.nl;dbname=bariba1q_PHP buddy', "bariba1q_Glenn", "Ne6aT*fBMp7&");
-        $sql = "INSERT INTO users (id) VALUES ('1')";
-        $result = $conn->query($sql);
-        var_dump($result);
-    }
 
-    // public function getAllPosts()
-    // {
-
-    //     $conn = new PDO("mysql:host=localhost;dbname=imdstagram;port=3306", "root", "root");
-    //     $statement = $conn->prepare("select * from posts where user_id = :userid");
-    //     $userid = $this->getId();
-    //     $statement->bindParam(":userid", $userid);
-    //     $statement->execute();
-
-    //     $result = $statement->fetchAll(PDO::FETCH_ASSOC);
-    //     return $result;
-    // }
     public function checkEmail()
     {
         // connection and query email 
