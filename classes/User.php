@@ -197,36 +197,4 @@ class User
         }
     }
 
-    public function checkLogin2()
-    {
-        $conn = Db::getConnection();
-        $email = $this->getEmail();
-        $password = $this->getPassword();
-
-        if ($_SERVER["REQUEST_METHOD"] == "POST") {
-
-            /**check if email exists in database */
-
-                /**if email exists, check if password match password in db */
-
-                    /**password matches, login succeeds */
-
-                    /**password doesn't match, login fails */
-
-
-            /**email doesn't exist, login failed**/ 
-
-        }
-
-
-        $statement = $conn->prepare("select * from users WHERE email = :email
-         and password = :password");
-
-        $statement->bindValue(":email", $email);
-        $statement->bindValue(":password", $password);
-
-
-        $result = $statement->execute();
-        $result = $statement->fetchAll(PDO::FETCH_ASSOC);
-
-    }
+}
