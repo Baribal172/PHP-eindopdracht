@@ -13,3 +13,52 @@
     width: 50%;
     margin: auto;
 }
+
+.title {
+    font-size: 18;
+    font-weight: bold;
+}
+.completeProfile--content {
+    padding: 40px;
+    width: 50%;
+    margin: auto;
+    background-color: #E8E8E8;
+}
+.lbl-gender {
+    margin-right: 20px;
+}
+.characteristic {
+    margin-top: 20px;
+}
+
+
+#hobby {
+    text-align: center;
+}
+
+.checklabel {
+    width: 40%;
+    margin: 20px;
+    background: #f2f2f2;
+    border-radius: 3px;
+    text-align: center;
+    font-size: 1.2rem;
+    box-shadow: 0 0 5px 5px rgba(0,0,0,0.2);
+
+    padding: 10px;
+}
+.checklabel:hover {
+    background:#ddd;
+}
+.checklabel:checked {
+    background-color: red;
+}
+
+.checkbox {
+    display: none;
+}
+
+.checkbox:checked + .checklabel {
+    background-color: #A3D3D9;
+
+}
