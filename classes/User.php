@@ -1,18 +1,19 @@
 <?php
 include_once(__DIR__ . "/Db.php");
 
-class User{
+class User
+{
     private $id;
     private $firstname;
     private $lastname;
     private $email;
     private $password;
-    
-    
+
+
 
     /**
      * Get the value of id
-     */ 
+     */
     public function getId()
     {
         return $this->id;
@@ -22,7 +23,7 @@ class User{
      * Set the value of id
      *
      * @return  self
-     */ 
+     */
     public function setId($id)
     {
         $this->id = $id;
@@ -32,7 +33,7 @@ class User{
 
     /**
      * Get the value of firstname
-     */ 
+     */
     public function getFirstname()
     {
         return $this->firstname;
@@ -42,7 +43,7 @@ class User{
      * Set the value of firstname
      *
      * @return  self
-     */ 
+     */
     public function setFirstname($firstname)
     {
         $this->firstname = $firstname;
@@ -52,7 +53,7 @@ class User{
 
     /**
      * Get the value of lastname
-     */ 
+     */
     public function getLastname()
     {
         return $this->lastname;
@@ -62,7 +63,7 @@ class User{
      * Set the value of lastname
      *
      * @return  self
-     */ 
+     */
     public function setLastname($lastname)
     {
         $this->lastname = $lastname;
@@ -72,7 +73,7 @@ class User{
 
     /**
      * Get the value of email
-     */ 
+     */
     public function getEmail()
     {
         return $this->email;
@@ -82,7 +83,7 @@ class User{
      * Set the value of email
      *
      * @return  self
-     */ 
+     */
     public function setEmail($email)
     {
         $this->email = $email;
@@ -91,7 +92,7 @@ class User{
     }
     /**
      * Get the value of password
-     */ 
+     */
     public function getPassword()
     {
         return $this->password;
@@ -101,16 +102,40 @@ class User{
      * Set the value of password
      *
      * @return  self
-     */ 
+     */
     public function setPassword($password)
     {
         $this->password = $password;
 
         return $this;
     }
-    
 
-    public function registerUser(){
+    public function checkLogin($email, $password)
+    {
+        $conn = Db::getConnection();
+        
+
+        $statement = $conn->prepare("
+        SELECT * FROM users WHERE email = :email
+        ");
+        $statement->bindParam(':email', $email);
+
+        $statement->execute();
+        $result = $statement->fetchAll(PDO::FETCH_ASSOC);
+        if (empty($result)) {
+            return false;
+            echo "kapot";
+        }
+
+        if (password_verify($password, $result)) {
+            return true;
+        } else {
+            echo "fail";
+            return false;
+        }
+    }
+    public function registerUser()
+    {
         /**connect to database */
         /**echo $con ? 'connected' : 'not connected'; */
         $conn = Db::getConnection();
@@ -122,60 +147,76 @@ class User{
         $email = $this->getEmail();
         $password = $this->getPassword();
 
-    /******START VALIDATION STEPS BEFORE SUBMIT******/
+        /******START VALIDATION STEPS BEFORE SUBMIT******/
         /*check if form has been submitted before starting validation*/
         /*this method is better than !empty because it checks if there has been a post request to the server, not possible if post request is empty*/
         if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
-        /*check if email is valid (and filled in)*/
-            if (filter_var($email, FILTER_VALIDATE_EMAIL)){
+            /*check if email is valid (and filled in)*/
+            if (filter_var($email, FILTER_VALIDATE_EMAIL)) {
 
-            /*check if email ends with student adress*/
+                /*check if email ends with student adress*/
                 /*separate string at the # character*/
                 $parts = explode('@', $email);
                 /*use array_pop to define the domain as part of $domain and not $email anymore*/
                 $domain = array_pop($parts);
                 /*check if domain is student.thomasMore.be*/
-                if ($domain == "student.thomasmore.be"){
+                if ($domain == "student.thomasmore.be") {
                     /*check if email already exists*/
                     
 
 
-                                    /*prepare to insert form input into database*/
-                                    $statement = $conn->prepare("insert into Users (first_name, last_name, email, password) values (:firstname, :lastname, :email, :password)");
+                    /*prepare to insert form input into database*/
+                    $statement = $conn->prepare("insert into Users (first_name, last_name, email, password) values (:firstname, :lastname, :email, :password)");
 
-                                    /* bind values from var to sql*/
-                                    $statement->bindValue(":firstname", $firstname);
-                                    $statement->bindValue(":lastname", $lastname);
-                                    $statement->bindValue(":email", $email);
-                                    $statement->bindValue(":password", $password);
+                    /* bind values from var to sql*/
+                    $statement->bindValue(":firstname", $firstname);
+                    $statement->bindValue(":lastname", $lastname);
+                    $statement->bindValue(":email", $email);
+                    $statement->bindValue(":password", $password);
 
-                                    /*execute input from fields to database*/
-                                    $result = $statement->execute();
+                    /*execute input from fields to database*/
+                    $result = $statement->execute();
 
-                                    //var_dump($result);
-                }
-                else {
+                    //var_dump($result);
+                } else {
                     echo "geen studenten email";
                 }
-                
-
             } else {
-            echo "mail format invalid";
+                echo "mail format invalid";
             }
 
 
-    /*password*/
+            /*password*/
 
-    /*check if submit worked*/
+            /*check if submit worked*/
 
-    /*mail invalid, create error message for user*/
+            /*mail invalid, create error message for user*/
 
-    /*submit didn't work, create error for user*/
-
-
+            /*submit didn't work, create error for user*/
         }
     }
 
+    public function checkLogin2()
+    {
+        $conn = Db::getConnection();
 
+        $email = $this->getEmail();
+        $password = $this->getPassword();
+
+        if ($_SERVER["REQUEST_METHOD"] == "POST") {
+
+        $statement = $conn->prepare("select * from users WHERE email = :email
+         and password = :password");
+
+        $statement->bindValue(":email", $email);
+        $statement->bindValue(":password", $password);
+
+
+        $result = $statement->execute();
+        $result = $statement->fetchAll(PDO::FETCH_ASSOC);
+
+    
+    }
+}
 }
