@@ -1,8 +1,8 @@
 <?php
-/**HALLO */
+/**HALLOOOOOOOOOOOOOOOOOOOOO */
 const SETTINGS = [
   "db" => [
-    "user" => "bariba1q_Yaiza",
+    "user" => "bariba1q_TEST",
     "password" => "zVo)YtOYb#th",
     "host" => "www29.totaalholding.nl",
     "port" => 3306,
