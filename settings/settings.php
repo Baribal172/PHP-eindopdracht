@@ -1,5 +1,5 @@
 <?php
-
+/**HALLO */
 const SETTINGS = [
   "db" => [
     "user" => "bariba1q_Yaiza",
