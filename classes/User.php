@@ -108,32 +108,6 @@ class User
         return $this;
     }
 
-    public function checkLogin($email, $password)
-    {
-        $conn = Db::getConnection();
-        
-
-        $statement = $conn->prepare("
-        SELECT * FROM users WHERE email = :email
-        ");
-        $statement->bindParam(':email', $email);
-
-        $statement->execute();
-        $result = $statement->fetchAll(PDO::FETCH_ASSOC);
-        if (empty($result)) {
-            return false;
-            echo "kapot";
-        }
-
-        if (password_verify($password, $result)) {
-            return true;
-        } else {
-            echo "fail";
-            return false;
-        }
-    }
-
-
     public function registerUser()
     {
         /**connect to database */
