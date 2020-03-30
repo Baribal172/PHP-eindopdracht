@@ -15,13 +15,15 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 <head>
     <meta charset="UTF-8">
     <title>PHP buddyApp</title>
+    <link rel="stylesheet" href="css/normalize.css">
+    <link rel="stylesheet" href="css/bootstrap.css">
     <link rel="stylesheet" href="login.css">
 </head>
 
 <body>
-    <div class="netflixLogin">
+    <div class="loginForm">
         <div class="form form--login">
-            <form action="" method="post">
+            <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post">
                 <h2 form__title>Login</h2>
 
                 <?php if (isset($error)) : ?>
