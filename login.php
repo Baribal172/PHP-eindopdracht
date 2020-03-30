@@ -1,21 +1,18 @@
 <?php
 include_once(__DIR__ . "/classes/User.php");
 
-$user1 = new User();
 
-if (!empty($_POST)) {
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $email = $_POST['email'];
     $password = $_POST['password'];
-
-    if (!empty($email) && !empty($password)) {
-        if ($user1->checkLogin($email, $password)) {
-            echo "werkt";
-            header("Location: index.php");
-        } else {
-            $error = "wachtwoord en email komen niet overeen";
-        }
+    $conn = Db::getConnection();
+    $user = new User($conn);
+    $user->setEmail($email);
+    $user->setPassword($password);
+    if ($user->checkLogin()) {
+        header("Location: index.php");
     } else {
-        $error = "email en wachtwoord invullen";
+        echo "password and email doesnt match";
     }
 }
 

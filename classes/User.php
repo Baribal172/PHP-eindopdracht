@@ -108,32 +108,6 @@ class User
         return $this;
     }
 
-    public function checkLogin($email, $password)
-    {
-        $conn = Db::getConnection();
-        
-
-        $statement = $conn->prepare("
-        SELECT * FROM users WHERE email = :email
-        ");
-        $statement->bindParam(':email', $email);
-
-        $statement->execute();
-        $result = $statement->fetchAll(PDO::FETCH_ASSOC);
-        if (empty($result)) {
-            return false;
-            echo "kapot";
-        }
-
-        if (password_verify($password, $result)) {
-            return true;
-        } else {
-            echo "fail";
-            return false;
-        }
-    }
-
-
     public function registerUser()
     {
         /**connect to database */
@@ -163,7 +137,7 @@ class User
                 /*check if domain is student.thomasMore.be*/
                 if ($domain == "student.thomasmore.be") {
                     /*check if email already exists*/
-                    
+
 
 
                     /*prepare to insert form input into database*/
@@ -197,4 +171,24 @@ class User
         }
     }
 
+    public function checkLogin()
+    {
+        $conn = Db::getConnection();
+
+        $statement = $conn->prepare("
+        SELECT password FROM Users WHERE email = :email");
+        $statement->bindValue(':email', $this->getEmail());
+        $statement->execute();
+
+        $result = $statement->fetch(PDO::FETCH_ASSOC);
+
+        echo $this->password;
+        $passwordCheck = $result['password'];
+
+        if ($this->password == $passwordCheck) {
+            return true;
+        } else {
+            echo "werktniet";
+        }
+    }
 }
