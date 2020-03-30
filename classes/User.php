@@ -137,10 +137,16 @@ class User
                 /*check if domain is student.thomasMore.be*/
                 if ($domain == "student.thomasmore.be") {
                     /*check if email already exists*/
+                    $statement = $conn->prepare("
+                    SELECT email FROM Users WHERE email = ?");
+                    $statement->bindValue(1, $email);
+                    $statement->execute();
 
+                    if ($statement->rowCount() > 0) {
+                        echo "Emailadres is al in gebruik" ;
+                    } else {
 
-
-                    /*prepare to insert form input into database*/
+                                /*prepare to insert form input into database*/
                     $statement = $conn->prepare("insert into Users (first_name, last_name, email, password) values (:firstname, :lastname, :email, :password)");
 
                     /* bind values from var to sql*/
@@ -152,20 +158,23 @@ class User
                     /*execute input from fields to database*/
                     $result = $statement->execute();
 
+                    /*password encryption*/
+                    
+
                     //var_dump($result);
-                } else {
+                } 
+            }
+                
+                else {
                     echo "geen studenten email";
                 }
             } else {
+
+                /*mail format invalid, create error message for user*/
                 echo "mail format invalid";
             }
 
-
-            /*password*/
-
             /*check if submit worked*/
-
-            /*mail invalid, create error message for user*/
 
             /*submit didn't work, create error for user*/
         }

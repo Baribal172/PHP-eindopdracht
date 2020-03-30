@@ -9,10 +9,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $user1->setLastname($_POST['lastName']);
     $user1->setEmail($_POST['email']);
     $user1->setPassword($_POST['password']);
+
+    $user1->registerUser();
 }
 
-$user1->registerUser();
-header("Location: index.php");
 ?>
 
 <!DOCTYPE html>
@@ -41,7 +41,7 @@ header("Location: index.php");
             <input type="text" name="email" id="email" value="<?php echo htmlspecialchars(!empty($_POST["email"]) ? $_POST["email"] : ''); ?>" class="textfield" required>
             <br>
             <label for="password" class="label">Password</label>
-            <input type="text" name="password" id="password" class="textfield" required>
+            <input type="password" name="password" id="password" class="textfield" required>
             <br>
             <input type="submit" id="submit">
         </form>
