@@ -173,11 +173,15 @@ class User
 
     public function checkLogin()
     {
+        /**connect to database */
         $conn = Db::getConnection();
+
+        /**bind value */
+        $email = $this->getEmail();
 
         $statement = $conn->prepare("
         SELECT password FROM Users WHERE email = :email");
-        $statement->bindValue(':email', $this->getEmail());
+        $statement->bindValue(':email', $email);
         $statement->execute();
 
         $result = $statement->fetch(PDO::FETCH_ASSOC);
