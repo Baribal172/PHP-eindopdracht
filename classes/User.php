@@ -119,7 +119,9 @@ class User
         $firstname = $this->getFirstname();
         $lastname = $this->getLastname();
         $email = $this->getEmail();
-        $password = $this->getPassword();
+        /*password encryption*/
+        $password = password_hash($this->getPassword(), PASSWORD_BCRYPT);
+
 
         /******START VALIDATION STEPS BEFORE SUBMIT******/
         /*check if form has been submitted before starting validation*/
@@ -157,10 +159,7 @@ class User
 
                     /*execute input from fields to database*/
                     $result = $statement->execute();
-
-                    /*password encryption*/
-                    
-
+                
                     //var_dump($result);
                 } 
             }
@@ -187,21 +186,25 @@ class User
 
         /**bind value */
         $email = $this->getEmail();
+        $password = $this->getPassword();
 
         $statement = $conn->prepare("
-        SELECT password FROM Users WHERE email = :email");
+        SELECT id, email, password FROM Users WHERE email = :email");
         $statement->bindValue(':email', $email);
         $statement->execute();
 
-        $result = $statement->fetch(PDO::FETCH_ASSOC);
+        $checkEmail = $statement->fetch(PDO::FETCH_ASSOC);
 
-        echo $this->password;
-        $passwordCheck = $result['password'];
-
-        if ($this->password == $passwordCheck) {
-            return true;
-        } else {
-            echo "werktniet";
+        if($checkEmail !== false){
+            $checkPassword = password_verify($password, $checkEmail['password']);
+            if($checkPassword){
+                //log in
+                header("Location: index.php");
+                echo "ingelogd";
+            }
+            else {
+                echo "password and email doesnt match";
         }
+    }
     }
 }

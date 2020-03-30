@@ -1,21 +1,12 @@
 <?php
 include_once(__DIR__ . "/classes/User.php");
 
+$user1 = new User();
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    $email = $_POST['email'];
-    $password = $_POST['password'];
-    $conn = Db::getConnection();
-    $user = new User($conn);
-    $user->setEmail($email);
-    $user->setPassword($password);
-    if ($user->checkLogin()) {
-        header("Location: index.php");
-    } else {
-        echo "password and email doesnt match";
-    }
-}
-
+    $user1->setEmail($_POST['email']);
+    $user1->setPassword($_POST['password']);
+    $user1->checkLogin();}
 ?>
 
 <!DOCTYPE html>
@@ -43,11 +34,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
                 <div class="form__field">
                     <label for="Email">Studentenmail</label>
-                    <input type="text" id="Email" name="email">
+                    <input type="text" id="Email" name="email" required> 
                 </div>
                 <div class="form__field">
                     <label for="Password">Password</label>
-                    <input type="password" id="Password" name="password">
+                    <input type="password" id="Password" name="password" required>
                 </div>
 
                 <div class="form__field">
