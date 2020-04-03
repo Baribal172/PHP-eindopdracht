@@ -1,2 +1,2 @@
 # Don't track content of these folders
-/settings.php
+settings/settings.php
