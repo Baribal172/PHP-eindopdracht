@@ -3,22 +3,10 @@ include_once(__DIR__ . "/classes/User.php");
 
 $user1 = new User();
 
-if (!empty($_POST)) {
-    $email = $_POST['email'];
-    $password = $_POST['password'];
-
-    if (!empty($email) && !empty($password)) {
-        if ($user1->checkLogin($email, $password)) {
-            echo "werkt";
-            header("Location: index.php");
-        } else {
-            $error = "wachtwoord en email komen niet overeen";
-        }
-    } else {
-        $error = "email en wachtwoord invullen";
-    }
-}
-
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    $user1->setEmail($_POST['email']);
+    $user1->setPassword($_POST['password']);
+    $user1->checkLogin();}
 ?>
 
 <!DOCTYPE html>
@@ -27,13 +15,15 @@ if (!empty($_POST)) {
 <head>
     <meta charset="UTF-8">
     <title>PHP buddyApp</title>
+    <link rel="stylesheet" href="css/normalize.css">
+    <link rel="stylesheet" href="css/bootstrap.css">
     <link rel="stylesheet" href="login.css">
 </head>
 
 <body>
-    <div class="netflixLogin">
+    <div class="loginForm">
         <div class="form form--login">
-            <form action="" method="post">
+            <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post">
                 <h2 form__title>Login</h2>
 
                 <?php if (isset($error)) : ?>
@@ -46,11 +36,11 @@ if (!empty($_POST)) {
 
                 <div class="form__field">
                     <label for="Email">Studentenmail</label>
-                    <input type="text" id="Email" name="email">
+                    <input type="text" id="Email" name="email" required> 
                 </div>
                 <div class="form__field">
                     <label for="Password">Password</label>
-                    <input type="password" id="Password" name="password">
+                    <input type="password" id="Password" name="password" required>
                 </div>
 
                 <div class="form__field">

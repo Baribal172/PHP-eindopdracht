@@ -119,7 +119,9 @@ class User
         $firstname = $this->getFirstname();
         $lastname = $this->getLastname();
         $email = $this->getEmail();
-        $password = $this->getPassword();
+        /*password encryption*/
+        $password = password_hash($this->getPassword(), PASSWORD_BCRYPT);
+
 
         /******START VALIDATION STEPS BEFORE SUBMIT******/
         /*check if form has been submitted before starting validation*/
@@ -137,10 +139,16 @@ class User
                 /*check if domain is student.thomasMore.be*/
                 if ($domain == "student.thomasmore.be") {
                     /*check if email already exists*/
-                    
+                    $statement = $conn->prepare("
+                    SELECT email FROM Users WHERE email = ?");
+                    $statement->bindValue(1, $email);
+                    $statement->execute();
 
+                    if ($statement->rowCount() > 0) {
+                        echo "Emailadres is al in gebruik" ;
+                    } else {
 
-                    /*prepare to insert form input into database*/
+                                /*prepare to insert form input into database*/
                     $statement = $conn->prepare("insert into Users (first_name, last_name, email, password) values (:firstname, :lastname, :email, :password)");
 
                     /* bind values from var to sql*/
@@ -151,24 +159,52 @@ class User
 
                     /*execute input from fields to database*/
                     $result = $statement->execute();
-
+                
                     //var_dump($result);
-                } else {
+                } 
+            }
+                
+                else {
                     echo "geen studenten email";
                 }
             } else {
+
+                /*mail format invalid, create error message for user*/
                 echo "mail format invalid";
             }
 
-
-            /*password*/
-
             /*check if submit worked*/
-
-            /*mail invalid, create error message for user*/
 
             /*submit didn't work, create error for user*/
         }
     }
 
+    public function checkLogin()
+    {
+        /**connect to database */
+        $conn = Db::getConnection();
+
+        /**bind value */
+        $email = $this->getEmail();
+        $password = $this->getPassword();
+
+        $statement = $conn->prepare("
+        SELECT id, email, password FROM Users WHERE email = :email");
+        $statement->bindValue(':email', $email);
+        $statement->execute();
+
+        $checkEmail = $statement->fetch(PDO::FETCH_ASSOC);
+
+        if($checkEmail !== false){
+            $checkPassword = password_verify($password, $checkEmail['password']);
+            if($checkPassword){
+                //log in
+                header("Location: index.php");
+                echo "ingelogd";
+            }
+            else {
+                echo "password and email doesnt match";
+        }
+    }
+    }
 }
