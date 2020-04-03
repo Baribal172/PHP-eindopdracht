@@ -8,6 +8,7 @@ class User
     private $lastname;
     private $email;
     private $password;
+    private $bio;
 
     /**
      * Get the value of id
@@ -107,7 +108,25 @@ class User
 
         return $this;
     }
+    /**
+     * Get the value of bio
+     */
+    public function getBio()
+    {
+        return $this->bio;
+    }
 
+    /**
+     * Set the value of bio
+     *
+     * @return  self
+     */
+    public function setBio($bio)
+    {
+        $this->bio = $bio;
+
+        return $this;
+    }
     public function registerUser()
     {
         /**connect to database */
@@ -145,26 +164,24 @@ class User
                     $statement->execute();
 
                     if ($statement->rowCount() > 0) {
-                        echo "Emailadres is al in gebruik" ;
+                        echo "Emailadres is al in gebruik";
                     } else {
 
-                                /*prepare to insert form input into database*/
-                    $statement = $conn->prepare("insert into Users (first_name, last_name, email, password) values (:firstname, :lastname, :email, :password)");
+                        /*prepare to insert form input into database*/
+                        $statement = $conn->prepare("insert into Users (first_name, last_name, email, password) values (:firstname, :lastname, :email, :password)");
 
-                    /* bind values from var to sql*/
-                    $statement->bindValue(":firstname", $firstname);
-                    $statement->bindValue(":lastname", $lastname);
-                    $statement->bindValue(":email", $email);
-                    $statement->bindValue(":password", $password);
+                        /* bind values from var to sql*/
+                        $statement->bindValue(":firstname", $firstname);
+                        $statement->bindValue(":lastname", $lastname);
+                        $statement->bindValue(":email", $email);
+                        $statement->bindValue(":password", $password);
 
-                    /*execute input from fields to database*/
-                    $result = $statement->execute();
-                
-                    //var_dump($result);
-                } 
-            }
-                
-                else {
+                        /*execute input from fields to database*/
+                        $result = $statement->execute();
+
+                        //var_dump($result);
+                    }
+                } else {
                     echo "geen studenten email";
                 }
             } else {
@@ -195,16 +212,15 @@ class User
 
         $checkEmail = $statement->fetch(PDO::FETCH_ASSOC);
 
-        if($checkEmail !== false){
+        if ($checkEmail !== false) {
             $checkPassword = password_verify($password, $checkEmail['password']);
-            if($checkPassword){
+            if ($checkPassword) {
                 //log in
                 header("Location: index.php");
                 echo "ingelogd";
-            }
-            else {
+            } else {
                 echo "password and email doesnt match";
+            }
         }
-    }
     }
 }
