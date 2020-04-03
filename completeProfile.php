@@ -2,8 +2,17 @@
 
     include_once(__DIR__ . "/classes/Interests.php");
 
-    $intererst = new Interests();
-    $intererst->showInterests ();
+    $result = new Interests();
+    $result = $result -> showInterests();
+
+    /* 
+    Om te kijken of de variabelen binnen komen
+
+    foreach($result as $row) {
+        echo $row['interest_id'];
+        echo $row['interest_name'];
+    }
+    */
 
 
 ?><!DOCTYPE html>
@@ -44,8 +53,10 @@
             <div class="characteristic-hobby">
                 <label for="hobby" class="title">Hobbies</label>
                 <div id="hobby">
-                    <input class="checkbox" type="checkbox" name="check1" id="check1">
-                    <label class="checklabel" for="check1">Voetbal</label>
+                    <?php foreach ($result as $row) : ?>
+                    <input class="checkbox" type="checkbox" name="<?php echo "checkname" . $row['interest_id']; ?>" id="<?php echo "checkid" . $row['interest_id']; ?>">
+                    <label class="checklabel" for="<?php echo "checkid" . $row['interest_id']; ?>"><?php echo $row['interest_name']; ?></label>
+                    <?php endforeach;?>
                 </div>
             </div>
         </form>

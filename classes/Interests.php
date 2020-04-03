@@ -52,21 +52,35 @@
                 echo "cyka";
                 /**connect to database */
                 /**echo $con ? 'connected' : 'not connected'; */
-                $conn = Db::getConnection();
+                try {
+                        $conn = Db::getConnection();
+                        echo "there is a connection!";
+                } catch(Exception $error) {
+                        echo $error;
+                }
+                
+                
                 
                 /**TO ADD PDO EXCEPTION CONNECTION FAILED */
                 
                 //aanmaken van de query (bedoeling = om alle interest namen uit de db te krijgen)
-                $query = "SELECT interest_name FROM interests";
-                
-                
-                $result = $conn->query($query);
-                //loop om elke rij af te gaan, bij elke rij print de interest naam
-                
-                while($row = $result -> fetch_assoc()) { //problemen met fetch_assoc --> krijg deze niet inorde
-                        echo "Name: " . $row["interest_name"];
-                }
+                $query = "SELECT * FROM Interests";
 
+                $statement = $conn->prepare($query);
+                //echo $statement;
+                $statement->execute();
+
+                $result = $statement->fetchall();
+
+                /*
+                foreach($result as $row) {
+                        echo $row['interest_id'];
+                        echo $row['interest_name'];
+                }
+                */
+                
+                
+                return $result;
                 
         }
 
