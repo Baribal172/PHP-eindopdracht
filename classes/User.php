@@ -138,6 +138,7 @@ class User
         $firstname = $this->getFirstname();
         $lastname = $this->getLastname();
         $email = $this->getEmail();
+        $bio = $this->getBio();
         /*password encryption*/
         $password = password_hash($this->getPassword(), PASSWORD_BCRYPT);
 
@@ -168,13 +169,14 @@ class User
                     } else {
 
                         /*prepare to insert form input into database*/
-                        $statement = $conn->prepare("insert into Users (first_name, last_name, email, password) values (:firstname, :lastname, :email, :password)");
+                        $statement = $conn->prepare("insert into Users (first_name, last_name, email, password, bio) values (:firstname, :lastname, :email, :password, :bio)");
 
                         /* bind values from var to sql*/
                         $statement->bindValue(":firstname", $firstname);
                         $statement->bindValue(":lastname", $lastname);
                         $statement->bindValue(":email", $email);
                         $statement->bindValue(":password", $password);
+                        $statement->bindValue(":bio", $bio);
 
                         /*execute input from fields to database*/
                         $result = $statement->execute();
