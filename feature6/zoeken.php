@@ -2,6 +2,7 @@
 
 include_once(__DIR__ . "./../index.php");
 
+
 // indien geen zoekterm gepost is, stoppen...
 if(!isset($_POST['zoekterm'])){
     die();
