@@ -43,7 +43,16 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             <label for="password" class="label">Password</label>
             <input type="password" name="password" id="password" class="textfield" required>
             <br>
+            <label for="avatar" class="label">Upload avatar</label>
+            <fieldset class="upload">
+                <input type="file" name="avatar" id="avatar">
+                <p>upload avatar</p>
+            </fieldset>
+            <br>
             <input type="submit" id="submit">
+            <br>
+
+
         </form>
     </div>
 
