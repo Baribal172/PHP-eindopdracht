@@ -225,4 +225,14 @@ class User
             }
         }
     }
+    public function updateUser()
+    {
+        $conn = Db::getConnection();
+
+        $statement = $conn->prepare("update Users set first_name = :firstName, last_name = :lastName, bio = :bio where email = :email;");
+        $statement->bindValue(":firsNname", $this->firstname);
+        $statement->bindValue(":lastName", $this->lastname);
+        $statement->bindValue(":bio", $this->bio);
+        $statement->execute();
+    }
 }

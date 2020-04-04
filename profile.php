@@ -1,5 +1,15 @@
 <?php
+include_once(__DIR__ . "/classes/User.php");
+$update = new User();
 
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    $update->setFirstname($_POST['firstName']);
+    $update->setLastname($_POST['lastName']);
+    $update->setEmail($_POST['email']);
+    $update->setBio($_POST['bio']);
+    $update->updateUser();
+}
+//Q: Can you update an e-mail? because we use the E-mail kind of like a key to match data in the db
 
 
 ?>
