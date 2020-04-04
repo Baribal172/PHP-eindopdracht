@@ -8,9 +8,9 @@
 </head>
 
 <body>
-<form action= <?php include_once(__DIR__ . "./../PHP-eindopdracht/feature6/zoeken.php") ?> method="post">
+<form action= "" method="post">
       <th>Buddy filteren:</th>
-
+      <input type="text" name="zoekterm" id="zoekterm" value="<?php echo $_POST['zoekterm'];   ?>" /></th>
       <th >
         <div>
           <select name="zoekin"  id="zoekin">
