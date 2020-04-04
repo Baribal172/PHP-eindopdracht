@@ -229,10 +229,14 @@ class User
     {
         $conn = Db::getConnection();
 
+        $firstName = $this->getFirstname();
+        $lastName = $this->getLastname();
+        $bio = $this->getBio();
+
         $statement = $conn->prepare("update Users set first_name = :firstName, last_name = :lastName, bio = :bio where email = :email;");
-        $statement->bindValue(":firsNname", $this->firstname);
-        $statement->bindValue(":lastName", $this->lastname);
-        $statement->bindValue(":bio", $this->bio);
+        $statement->bindValue(":firsNname", $firstName);
+        $statement->bindValue(":lastName", $lastName);
+        $statement->bindValue(":bio", $bio);
         $statement->execute();
     }
 }

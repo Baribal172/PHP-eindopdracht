@@ -6,7 +6,8 @@ $user1 = new User();
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $user1->setEmail($_POST['email']);
     $user1->setPassword($_POST['password']);
-    $user1->checkLogin();}
+    $user1->checkLogin();
+}
 ?>
 
 <!DOCTYPE html>
@@ -36,7 +37,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
                 <div class="form__field">
                     <label for="Email">Studentenmail</label>
-                    <input type="text" id="Email" name="email" required> 
+                    <input type="text" id="Email" name="email" required>
                 </div>
                 <div class="form__field">
                     <label for="Password">Password</label>
