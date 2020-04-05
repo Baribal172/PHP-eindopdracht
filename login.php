@@ -1,40 +1,62 @@
 <?php
 include_once(__DIR__ . "/classes/User.php");
+
 $user1 = new User();
-$user1->setFirstname($_POST['firstName']);
-$user1->setLastname($_POST['lastName']);
-$user1->setEmail($_POST['email']);
-$user1->setPassword($_POST['password']);
 
-$user1->registerUser();
-
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    $user1->setEmail($_POST['email']);
+    $user1->setPassword($_POST['password']);
+    $user1->checkLogin();}
 ?>
 
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>PHP buddyApp</title>
+    <link rel="stylesheet" href="css/normalize.css">
+    <link rel="stylesheet" href="css/bootstrap.css">
+    <link rel="stylesheet" href="login.css">
 </head>
+
 <body>
-<div id="loginForm">
-        <h1>Create account</h1>
-        <form action="" method="post" class="">
-        <label for="firstName" class="label">First name</label>
-            <input type="text" name="firstName" id="firstname" class="textfield">
-            <br>
-            <label for="lastName" class="label">Last name</label>
-            <input type="text" name="lastName" id="lastname" class="textfield">
-            <br>
-            <label for="email" class="label">E-mail</label>
-            <input type="text" name="email" id="email" class="textfield">
-            <br>
-            <label for="password" class="label">Password</label>
-            <input type="text" name="password" id="password" class="textfield">
-            <br>
-            <input type="submit" id="submit">
-        </form>
+    <div class="loginForm">
+        <div class="form form--login">
+            <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post">
+                <h2 form__title>Login</h2>
+
+                <?php if (isset($error)) : ?>
+                    <div class="form__error">
+                        <p>
+                            <?php echo $error ?>
+                        </p>
+                    </div>
+                <?php endif ?>
+
+                <div class="form__field">
+                    <label for="Email">Studentenmail</label>
+                    <input type="text" id="Email" name="email" required> 
+                </div>
+                <div class="form__field">
+                    <label for="Password">Password</label>
+                    <input type="password" id="Password" name="password" required>
+                </div>
+
+                <div class="form__field">
+
+                    <button type="submit">Login</button>
+
+                </div>
+            </form>
+        </div>
     </div>
 </body>
+
 </html>
+
+<script>
+    if (window.history.replaceState) {
+        window.history.replaceState(null, null, window.location.href);
+    }
+</script>
