@@ -1,9 +1,14 @@
 <?php
 
     include_once(__DIR__ . "/classes/Interests.php");
+    include_once(__DIR__ . "/index.php");
 
     $result = new Interests();
     $result = $result -> showInterests();
+    
+    if (isset($_POST['submit'])) {
+        $result = $result -> exportInterests();
+    }
 
     /* 
     Om te kijken of de variabelen binnen komen
@@ -27,7 +32,7 @@
 </head>
 <body>
     <div class="completeProfile--content">
-        <form action="" method="post">
+        <form action="index.php" method="post">
             <h1>Complete your profile</h1>
 
             <div class="characteristic characteristic-gender">
@@ -51,7 +56,7 @@
             </div>
             
             <div class="characteristic-hobby">
-                <label for="hobby" class="title">Hobbies</label>
+                <label for="hobby" class="title">Interests</label>
                 <div id="hobby">
                     <?php foreach ($result as $row) : ?>
                     <input class="checkbox" type="checkbox" name="<?php echo "checkname" . $row['interest_id']; ?>" id="<?php echo "checkid" . $row['interest_id']; ?>">
@@ -59,6 +64,7 @@
                     <?php endforeach;?>
                 </div>
             </div>
+            <input type="submit" id="completeProfileSubmit">
         </form>
     </div>
 </body>

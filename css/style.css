@@ -60,5 +60,14 @@
 
 .checkbox:checked + .checklabel {
     background-color: #A3D3D9;
+}
 
+#completeProfileSubmit {
+    background-color: lightgray;
+    border: none;
+    border-radius: 5px;
+    font-size: 24px;
+    width: 200px;
+    height: 40px;
+    margin: 30px auto;
 }
