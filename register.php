@@ -11,6 +11,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $user1->setPassword($_POST['password']);
 
     $user1->registerUser();
+
+    # FUNCTIE HIER TOEVOEGEN OM NAAR 'compleProfile.php' VEWIJST TE WORDEN
+    # + de variabel user1 (waar de gegevens van de gebruiker in staan)
+    # moet ook naar deze pagina gestuurd worden zodat ik deze kan inlezen
 }
 
 ?>

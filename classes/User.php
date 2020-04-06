@@ -8,6 +8,7 @@ class User
     private $lastname;
     private $email;
     private $password;
+    private $interests;
 
     /**
      * Get the value of id
@@ -108,6 +109,28 @@ class User
         return $this;
     }
 
+
+    /**
+     * Get the value of interests
+     */ 
+    public function getInterests()
+    {
+        return $this->interests;
+    }
+
+    /**
+     * Set the value of interests
+     *
+     * @return  self
+     */ 
+    public function setInterests($interests)
+    {
+        $this->interests = $interests;
+
+        return $this;
+    }
+
+
     public function registerUser()
     {
         /**connect to database */
@@ -207,4 +230,88 @@ class User
         }
     }
     }
+
+
+    public function exportInterests () {
+
+        $interest1 = $this->getInterests();
+
+        $userDetails = array(1, "Mats", "Thys", "mats@email.com", "mijnpassword", "mijnbio", 0);
+
+        // SEND INTERESTS TO DATABASE - TABLE USER
+
+        // READ WHICH ONES ARE SELECTED
+        if(!empty($_POST)){
+            if (is_array($_POST['myinterests']) || is_object($_POST['myinterests'])) {
+                
+                try {
+                    $conn = Db::getConnection();
+                    echo "there is a connection!";
+                } catch(Exception $error) {
+                    echo $error;
+                }
+
+                /* 
+                $getUserQuery = "SELECT * FROM Users WHERE id = $userId";
+
+                $stmt = $conn->prepare($getUserQuery); 
+                $stmt->execute(); 
+                $userDetails = $stmt->fetch();
+                
+
+                foreach($userDetails as $user){
+                    echo $user;
+                }
+                */
+                # echo "Mijn id is = " .  $userDetails[0];
+
+                
+                
+                
+                
+                # TOEVOEGEN VAN USER_INTEREST_ID AAN USER
+
+                # krijgen van aller laatste gebruikte id in tabel USER_INTEREST
+                $lastUsedIdQuery = "SELECT IFNULL(MAX(interest_id), 0) AS last_used_id FROM user_interest;";
+                $stmt = $conn->prepare($lastUsedIdQuery);
+                $stmt->execute(); 
+                $lastUsedId = $stmt->fetch();
+                    
+                # laatste id + 1
+                $userInterestId = $lastUsedId[0] + 1;
+
+                
+                echo "hello this works :)))))))";
+                foreach($_POST['myinterests'] as $selected_id){
+                    echo "</br>UserInterestId=" . $userInterestId;
+                    echo "</br>Selected_id=" . $selected_id;
+
+
+                    # TOEVOEGEN VAN USER_INTEREST_ID/INTEREST_ID AAN USER_INTEREST
+                    $userInterestQuery = "INSERT INTO user_interest(user_interest_id, interest_id) VALUES (:setuserinterestid, :setinterestid);";
+                    $statement = $conn->prepare($userInterestQuery);
+
+                    $statement->bindValue(":setuserinterestid", $userInterestId);
+                    $statement->bindValue(":setinterestid", $selected_id);
+                    
+                    
+                    $statement->execute();
+                    
+                }
+
+                # toevoegen aan tabel
+                $userAddUserInterestIdQuery = "UPDATE Users SET user_interest_id=:setuserinterestid WHERE id=:setuserid";
+                $statement = $conn->prepare($userAddUserInterestIdQuery);
+                    
+                $statement->bindValue(":setuserinterestid", $userInterestId);
+                $statement->bindValue(":setuserid", $userDetails[0]);
+                    
+                $statement->execute();
+                       
+            }
+            
+        }
+
+    }
+
 }
