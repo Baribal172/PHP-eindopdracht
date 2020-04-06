@@ -1,13 +1,21 @@
 <?php
 
     include_once(__DIR__ . "/classes/Interests.php");
-    include_once(__DIR__ . "/index.php");
+    include_once(__DIR__ . "/classes/User.php");
+    //include_once(__DIR__ . "/index.php");
 
     $result = new Interests();
     $result = $result -> showInterests();
+
     
-    if (isset($_POST['submit'])) {
-        $result = $result -> exportInterests();
+    
+    if (!empty($_POST)) {
+        echo "submit";
+        $interest = new User();
+        $interest -> setInterests($_POST ["myinterests"]);
+        $interest -> getInterests();
+
+        $interest = $interest -> exportInterests();
     }
 
     /* 
@@ -32,7 +40,7 @@
 </head>
 <body>
     <div class="completeProfile--content">
-        <form action="index.php" method="post">
+        <form action="" method="post">
             <h1>Complete your profile</h1>
 
             <div class="characteristic characteristic-gender">
@@ -59,7 +67,7 @@
                 <label for="hobby" class="title">Interests</label>
                 <div id="hobby">
                     <?php foreach ($result as $row) : ?>
-                    <input class="checkbox" type="checkbox" name="<?php echo "checkname" . $row['interest_id']; ?>" id="<?php echo "checkid" . $row['interest_id']; ?>">
+                    <input class="checkbox" type="checkbox" value="<?php echo $row['interest_id']; ?>" name="myinterests[]" id="<?php echo "checkid" . $row['interest_id']; ?>">
                     <label class="checklabel" for="<?php echo "checkid" . $row['interest_id']; ?>"><?php echo $row['interest_name']; ?></label>
                     <?php endforeach;?>
                 </div>

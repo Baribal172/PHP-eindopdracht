@@ -71,26 +71,7 @@
                 
         }
 
-        public function exportInterests () {
-            // SEND INTERESTS TO DATABASE - TABLE USER
-
-            // READ WHICH ONES ARE SELECTED
-            if(isset($_POST['submit'])){
-                foreach($_POST['checkname' . 1] as $selected){
-                    echo $selected."</br>";
-
-                    try {
-                        $conn = Db::getConnection();
-                        echo "there is a connection!";
-                    } catch(Exception $error) {
-                        echo $error;
-                    }
-
-                    $query = "UPDATE User SET interests=checkname1 WHERE id = interest_id";
-                    $statement = $conn->prepare($query);
-                    $statement->execute();
-                }
-            }
+        
 
 
 
@@ -103,7 +84,8 @@
 
             $query = "INSERT INTO User (interests) VALUES ()";
             $statement = $conn->prepare($query);*/
-        }
+        
+
     }
 
 
