@@ -71,3 +71,7 @@
     height: 40px;
     margin: 30px auto;
 }
+
+.email--error {
+    color: red;
+}

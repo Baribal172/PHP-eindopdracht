@@ -10,6 +10,8 @@ class User
     private $password;
     private $interests;
 
+    private $error;
+
     /**
      * Get the value of id
      */
@@ -130,6 +132,26 @@ class User
         return $this;
     }
 
+    /**
+     * Get the value of error
+     */ 
+    public function getError()
+    {
+        return $this->error;
+    }
+
+    /**
+     * Set the value of error
+     *
+     * @return  self
+     */ 
+    public function setError($error)
+    {
+        $this->error = $error;
+
+        return $this;
+    }
+
 
     public function registerUser()
     {
@@ -168,7 +190,7 @@ class User
                     $statement->execute();
 
                     if ($statement->rowCount() > 0) {
-                        echo "Emailadres is al in gebruik" ;
+                        $this->setError("Emailadres is al in gebruik") ;
                     } else {
 
                                 /*prepare to insert form input into database*/
@@ -314,4 +336,6 @@ class User
 
     }
 
+
+    
 }

@@ -17,6 +17,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     # moet ook naar deze pagina gestuurd worden zodat ik deze kan inlezen
 }
 
+$error = $user1->getError();
+
 ?>
 
 <!DOCTYPE html>
@@ -43,6 +45,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             <br>
             <label for="email" class="label">E-mail</label>
             <input type="text" name="email" id="email" value="<?php echo htmlspecialchars(!empty($_POST["email"]) ? $_POST["email"] : ''); ?>" class="textfield" required>
+            <?php if(isset($error)) :?>
+            <p class="email--error"><?php echo $error ?></p>
+            <?php endif ?>
             <br>
             <label for="password" class="label">Password</label>
             <input type="password" name="password" id="password" class="textfield" required>
