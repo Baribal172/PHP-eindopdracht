@@ -17,7 +17,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     # moet ook naar deze pagina gestuurd worden zodat ik deze kan inlezen
 }
 
-$error = $user1->getError();
+$emailUsedError = $user1->getEmailUsedError();
+$emailNotStudentError = $user1->getEmailNotStudentError();
+$globalError = $user1->getGlobalError();
 
 ?>
 
@@ -45,13 +47,21 @@ $error = $user1->getError();
             <br>
             <label for="email" class="label">E-mail</label>
             <input type="text" name="email" id="email" value="<?php echo htmlspecialchars(!empty($_POST["email"]) ? $_POST["email"] : ''); ?>" class="textfield" required>
-            <?php if(isset($error)) :?>
-            <p class="email--error"><?php echo $error ?></p>
+            <?php if(isset($emailUsedError)) :?>
+            <p class="email--error"><?php echo $emailUsedError ?></p>
             <?php endif ?>
             <br>
+            <?php if(isset($emailNotStudentError)) :?>
+            <p class="email--error"><?php echo $emailNotStudentError ?></p>
+            <br>
+            <?php endif ?>
             <label for="password" class="label">Password</label>
             <input type="password" name="password" id="password" class="textfield" required>
             <br>
+            <?php if(isset($globalError)) :?>
+            <p class="email--error"><?php echo $globalError ?></p>
+            <br>
+            <?php endif ?>
             <input type="submit" id="submit">
         </form>
     </div>
