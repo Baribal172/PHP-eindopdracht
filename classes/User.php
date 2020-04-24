@@ -232,11 +232,13 @@ class User
         $firstName = $this->getFirstname();
         $lastName = $this->getLastname();
         $bio = $this->getBio();
+        $email = $this->getEmail();
 
         $statement = $conn->prepare("update Users set first_name = :firstName, last_name = :lastName, bio = :bio where email = :email;");
-        $statement->bindValue(":firsNname", $firstName);
+        $statement->bindValue(":firstName", $firstName);
         $statement->bindValue(":lastName", $lastName);
         $statement->bindValue(":bio", $bio);
+        $statement->bindValue(":email",$email);
         $statement->execute();
     }
 }
