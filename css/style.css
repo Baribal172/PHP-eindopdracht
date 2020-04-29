@@ -2,6 +2,89 @@
     width: 40%;
     margin: auto;
 }
+
+
+#register--page {
+    font-family: niveau-grotesk, sans-serif;
+    font-weight: 400;
+
+    background-color: #2666A6;
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+    box-sizing: border-box;
+    padding: 40px;
+}
+#register--page .backgroundContent {
+    box-sizing: border-box;
+    width: 60%;
+    height: 100%;
+}
+#register--page .backgroundContent img {
+    width: 100%;
+}
+#register--page #loginForm {
+    box-sizing: border-box;
+    background-color: white;
+    width: 40%;
+    height: 100%;
+    border-radius: 4px;
+    padding: 40px 60px;
+    text-align: center;
+}
+#register--page #loginForm form {
+    height: 400px;
+    position: relative;
+}
+#register--page #loginForm h1 {
+    color: #7B7F83;
+    font-size: 38px;
+}
+#register--page #loginForm .textfield {
+    width: 100%;
+    margin: 5px 0;
+    border-radius: 3px;
+    border: 1px solid #BEC1C4;
+    padding: 4px 8px;
+    
+    color: #7B7F83;
+}
+#register--page #loginForm .textfield::placeholder {
+    color: #BEC1C4;
+    opacity: 0.5;
+}
+#register--page #loginForm #submit {
+    color: white;
+    font-size: 24px;
+    background-color: #95DA5D;
+    width: 100%;
+    height: 40px;
+    position: absolute;
+    bottom: 60px;
+    left: 0;
+    border: none;
+    border-radius: 4px;
+}
+
+
+.email--error {
+    color: #D45248;
+    border: 1px solid #D45248;
+    margin: 0 0 10px 0;
+    height: 30px;
+    background-color: #ffcccc;
+}
+
+
+
+
+
+/*
+
+
+
 .label {
     width: 30%;
 }
@@ -77,3 +160,5 @@
     border: 1px solid red;
     background-color: #ffcccc;
 }
+
+*/

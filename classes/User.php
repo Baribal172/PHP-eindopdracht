@@ -258,13 +258,13 @@ class User
                 
                 else {
                     echo "geen studenten email";
-                    $this->setEmailNotStudentError("Dit is geen studentenemail") ;
+                    $this->setEmailNotStudentError("This is not a student mail") ;
                 }
             } else {
 
                 /*mail format invalid, create error message for user*/
-                echo "mail format invalid";
-                $this->setError("Email is ongeldig") ;
+                $this->setEmailNotStudentError("This is not a student mail") ;
+                //$this->setError("Email is ongeldig") ;
             }
 
             /*check if submit worked*/
