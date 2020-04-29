@@ -275,14 +275,24 @@ class User
         $checkEmail = $statement->fetch(PDO::FETCH_ASSOC);
         // echo $checkEmail['password'];
         // echo $this->getPassword();
+        $result = 0;
         if ($checkEmail !== false) {
             $checkPassword = password_verify($password, $checkEmail['password']);
             if ($checkPassword) {
-                echo "werkt bro";
+                $result = 1;
+                echo "true";
             } else {
-                echo "password and email doesnt match";
-            }
+                echo "false";
+            }    
         }
+        return $result;
+    }
+
+    public function updatePassword(){
+        if($this->checkPassword() == 0){
+            echo "passwoord mag niet geupdated worden";
+        }
+
     }
 
 

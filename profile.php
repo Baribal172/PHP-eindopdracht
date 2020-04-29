@@ -14,7 +14,8 @@ if (isset($_POST["password"])){
     $updatePassword->setEmail($_POST['email']);
     $updatePassword->setPassword($_POST['oldPassword']);
     $updatePassword->setNewPassword($_POST['newPassword']);
-    $updatePassword->checkPassword();
+    // $updatePassword->checkPassword();
+    $updatePassword->updatePassword();
 }
 
 ?>
