@@ -274,13 +274,14 @@ class User
 
         $checkEmail = $statement->fetch(PDO::FETCH_ASSOC);
         // echo $checkEmail['password'];
-        echo $this->getPassword();
-        if(password_verify($this->getPassword(), $checkEmail['password'])) {
-            return true;
-            echo "werkt";
-        } else {
-            return false;
-            echo "werkt niet";
+        // echo $this->getPassword();
+        if ($checkEmail !== false) {
+            $checkPassword = password_verify($password, $checkEmail['password']);
+            if ($checkPassword) {
+                echo "werkt bro";
+            } else {
+                echo "password and email doesnt match";
+            }
         }
     }
 
