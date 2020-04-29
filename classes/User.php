@@ -10,7 +10,9 @@ class User
     private $password;
     private $interests;
 
-    private $error;
+    private $emailUsedError; // email is al in gebruik
+    private $emailNotStudentError; // email is geen studentenemail
+    private $globalError; // algemene error
 
     /**
      * Get the value of id
@@ -132,25 +134,70 @@ class User
         return $this;
     }
 
+    
     /**
-     * Get the value of error
+     * Get the value of emailUsedError
      */ 
-    public function getError()
+    public function getEmailUsedError()
     {
-        return $this->error;
+        return $this->emailUsedError;
     }
 
     /**
-     * Set the value of error
+     * Set the value of emailUsedError
      *
      * @return  self
      */ 
-    public function setError($error)
+    public function setEmailUsedError($emailUsedError)
     {
-        $this->error = $error;
+        $this->emailUsedError = $emailUsedError;
 
         return $this;
     }
+
+
+    /**
+     * Get the value of emailNotStudentError
+     */ 
+    public function getEmailNotStudentError()
+    {
+        return $this->emailNotStudentError;
+    }
+
+    /**
+     * Set the value of emailNotStudentError
+     *
+     * @return  self
+     */ 
+    public function setEmailNotStudentError($emailNotStudentError)
+    {
+        $this->emailNotStudentError = $emailNotStudentError;
+
+        return $this;
+    }
+
+
+    /**
+     * Get the value of globalError
+     */ 
+    public function getGlobalError()
+    {
+        return $this->globalError;
+    }
+
+    /**
+     * Set the value of globalError
+     *
+     * @return  self
+     */ 
+    public function setGlobalError($globalError)
+    {
+        $this->globalError = $globalError;
+
+        return $this;
+    }
+
+    
 
 
     public function registerUser()
@@ -190,7 +237,7 @@ class User
                     $statement->execute();
 
                     if ($statement->rowCount() > 0) {
-                        $this->setError("Emailadres is al in gebruik") ;
+                        $this->setEmailUsedError("Emailadres is al in gebruik") ;
                     } else {
 
                                 /*prepare to insert form input into database*/
@@ -211,11 +258,13 @@ class User
                 
                 else {
                     echo "geen studenten email";
+                    $this->setEmailNotStudentError("This is not a student mail") ;
                 }
             } else {
 
                 /*mail format invalid, create error message for user*/
-                echo "mail format invalid";
+                $this->setEmailNotStudentError("This is not a student mail") ;
+                //$this->setError("Email is ongeldig") ;
             }
 
             /*check if submit worked*/
@@ -339,4 +388,6 @@ class User
 
 
     
+
+
 }
