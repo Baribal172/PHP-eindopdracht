@@ -243,9 +243,10 @@ class User
         if($checkEmail !== false){
             $checkPassword = password_verify($password, $checkEmail['password']);
             if($checkPassword){
-                //log in
+                //log in & create session
+                $id = $this->getId();
+                $_SESSION['id'] = $id->ID;
                 header("Location: index.php");
-                echo "ingelogd";
             }
             else {
                 echo "password and email doesnt match";
