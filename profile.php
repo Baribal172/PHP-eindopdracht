@@ -8,6 +8,11 @@ if (isset($_POST["profile"])){
     $update->updateUser();
 }
 
+// if (isset($_POST["password"])){
+//     $update->setEmail($_POST['email']);
+//     $update->updateUser();
+// }
+
 ?>
 
 
@@ -45,10 +50,13 @@ if (isset($_POST["profile"])){
         </form>
         <form method="post" action="" class="">
         <br>
-            <label for="password" class="label">Password</label>
-            <input type="password" name="password" id="password" class="textfield" required>
-            <br>
-            <input type="submit" id="submit">
+            <label for="password" class="label">Old-Password</label>
+            <input type="password" name="password" id="oldPassword" class="textfield" required>
+        <br>
+            <label for="password" class="label">New-Password</label>
+            <input type="password" name="password" id="newPassword" class="textfield" required>
+        <br>
+            <input type="submit" id="submit" name="password">
         </form>
     </div>
 

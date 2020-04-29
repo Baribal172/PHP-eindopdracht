@@ -8,6 +8,7 @@ class User
     private $lastname;
     private $email;
     private $password;
+    private $newPassword;
     private $bio;
 
     /**
@@ -127,6 +128,25 @@ class User
 
         return $this;
     }
+      /**
+     * Get the value of newPassword
+     */ 
+    public function getNewPassword()
+    {
+        return $this->newPassword;
+    }
+
+    /**
+     * Set the value of newPassword
+     *
+     * @return  self
+     */ 
+    public function setNewPassword($newPassword)
+    {
+        $this->newPassword = $newPassword;
+
+        return $this;
+    }
     public function registerUser()
     {
         /**connect to database */
@@ -239,4 +259,7 @@ class User
         $statement->bindValue(":email",$email);
         $statement->execute();
     }
+
+
+
 }
