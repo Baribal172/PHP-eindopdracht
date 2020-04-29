@@ -1,17 +1,21 @@
 <?php
 include_once(__DIR__ . "/classes/User.php");
-$update = new User();
+
 
 if (isset($_POST["profile"])){
-    $update->setEmail($_POST['email']);
-    $update->setBio($_POST['bio']);
-    $update->updateUser();
+    $updateProfile = new User();
+    $updateProfile->setEmail($_POST['email']);
+    $updateProfile->setBio($_POST['bio']);
+    $updateProfile->updateUser();
 }
 
-// if (isset($_POST["password"])){
-//     $update->setEmail($_POST['email']);
-//     $update->updateUser();
-// }
+if (isset($_POST["password"])){
+    $updatePassword = new User();
+    $updatePassword->setEmail($_POST['email']);
+    $updatePassword->setPassword($_POST['oldPassword']);
+    $updatePassword->setNewPassword($_POST['newPassword']);
+    $updatePassword->checkPassword();
+}
 
 ?>
 
@@ -49,12 +53,14 @@ if (isset($_POST["profile"])){
             <br>
         </form>
         <form method="post" action="" class="">
+        <label for="email" class="label">E-mail</label>
+            <input type="text" name="email" id="email" value="<?php echo htmlspecialchars(!empty($_POST["email"]) ? $_POST["email"] : ''); ?>" class="textfield" required>
         <br>
             <label for="password" class="label">Old-Password</label>
-            <input type="password" name="password" id="oldPassword" class="textfield" required>
+            <input type="password" name="oldPassword" id="oldPassword" value="<?php echo htmlspecialchars(!empty($_POST["oldPassword"]) ? $_POST["oldPassword"] : ''); ?>" class="textfield" required>
         <br>
             <label for="password" class="label">New-Password</label>
-            <input type="password" name="password" id="newPassword" class="textfield" required>
+            <input type="password" name="newPassword" id="newPassword" value="<?php echo htmlspecialchars(!empty($_POST["newPassword"]) ? $_POST["newPassword"] : ''); ?>" class="textfield" required>
         <br>
             <input type="submit" id="submit" name="password">
         </form>

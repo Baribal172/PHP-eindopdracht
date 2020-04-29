@@ -260,6 +260,29 @@ class User
         $statement->execute();
     }
 
+    public function checkPassword(){
+        /**connect to database */
+        $conn = Db::getConnection();
+
+        /**bind value */
+        $email = $this->getEmail();
+        $password = $this->getPassword();
+        $statement = $conn->prepare("
+        SELECT password FROM Users WHERE email = :email");
+        $statement->bindValue(':email', $email);
+        $statement->execute();
+
+        $checkEmail = $statement->fetch(PDO::FETCH_ASSOC);
+        // echo $checkEmail['password'];
+        echo $this->getPassword();
+        if(password_verify($this->getPassword(), $checkEmail['password'])) {
+            return true;
+            echo "werkt";
+        } else {
+            return false;
+            echo "werkt niet";
+        }
+    }
 
 
 }
