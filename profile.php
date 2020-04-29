@@ -2,12 +2,11 @@
 include_once(__DIR__ . "/classes/User.php");
 $update = new User();
 
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
+if (isset($_POST["profile"])){
     $update->setEmail($_POST['email']);
     $update->setBio($_POST['bio']);
     $update->updateUser();
 }
-//Q: Can you update an e-mail? because we use the E-mail kind of like a key to match data in the db
 
 ?>
 
@@ -33,7 +32,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 </div>
     <div id="profileForm">
         <h1>Edit profile</h1>
-        <form method="post" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" class="">
+        <form method="post" action="" class="">
             <br>
             <label for="bio" class="label">Bio</label>
             <input type="text" name="bio" id="bio" value="<?php echo htmlspecialchars(!empty($_POST["bio"]) ? $_POST["bio"] : ''); ?>" class="textfield" >
@@ -41,11 +40,15 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             <label for="email" class="label">E-mail</label>
             <input type="text" name="email" id="email" value="<?php echo htmlspecialchars(!empty($_POST["email"]) ? $_POST["email"] : ''); ?>" class="textfield" required>
             <br>
+            <input type="submit" id="submit" name="profile">
+            <br>
+        </form>
+        <form method="post" action="" class="">
+        <br>
             <label for="password" class="label">Password</label>
             <input type="password" name="password" id="password" class="textfield" required>
             <br>
             <input type="submit" id="submit">
-            <br>
         </form>
     </div>
 
