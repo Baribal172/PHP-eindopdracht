@@ -293,9 +293,11 @@ class User
             $checkPassword = password_verify($password, $checkEmail['password']);
             if($checkPassword){
                 //log in & create session
-                $id = $this->getId();
-                $_SESSION['id'] = $id->ID;
-                header("Location: index.php");
+                session_start();
+                $_SESSION['email'] = $email;
+                $_SESSION['password'] = $password;
+                //redirect user
+                header("Location: home.php");
             }
             else {
                 echo "password and email doesnt match";
