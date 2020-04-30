@@ -236,7 +236,7 @@ class User
 
         $interest1 = $this->getInterests();
 
-        $userDetails = array(1, "Mats", "Thys", "mats@email.com", "mijnpassword", "mijnbio", 0);
+        $userDetails = array(61, "Mats", "Thys", "mats@email.com", "mijnpassword", "mijnbio", 0);
 
         // SEND INTERESTS TO DATABASE - TABLE USER
 
@@ -271,8 +271,11 @@ class User
                 
                 # TOEVOEGEN VAN USER_INTEREST_ID AAN USER
 
+                # We moeten de laatste id krijgen van tabel USER_INTEREST zodat we de volgende 
+                # user_interest_id + 1 kunnen doen zodat we deze kunnen linken aan de volgende persoon die aangemaakt word
+
                 # krijgen van aller laatste gebruikte id in tabel USER_INTEREST
-                $lastUsedIdQuery = "SELECT IFNULL(MAX(interest_id), 0) AS last_used_id FROM user_interest;";
+                $lastUsedIdQuery = "SELECT IFNULL(MAX(user_interest_id), 0) AS last_used_id FROM user_interest;";
                 $stmt = $conn->prepare($lastUsedIdQuery);
                 $stmt->execute(); 
                 $lastUsedId = $stmt->fetch();
@@ -293,7 +296,7 @@ class User
 
 
                     # TOEVOEGEN VAN USER_INTEREST_ID/INTEREST_ID AAN USER_INTEREST
-                    /*
+                    
                     $userInterestQuery = "INSERT INTO user_interest(user_interest_id, interest_id) VALUES (:setuserinterestid, :setinterestid);";
                     $statement = $conn->prepare($userInterestQuery);
 
@@ -301,7 +304,7 @@ class User
                     $statement->bindValue(":setinterestid", $selected_id);
                     
                     
-                    $statement->execute();*/
+                    $statement->execute();
 
 
                     /*
@@ -318,16 +321,16 @@ class User
                 
 
                 # toevoegen aan tabel
-                /*
+                
                 $userAddUserInterestIdQuery = "UPDATE Users SET user_interest_id=:setuserinterestid WHERE id=:setuserid";
                 $statement = $conn->prepare($userAddUserInterestIdQuery);
                     
                 $statement->bindValue(":setuserinterestid", $userInterestId);
                 $statement->bindValue(":setuserid", $userDetails[0]);
                     
-                $statement->execute();*/
+                $statement->execute();
 
-
+                /*
                 # toevoegen aan tabel
                 $addInterestIdQuery = "UPDATE Users SET interests='1' WHERE id='60'";
                 $statement = $conn->prepare($addInterestIdQuery);
@@ -336,7 +339,7 @@ class User
                 $statement->bindValue(":setuserid", $userDetails[0]);
                 $statement->bindValue(":setinterestsname", $arrayInterests);
                     
-                $statement->execute();
+                $statement->execute()*/
                        
             }
             
