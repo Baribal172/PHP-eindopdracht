@@ -275,24 +275,37 @@ class User
         $checkEmail = $statement->fetch(PDO::FETCH_ASSOC);
         // echo $checkEmail['password'];
         // echo $this->getPassword();
-        $result = 0;
+       
         if ($checkEmail !== false) {
+            $result = false;
             $checkPassword = password_verify($password, $checkEmail['password']);
             if ($checkPassword) {
-                $result = 1;
                 echo "true";
+                $result = true;
             } else {
                 echo "false";
             }    
+            return $result;
         }
-        return $result;
+       
     }
 
     public function updatePassword(){
-        if($this->checkPassword() == 0){
+        if(!$this->checkPassword()){
             echo "passwoord mag niet geupdated worden";
-        }
+        }else{
+            $conn = Db::getConnection();
 
+            /**bind value */
+            $email = $this->getEmail();
+            $newPassword = password_hash($this->getNewPassword(), PASSWORD_BCRYPT);
+            $statement = $conn->prepare("
+            UPDATE Users SET password = :newPassword WHERE email = :email");
+            $statement->bindValue(':email', $email);
+            $statement->bindValue(":newPassword", $newPassword);
+            $statement->execute();
+        }
+       
     }
 
 
