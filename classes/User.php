@@ -283,7 +283,7 @@ class User
         $password = $this->getPassword();
 
         $statement = $conn->prepare("
-        SELECT id, email, password FROM Users WHERE email = :email");
+        SELECT email, password FROM Users WHERE email = :email");
         $statement->bindValue(':email', $email);
         $statement->execute();
 
@@ -292,10 +292,16 @@ class User
         if($checkEmail !== false){
             $checkPassword = password_verify($password, $checkEmail['password']);
             if($checkPassword){
+                //fetch and bind Id from database to session
+                $statement = $conn->prepare("
+                SELECT * FROM Users WHERE email = :email");
+                $id = $statement->fetch(PDO::FETCH_ASSOC);
                 //log in & create session
                 session_start();
-                $_SESSION['email'] = $email;
-                $_SESSION['password'] = $password;
+                $_SESSION['id'] = $id;
+                //fetch information on logged in user from database for display
+
+
                 //redirect user
                 header("Location: home.php");
             }
