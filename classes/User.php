@@ -8,8 +8,15 @@ class User
     private $lastname;
     private $email;
     private $password;
+    private $interests;
     private $newPassword;
     private $bio;
+  
+    private $emailUsedError; // email is al in gebruik
+    private $emailNotStudentError; // email is geen studentenemail
+    private $globalError; // algemene error
+
+  
 
     /**
      * Get the value of id
@@ -147,6 +154,90 @@ class User
 
         return $this;
     }
+
+    /**
+     * Get the value of interests
+     */ 
+    public function getInterests()
+    {
+        return $this->interests;
+    }
+
+    /**
+     * Set the value of interests
+     *
+     * @return  self
+     */ 
+    public function setInterests($interests)
+    {
+        $this->interests = $interests;
+
+        return $this;
+    }
+
+    
+    /**
+     * Get the value of emailUsedError
+     */ 
+    public function getEmailUsedError()
+    {
+        return $this->emailUsedError;
+    }
+
+    /**
+     * Set the value of emailUsedError
+     *
+     * @return  self
+     */ 
+    public function setEmailUsedError($emailUsedError)
+    {
+        $this->emailUsedError = $emailUsedError;
+
+        return $this;
+    }
+
+
+    /**
+     * Get the value of emailNotStudentError
+     */ 
+    public function getEmailNotStudentError()
+    {
+        return $this->emailNotStudentError;
+    }
+
+    /**
+     * Set the value of emailNotStudentError
+     *
+     * @return  self
+     */ 
+    public function setEmailNotStudentError($emailNotStudentError)
+    {
+        $this->emailNotStudentError = $emailNotStudentError;
+
+        return $this;
+    }
+
+
+    /**
+     * Get the value of globalError
+     */ 
+    public function getGlobalError()
+    {
+        return $this->globalError;
+    }
+
+    /**
+     * Set the value of globalError
+     *
+     * @return  self
+     */ 
+    public function setGlobalError($globalError)
+    {
+        $this->globalError = $globalError;
+
+        return $this;
+    }
+
     public function registerUser()
     {
         /**connect to database */
@@ -185,7 +276,10 @@ class User
                     $statement->execute();
 
                     if ($statement->rowCount() > 0) {
+
                         echo "Emailadres is al in gebruik";
+                        $this->setEmailUsedError("Emailadres is al in gebruik") ;
+
                     } else {
 
                         /*prepare to insert form input into database*/
@@ -205,11 +299,13 @@ class User
                     }
                 } else {
                     echo "geen studenten email";
+                    $this->setEmailNotStudentError("This is not a student mail") ;
                 }
             } else {
 
                 /*mail format invalid, create error message for user*/
-                echo "mail format invalid";
+                $this->setEmailNotStudentError("This is not a student mail") ;
+                //$this->setError("Email is ongeldig") ;
             }
 
             /*check if submit worked*/
@@ -236,11 +332,23 @@ class User
 
         if ($checkEmail !== false) {
             $checkPassword = password_verify($password, $checkEmail['password']);
+
             if ($checkPassword) {
                 //log in
                 header("Location: index.php");
                 echo "ingelogd";
             } else {
+
+            if($checkPassword){
+                //log in & create session
+                session_start();
+                $_SESSION['email'] = $email;
+                $_SESSION['password'] = $password;
+                //redirect user
+                header("Location: home.php");
+            }
+            else {
+
                 echo "password and email doesnt match";
             }
         }
@@ -259,6 +367,7 @@ class User
         $statement->bindValue(":email",$email);
         $statement->execute();
     }
+
 
     public function checkPassword(){
         /**connect to database */
@@ -310,3 +419,93 @@ class User
 
 
 }
+
+
+    public function exportInterests () {
+
+        $interest1 = $this->getInterests();
+
+        $userDetails = array(1, "Mats", "Thys", "mats@email.com", "mijnpassword", "mijnbio", 0);
+
+        // SEND INTERESTS TO DATABASE - TABLE USER
+
+        // READ WHICH ONES ARE SELECTED
+        if(!empty($_POST)){
+            if (is_array($_POST['myinterests']) || is_object($_POST['myinterests'])) {
+                
+                try {
+                    $conn = Db::getConnection();
+                    echo "there is a connection!";
+                } catch(Exception $error) {
+                    echo $error;
+                }
+
+                /* 
+                $getUserQuery = "SELECT * FROM Users WHERE id = $userId";
+
+                $stmt = $conn->prepare($getUserQuery); 
+                $stmt->execute(); 
+                $userDetails = $stmt->fetch();
+                
+
+                foreach($userDetails as $user){
+                    echo $user;
+                }
+                */
+                # echo "Mijn id is = " .  $userDetails[0];
+
+                
+                
+                
+                
+                # TOEVOEGEN VAN USER_INTEREST_ID AAN USER
+
+                # krijgen van aller laatste gebruikte id in tabel USER_INTEREST
+                $lastUsedIdQuery = "SELECT IFNULL(MAX(interest_id), 0) AS last_used_id FROM user_interest;";
+                $stmt = $conn->prepare($lastUsedIdQuery);
+                $stmt->execute(); 
+                $lastUsedId = $stmt->fetch();
+                    
+                # laatste id + 1
+                $userInterestId = $lastUsedId[0] + 1;
+
+                
+                echo "hello this works :)))))))";
+                foreach($_POST['myinterests'] as $selected_id){
+                    echo "</br>UserInterestId=" . $userInterestId;
+                    echo "</br>Selected_id=" . $selected_id;
+
+
+                    # TOEVOEGEN VAN USER_INTEREST_ID/INTEREST_ID AAN USER_INTEREST
+                    $userInterestQuery = "INSERT INTO user_interest(user_interest_id, interest_id) VALUES (:setuserinterestid, :setinterestid);";
+                    $statement = $conn->prepare($userInterestQuery);
+
+                    $statement->bindValue(":setuserinterestid", $userInterestId);
+                    $statement->bindValue(":setinterestid", $selected_id);
+                    
+                    
+                    $statement->execute();
+                    
+                }
+
+                # toevoegen aan tabel
+                $userAddUserInterestIdQuery = "UPDATE Users SET user_interest_id=:setuserinterestid WHERE id=:setuserid";
+                $statement = $conn->prepare($userAddUserInterestIdQuery);
+                    
+                $statement->bindValue(":setuserinterestid", $userInterestId);
+                $statement->bindValue(":setuserid", $userDetails[0]);
+                    
+                $statement->execute();
+                       
+            }
+            
+        }
+
+    }
+
+
+    
+
+
+}
+

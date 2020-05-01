@@ -12,7 +12,15 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $user1->setBio($_POST['bio']);
 
     $user1->registerUser();
+
+    # FUNCTIE HIER TOEVOEGEN OM NAAR 'compleProfile.php' VEWIJST TE WORDEN
+    # + de variabel user1 (waar de gegevens van de gebruiker in staan)
+    # moet ook naar deze pagina gestuurd worden zodat ik deze kan inlezen
 }
+
+$emailUsedError = $user1->getEmailUsedError();
+$emailNotStudentError = $user1->getEmailNotStudentError();
+$globalError = $user1->getGlobalError();
 
 ?>
 
@@ -26,27 +34,46 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <link rel="stylesheet" href="css/normalize.css">
     <link rel="stylesheet" href="css/bootstrap.css">
     <link rel="stylesheet" href="css/style.css">
+
+    <link rel="stylesheet" href="https://use.typekit.net/yvr7fmc.css">
 </head>
 
-<body>
+<body id="register--page">
+    <div class="backgroundContent">
+        <img src="images/mockup.png" alt="mockup">
+    </div>
     <div id="loginForm">
-        <h1>Create account</h1>
+        <h1>Join IMD buddy-app Today!</h1>
         <form method="post" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" class="">
-            <label for="firstName" class="label">First name</label>
-            <input type="text" name="firstName" id="firstname" value="<?php echo htmlspecialchars(!empty($_POST["firstName"]) ? $_POST["firstName"] : ''); ?>" class="textfield" required>
+            <!--<label for="firstName" class="label">First name</label>-->
+            <input type="text" name="firstName" id="firstname" placeholder="First name" value="<?php echo htmlspecialchars(!empty($_POST["firstName"]) ? $_POST["firstName"] : ''); ?>" class="textfield" required>
             <br>
-            <label for="lastName" class="label">Last name</label>
-            <input type="text" name="lastName" id="lastname" value="<?php echo htmlspecialchars(!empty($_POST["lastName"]) ? $_POST["lastName"] : ''); ?>" class="textfield" required>
+            <!--<label for="lastName" class="label">Last name</label>-->
+            <input type="text" name="lastName" id="lastname" placeholder="Last name" value="<?php echo htmlspecialchars(!empty($_POST["lastName"]) ? $_POST["lastName"] : ''); ?>" class="textfield" required>
             <br>
+
             <label for="bio" class="label">Bio</label>
             <input type="text" name="bio" id="bio" value="<?php echo htmlspecialchars(!empty($_POST["bio"]) ? $_POST["bio"] : ''); ?>" class="textfield" required>
             <br>
             <label for="email" class="label">E-mail</label>
             <input type="text" name="email" id="email" value="<?php echo htmlspecialchars(!empty($_POST["email"]) ? $_POST["email"] : ''); ?>" class="textfield" required>
+            <!--<label for="email" class="label">E-mail</label>-->
+            <input type="text" name="email" id="email" placeholder="Student email" value="<?php echo htmlspecialchars(!empty($_POST["email"]) ? $_POST["email"] : ''); ?>" class="textfield" required>
+            <?php if(isset($emailUsedError)) :?>
+            <p class="email--error"><?php echo $emailUsedError ?></p>
+            <?php endif ?>
+            
+            <?php if(isset($emailNotStudentError)) :?>
+            <p class="email--error"><?php echo $emailNotStudentError ?></p>
+            
+            <?php endif ?>
+            <!--<label for="password" class="label">Password</label>-->
+            <input type="password" placeholder="Password" name="password" id="password" class="textfield" required>
             <br>
-            <label for="password" class="label">Password</label>
-            <input type="password" name="password" id="password" class="textfield" required>
+            <?php if(isset($globalError)) :?>
+            <p class="email--error"><?php echo $globalError ?></p>
             <br>
+            <?php endif ?>
             <input type="submit" id="submit">
         </form>
     </div>
