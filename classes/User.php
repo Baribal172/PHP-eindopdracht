@@ -9,10 +9,14 @@ class User
     private $email;
     private $password;
     private $interests;
-
+    private $newPassword;
+    private $bio;
+  
     private $emailUsedError; // email is al in gebruik
     private $emailNotStudentError; // email is geen studentenemail
     private $globalError; // algemene error
+
+  
 
     /**
      * Get the value of id
@@ -112,7 +116,44 @@ class User
 
         return $this;
     }
+    /**
+     * Get the value of bio
+     */
+    public function getBio()
+    {
+        return $this->bio;
+    }
 
+    /**
+     * Set the value of bio
+     *
+     * @return  self
+     */
+    public function setBio($bio)
+    {
+        $this->bio = $bio;
+
+        return $this;
+    }
+      /**
+     * Get the value of newPassword
+     */ 
+    public function getNewPassword()
+    {
+        return $this->newPassword;
+    }
+
+    /**
+     * Set the value of newPassword
+     *
+     * @return  self
+     */ 
+    public function setNewPassword($newPassword)
+    {
+        $this->newPassword = $newPassword;
+
+        return $this;
+    }
 
     /**
      * Get the value of interests
@@ -197,9 +238,6 @@ class User
         return $this;
     }
 
-    
-
-
     public function registerUser()
     {
         /**connect to database */
@@ -211,6 +249,7 @@ class User
         $firstname = $this->getFirstname();
         $lastname = $this->getLastname();
         $email = $this->getEmail();
+        $bio = $this->getBio();
         /*password encryption*/
         $password = password_hash($this->getPassword(), PASSWORD_BCRYPT);
 
@@ -237,26 +276,28 @@ class User
                     $statement->execute();
 
                     if ($statement->rowCount() > 0) {
+
+                        echo "Emailadres is al in gebruik";
                         $this->setEmailUsedError("Emailadres is al in gebruik") ;
+
                     } else {
 
-                                /*prepare to insert form input into database*/
-                    $statement = $conn->prepare("insert into Users (first_name, last_name, email, password) values (:firstname, :lastname, :email, :password)");
+                        /*prepare to insert form input into database*/
+                        $statement = $conn->prepare("insert into Users (first_name, last_name, email, password, bio) values (:firstname, :lastname, :email, :password, :bio)");
 
-                    /* bind values from var to sql*/
-                    $statement->bindValue(":firstname", $firstname);
-                    $statement->bindValue(":lastname", $lastname);
-                    $statement->bindValue(":email", $email);
-                    $statement->bindValue(":password", $password);
+                        /* bind values from var to sql*/
+                        $statement->bindValue(":firstname", $firstname);
+                        $statement->bindValue(":lastname", $lastname);
+                        $statement->bindValue(":email", $email);
+                        $statement->bindValue(":password", $password);
+                        $statement->bindValue(":bio", $bio);
 
-                    /*execute input from fields to database*/
-                    $result = $statement->execute();
-                
-                    //var_dump($result);
-                } 
-            }
-                
-                else {
+                        /*execute input from fields to database*/
+                        $result = $statement->execute();
+
+                        //var_dump($result);
+                    }
+                } else {
                     echo "geen studenten email";
                     $this->setEmailNotStudentError("This is not a student mail") ;
                 }
@@ -289,8 +330,15 @@ class User
 
         $checkEmail = $statement->fetch(PDO::FETCH_ASSOC);
 
-        if($checkEmail !== false){
+        if ($checkEmail !== false) {
             $checkPassword = password_verify($password, $checkEmail['password']);
+
+            if ($checkPassword) {
+                //log in
+                header("Location: index.php");
+                echo "ingelogd";
+            } else {
+
             if($checkPassword){
                 //fetch and bind Id from database to session
                 $statement = $conn->prepare("
@@ -306,96 +354,107 @@ class User
                 header("Location: home.php");
             }
             else {
+
                 echo "password and email doesnt match";
-        }
-    }
-    }
-
-
-    public function exportInterests () {
-
-        $interest1 = $this->getInterests();
-
-        $userDetails = array(1, "Mats", "Thys", "mats@email.com", "mijnpassword", "mijnbio", 0);
-
-        // SEND INTERESTS TO DATABASE - TABLE USER
-
-        // READ WHICH ONES ARE SELECTED
-        if(!empty($_POST)){
-            if (is_array($_POST['myinterests']) || is_object($_POST['myinterests'])) {
-                
-                try {
-                    $conn = Db::getConnection();
-                    echo "there is a connection!";
-                } catch(Exception $error) {
-                    echo $error;
-                }
-
-                /* 
-                $getUserQuery = "SELECT * FROM Users WHERE id = $userId";
-
-                $stmt = $conn->prepare($getUserQuery); 
-                $stmt->execute(); 
-                $userDetails = $stmt->fetch();
-                
-
-                foreach($userDetails as $user){
-                    echo $user;
-                }
-                */
-                # echo "Mijn id is = " .  $userDetails[0];
-
-                
-                
-                
-                
-                # TOEVOEGEN VAN USER_INTEREST_ID AAN USER
-
-                # krijgen van aller laatste gebruikte id in tabel USER_INTEREST
-                $lastUsedIdQuery = "SELECT IFNULL(MAX(interest_id), 0) AS last_used_id FROM user_interest;";
-                $stmt = $conn->prepare($lastUsedIdQuery);
-                $stmt->execute(); 
-                $lastUsedId = $stmt->fetch();
-                    
-                # laatste id + 1
-                $userInterestId = $lastUsedId[0] + 1;
-
-                
-                echo "hello this works :)))))))";
-                foreach($_POST['myinterests'] as $selected_id){
-                    echo "</br>UserInterestId=" . $userInterestId;
-                    echo "</br>Selected_id=" . $selected_id;
-
-
-                    # TOEVOEGEN VAN USER_INTEREST_ID/INTEREST_ID AAN USER_INTEREST
-                    $userInterestQuery = "INSERT INTO user_interest(user_interest_id, interest_id) VALUES (:setuserinterestid, :setinterestid);";
-                    $statement = $conn->prepare($userInterestQuery);
-
-                    $statement->bindValue(":setuserinterestid", $userInterestId);
-                    $statement->bindValue(":setinterestid", $selected_id);
-                    
-                    
-                    $statement->execute();
-                    
-                }
-
-                # toevoegen aan tabel
-                $userAddUserInterestIdQuery = "UPDATE Users SET user_interest_id=:setuserinterestid WHERE id=:setuserid";
-                $statement = $conn->prepare($userAddUserInterestIdQuery);
-                    
-                $statement->bindValue(":setuserinterestid", $userInterestId);
-                $statement->bindValue(":setuserid", $userDetails[0]);
-                    
-                $statement->execute();
-                       
             }
-            
         }
+    }
+}
+    public function updateUser()
+    {
+        $conn = Db::getConnection();
 
+        $firstName = $this->getFirstname();
+        $lastName = $this->getLastname();
+        $bio = $this->getBio();
+        $email = $this->getEmail();
+
+        $statement = $conn->prepare("update Users set bio = :bio where email = :email;");
+        $statement->bindValue(":bio", $bio);
+        $statement->bindValue(":email",$email);
+        $statement->execute();
     }
 
+
+    public function checkPassword(){
+        /**connect to database */
+        $conn = Db::getConnection();
+
+        /**bind value */
+        $email = $this->getEmail();
+        $password = $this->getPassword();
+        $statement = $conn->prepare("
+        SELECT password FROM Users WHERE email = :email");
+        $statement->bindValue(':email', $email);
+        $statement->execute();
+
+        $checkEmail = $statement->fetch(PDO::FETCH_ASSOC);
+        // echo $checkEmail['password'];
+        // echo $this->getPassword();
+       
+        if ($checkEmail !== false) {
+            $result = false;
+            $checkPassword = password_verify($password, $checkEmail['password']);
+            if ($checkPassword) {
+                echo "true";
+                $result = true;
+            } else {
+                echo "false";
+            }    
+            return $result;
+        }
+       
+    }
+
+    public function updatePassword(){
+        if(!$this->checkPassword()){
+            echo "passwoord mag niet geupdated worden";
+        }else{
+            $conn = Db::getConnection();
+
+            /**bind value */
+            $email = $this->getEmail();
+            $newPassword = password_hash($this->getNewPassword(), PASSWORD_BCRYPT);
+            $statement = $conn->prepare("
+            UPDATE Users SET password = :newPassword WHERE email = :email");
+            $statement->bindValue(':email', $email);
+            $statement->bindValue(":newPassword", $newPassword);
+            $statement->execute();
+        }
+       
+    }
+public function checkAvatarSize(){
+    if ($_FILES["fileToUpload"]["size"] > 500000) {
+            echo "Sorry, your file is too large.";
+            return true;
+        }
+}
+public function setAvatar(){
+    $image = basename($_FILES['fileToUpload']['name']);
+    $testSession = "33";
+    $fileType = strtolower(pathinfo($image,PATHINFO_EXTENSION));
+    $newName = "uploads/" . $testSession . "." . $fileType;
+    $support = array('jpg','jpeg','png');
+    // $fileNewName = "uploads/".$thi;
+    if(in_array($fileType,$support)){
+        echo "img toegelaten";
+        echo $newName;
+        if(move_uploaded_file($_FILES["fileToUpload"]["tmp_name"], $newName)){
+            // echo $_FILES["fileToUpload"]["name"] . "has been uploaded";
+            $conn = Db::getConnection();
+            $statement = $conn->prepare("UPDATE Users SET avatar = :avatarPath WHERE email = 'test3@student.thomasmore.be'");
+            $statement->bindValue(":avatarPath",$newName);
+            $statement->execute();
+        } else{
+            echo "fout";
+        }
+       
+    } else{
+        echo "Avatar has to be a jpg, jpeg or png file";
+    }
+    }
+}
 
     
 
 
-}
