@@ -424,13 +424,25 @@ public function checkAvatarSize(){
         }
 }
 public function setAvatar(){
-    $image = "uploads/" . basename($_FILES['fileToUpload']['name']) ;
+    $image = basename($_FILES['fileToUpload']['name']);
+    $testSession = "33";
     $fileType = strtolower(pathinfo($image,PATHINFO_EXTENSION));
+    $newName = "uploads/" . $testSession . "." . $fileType;
     $support = array('jpg','jpeg','png');
-    $fileNewName = "uploads/".$_SESSION['id'];
+    // $fileNewName = "uploads/".$thi;
     if(in_array($fileType,$support)){
         echo "img toegelaten";
-        echo $fileNewName;
+        echo $newName;
+        if(move_uploaded_file($_FILES["fileToUpload"]["tmp_name"], $newName)){
+            // echo $_FILES["fileToUpload"]["name"] . "has been uploaded";
+            $conn = Db::getConnection();
+            $statement = $conn->prepare("UPDATE Users SET avatar = :avatarPath WHERE email = 'test3@student.thomasmore.be'");
+            $statement->bindValue(":avatarPath",$newName);
+            $statement->execute();
+        } else{
+            echo "fout";
+        }
+       
     } else{
         echo "Avatar has to be a jpg, jpeg or png file";
     }
