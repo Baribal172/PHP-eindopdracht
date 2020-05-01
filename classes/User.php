@@ -9,10 +9,14 @@ class User
     private $email;
     private $password;
     private $interests;
-
+    private $newPassword;
+    private $bio;
+  
     private $emailUsedError; // email is al in gebruik
     private $emailNotStudentError; // email is geen studentenemail
     private $globalError; // algemene error
+
+  
 
     /**
      * Get the value of id
@@ -112,7 +116,44 @@ class User
 
         return $this;
     }
+    /**
+     * Get the value of bio
+     */
+    public function getBio()
+    {
+        return $this->bio;
+    }
 
+    /**
+     * Set the value of bio
+     *
+     * @return  self
+     */
+    public function setBio($bio)
+    {
+        $this->bio = $bio;
+
+        return $this;
+    }
+      /**
+     * Get the value of newPassword
+     */ 
+    public function getNewPassword()
+    {
+        return $this->newPassword;
+    }
+
+    /**
+     * Set the value of newPassword
+     *
+     * @return  self
+     */ 
+    public function setNewPassword($newPassword)
+    {
+        $this->newPassword = $newPassword;
+
+        return $this;
+    }
 
     /**
      * Get the value of interests
@@ -197,9 +238,6 @@ class User
         return $this;
     }
 
-    
-
-
     public function registerUser()
     {
         /**connect to database */
@@ -211,6 +249,7 @@ class User
         $firstname = $this->getFirstname();
         $lastname = $this->getLastname();
         $email = $this->getEmail();
+        $bio = $this->getBio();
         /*password encryption*/
         $password = password_hash($this->getPassword(), PASSWORD_BCRYPT);
 
@@ -237,26 +276,28 @@ class User
                     $statement->execute();
 
                     if ($statement->rowCount() > 0) {
+
+                        echo "Emailadres is al in gebruik";
                         $this->setEmailUsedError("Emailadres is al in gebruik") ;
+
                     } else {
 
-                                /*prepare to insert form input into database*/
-                    $statement = $conn->prepare("insert into Users (first_name, last_name, email, password) values (:firstname, :lastname, :email, :password)");
+                        /*prepare to insert form input into database*/
+                        $statement = $conn->prepare("insert into Users (first_name, last_name, email, password, bio) values (:firstname, :lastname, :email, :password, :bio)");
 
-                    /* bind values from var to sql*/
-                    $statement->bindValue(":firstname", $firstname);
-                    $statement->bindValue(":lastname", $lastname);
-                    $statement->bindValue(":email", $email);
-                    $statement->bindValue(":password", $password);
+                        /* bind values from var to sql*/
+                        $statement->bindValue(":firstname", $firstname);
+                        $statement->bindValue(":lastname", $lastname);
+                        $statement->bindValue(":email", $email);
+                        $statement->bindValue(":password", $password);
+                        $statement->bindValue(":bio", $bio);
 
-                    /*execute input from fields to database*/
-                    $result = $statement->execute();
-                
-                    //var_dump($result);
-                } 
-            }
-                
-                else {
+                        /*execute input from fields to database*/
+                        $result = $statement->execute();
+
+                        //var_dump($result);
+                    }
+                } else {
                     echo "geen studenten email";
                     $this->setEmailNotStudentError("This is not a student mail") ;
                 }
@@ -289,8 +330,15 @@ class User
 
         $checkEmail = $statement->fetch(PDO::FETCH_ASSOC);
 
-        if($checkEmail !== false){
+        if ($checkEmail !== false) {
             $checkPassword = password_verify($password, $checkEmail['password']);
+
+            if ($checkPassword) {
+                //log in
+                header("Location: index.php");
+                echo "ingelogd";
+            } else {
+
             if($checkPassword){
                 //log in & create session
                 session_start();
@@ -300,10 +348,77 @@ class User
                 header("Location: home.php");
             }
             else {
+
                 echo "password and email doesnt match";
+            }
         }
     }
+    public function updateUser()
+    {
+        $conn = Db::getConnection();
+
+        $firstName = $this->getFirstname();
+        $lastName = $this->getLastname();
+        $bio = $this->getBio();
+        $email = $this->getEmail();
+
+        $statement = $conn->prepare("update Users set bio = :bio where email = :email;");
+        $statement->bindValue(":bio", $bio);
+        $statement->bindValue(":email",$email);
+        $statement->execute();
     }
+
+
+    public function checkPassword(){
+        /**connect to database */
+        $conn = Db::getConnection();
+
+        /**bind value */
+        $email = $this->getEmail();
+        $password = $this->getPassword();
+        $statement = $conn->prepare("
+        SELECT password FROM Users WHERE email = :email");
+        $statement->bindValue(':email', $email);
+        $statement->execute();
+
+        $checkEmail = $statement->fetch(PDO::FETCH_ASSOC);
+        // echo $checkEmail['password'];
+        // echo $this->getPassword();
+       
+        if ($checkEmail !== false) {
+            $result = false;
+            $checkPassword = password_verify($password, $checkEmail['password']);
+            if ($checkPassword) {
+                echo "true";
+                $result = true;
+            } else {
+                echo "false";
+            }    
+            return $result;
+        }
+       
+    }
+
+    public function updatePassword(){
+        if(!$this->checkPassword()){
+            echo "passwoord mag niet geupdated worden";
+        }else{
+            $conn = Db::getConnection();
+
+            /**bind value */
+            $email = $this->getEmail();
+            $newPassword = password_hash($this->getNewPassword(), PASSWORD_BCRYPT);
+            $statement = $conn->prepare("
+            UPDATE Users SET password = :newPassword WHERE email = :email");
+            $statement->bindValue(':email', $email);
+            $statement->bindValue(":newPassword", $newPassword);
+            $statement->execute();
+        }
+       
+    }
+
+
+}
 
 
     public function exportInterests () {
@@ -393,3 +508,4 @@ class User
 
 
 }
+

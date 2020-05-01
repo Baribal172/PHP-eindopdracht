@@ -9,6 +9,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $user1->setLastname($_POST['lastName']);
     $user1->setEmail($_POST['email']);
     $user1->setPassword($_POST['password']);
+    $user1->setBio($_POST['bio']);
 
     $user1->registerUser();
 
@@ -50,6 +51,12 @@ $globalError = $user1->getGlobalError();
             <!--<label for="lastName" class="label">Last name</label>-->
             <input type="text" name="lastName" id="lastname" placeholder="Last name" value="<?php echo htmlspecialchars(!empty($_POST["lastName"]) ? $_POST["lastName"] : ''); ?>" class="textfield" required>
             <br>
+
+            <label for="bio" class="label">Bio</label>
+            <input type="text" name="bio" id="bio" value="<?php echo htmlspecialchars(!empty($_POST["bio"]) ? $_POST["bio"] : ''); ?>" class="textfield" required>
+            <br>
+            <label for="email" class="label">E-mail</label>
+            <input type="text" name="email" id="email" value="<?php echo htmlspecialchars(!empty($_POST["email"]) ? $_POST["email"] : ''); ?>" class="textfield" required>
             <!--<label for="email" class="label">E-mail</label>-->
             <input type="text" name="email" id="email" placeholder="Student email" value="<?php echo htmlspecialchars(!empty($_POST["email"]) ? $_POST["email"] : ''); ?>" class="textfield" required>
             <?php if(isset($emailUsedError)) :?>
