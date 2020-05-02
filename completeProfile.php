@@ -1,21 +1,24 @@
 <?php
-
+    session_start();
     include_once(__DIR__ . "/classes/Interests.php");
     include_once(__DIR__ . "/classes/User.php");
     //include_once(__DIR__ . "/index.php");
 
     $result = new Interests();
-    $result = $result -> showInterests();
+    $user = new User();
+    // $result = $result -> showInterests();
 
     
     
     if (!empty($_POST)) {
         echo "submit";
         $interest = new User();
-        $interest -> setInterests($_POST ["myinterests"]);
-        $interest -> getInterests();
-        // $interest->setBuddy(($_POST['buddy']);
-        $interest = $interest -> exportInterests();
+        // $interest -> setInterests($_POST ["myinterests"]);
+        // $interest -> getInterests();
+        $user->setBuddy(($_POST['buddy']));
+        $user->saveBuddy(($_POST['buddy']));
+        // $interest = $interest -> exportInterests();
+        echo $_POST['buddy'];
     }
 
     /* 
@@ -65,9 +68,9 @@
 
             <div class="characteristic characteristic-study">
                 <label for="study" class="title">Looking for a buddy or do you want to be a buddy?</label>
-                <select name="study" id="study">
+                <select name="buddy" id="buddy">
                     <option value="searching">I am looking for a buddy</option>
-                    <option value="offering">I am offering to be a buddy</option>
+                    <option value="offering">I want to be a buddy</option>
                 </select>
             </div>
             

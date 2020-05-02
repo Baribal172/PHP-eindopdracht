@@ -382,7 +382,16 @@ class User
         $statement->bindValue(":email",$email);
         $statement->execute();
     }
+    public function saveBuddy(){
+        
+        $conn = Db::getConnection();
+        $buddy = $this->getBuddy();
+        $statement = $conn->prepare("UPDATE Users SET buddy = :buddy WHERE id = '".$_SESSION['id']."';");
+        $statement->bindValue(":buddy",$buddy);
+        $statement->execute();
 
+    }
+ 
 
     public function checkPassword(){
         $conn = Db::getConnection();
@@ -463,7 +472,7 @@ public function setAvatar(){
         echo $result['avatar'];
     }
     
- 
+    
 }
 
     
