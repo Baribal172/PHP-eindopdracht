@@ -10,7 +10,7 @@ class Buddy{
     //1 	Accepted
     //2 	Declined
     //https://www.codedodle.com/2014/12/social-network-friends-database.html
-    
+
     public $actionUserId;
     
     /**
@@ -103,5 +103,21 @@ class Buddy{
         $statement->bindValue(":actionUserId",$user_one);
         $statement->execute();
 
+    }
+
+    public static function getBuddyStatus(){
+        $conn = Db::getConnection();
+        $statement = $conn->prepare("SELECT * from Buddy where user_one_id = '".$_SESSION['id']."';");
+        $statement->execute();
+        $result = $statement->fetch(PDO::FETCH_ASSOC);
+        return $result['status'];
+    }
+
+    public function getBuddyActionUserId(){
+        $conn = Db::getConnection();
+        $statement = $conn->prepare("SELECT * from Buddy where user_one_id = '".$_SESSION['id']."';");
+        $statement->execute();
+        $result = $statement->fetch(PDO::FETCH_ASSOC);
+        return $result['action_user_id'];
     }
 }

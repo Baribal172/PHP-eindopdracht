@@ -1,6 +1,8 @@
 <?php
 session_start();
 include_once(__DIR__ . "/classes/User.php");
+include_once(__DIR__ . "/classes/Buddy.php");
+
 
 if (isset($_SESSION['id'])) {
     $user1 = new User();
@@ -32,10 +34,18 @@ else {
 <?php
 }
 ?>
+<h2>This are all the IMD-buddies:</h2>
 <?php 
         while($row = $statement->fetch()) {?>
-        <h3>This are all the IMD-buddies:</h3>
         <h4><?php echo $row[0]." and ".$row[1]?></h4>
         <?php } ?>
+        <?php
+        //   echo Buddy::getBuddyStatus();
+        // if(Buddy::getBuddyActionUserId() == $_SESSION['id'] || Buddy::getBuddyStatus() == '0'){
+        //     echo "je wacht op een antwoord van de buddy";
+        // }
+?>
+
+
 </body>
 </html>
