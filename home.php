@@ -6,10 +6,18 @@ if (isset($_SESSION['id'])) {
     $user1 = new User();
     $fetch_data = $user1->fetchUserData();
 
-?>   
-    Welcome <b><?php echo $_SESSION['first_name']; ?></b>, You have successfully logged in!<br>
+?>  
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home</title>
+</head>
+<body>
+Welcome <b><?php echo $_SESSION['first_name']; ?></b>, You have successfully logged in!<br>
     Your bio is: <?php echo $_SESSION['bio']; ?> <br>
-                Click to <a href="./logout.php" class="logout-button">Logout</a>
+    Click to <a href="./logout.php" class="logout-button">Logout</a>
 
 <?php
 }
@@ -21,16 +29,5 @@ else {
 
 
 ?>
-
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-    
-</head>
-<body>
-    
 </body>
 </html>
