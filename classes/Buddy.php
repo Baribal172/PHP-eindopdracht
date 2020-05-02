@@ -5,8 +5,14 @@ class Buddy{
     private $user_one;
     private $user_two;
     public $status;
+    //status is 
+    //0 	Pending
+    //1 	Accepted
+    //2 	Declined
+    //https://www.codedodle.com/2014/12/social-network-friends-database.html
+    
     public $actionUserId;
-
+    
     /**
      * Get the value of user_one
      */ 
@@ -85,5 +91,17 @@ class Buddy{
         $this->actionUserId = $actionUserId;
 
         return $this;
+    }
+    public function sendBuddyRequest(){
+        $user_one = $this->getUser_one();
+        $user_two = $this->getUser_two();
+        $conn = Db::getConnection();
+
+        $statement = $conn->prepare("INSERT into Buddy (user_one_id, user_two_id, action_user_id) VALUES (:userOneId, :userTwoId, :actionUserId)");
+        $statement->bindValue(":userOneId",$user_one);
+        $statement->bindValue(":userTwoId",$user_two);
+        $statement->bindValue(":actionUserId",$user_one);
+        $statement->execute();
+
     }
 }

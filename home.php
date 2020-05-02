@@ -5,7 +5,9 @@ include_once(__DIR__ . "/classes/User.php");
 if (isset($_SESSION['id'])) {
     $user1 = new User();
     $fetch_data = $user1->fetchUserData();
-
+    $conn = Db::getConnection();
+    $statement = $conn->prepare("SELECT * FROM Buddy WHERE status ='1'");
+    $statement->execute();
 ?>  
 <!DOCTYPE html>
 <html lang="en">
@@ -26,8 +28,7 @@ else {
     <h1>sessie niet gemaakt</h1>
 <?php
 }
-
-
 ?>
+
 </body>
 </html>
