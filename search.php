@@ -1,8 +1,10 @@
 <?php
 include_once(__DIR__ . "/classes/User.php");
+include_once(__DIR__ . "/classes/Buddy.php");
+
 session_start();
 
-echo $_SESSION['id'];
+// echo $_SESSION['id'];
 
 if(isset($_GET['query'])){
         $query = $_GET['query'];
@@ -15,11 +17,18 @@ if(isset($_GET['query'])){
       
 }
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-   echo $_POST['buddyRequest'];
+//    echo $_POST['buddyRequest'];
+   $buddy = new Buddy();
+   
+   $userOne = $_SESSION['id'];
+   $userTwo = $_POST['buddyRequest'];
+   
+   $buddy->setUser_one($userOne);
+   $buddy->setUser_two($userTwo);
+    echo $userOne;
+    echo $userTwo;
+
 }
-
-
-
 ?>
 <!DOCTYPE html>
 <html lang="en">
