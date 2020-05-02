@@ -357,8 +357,7 @@ class User
             if($checkPassword !== false){
                 //log in & create session
                 session_start();
-	            $_SESSION['id'] = $checkEmail['id'];
-                
+                $_SESSION['id'] = $checkEmail['id'];
                 //redirect user
                 header("Location: home.php");
             }
@@ -367,6 +366,19 @@ class User
                 echo "password and email doesnt match";
             }
         }
+    }
+
+    public function fetchUserData(){
+        $conn = Db::getConnection();
+        $statement = $conn->prepare("select * from Users where id = '".$_SESSION['id']."';");
+        $statement->execute();
+        $result = $statement->fetch(PDO::FETCH_ASSOC);
+
+        $_SESSION['first_name'] = $result['first_name'];
+        $_SESSION['last_name'] = $result['last_name'];
+        $_SESSION['bio'] = $result['bio'];
+        
+
     }
 
     public function updateUser(){
