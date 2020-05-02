@@ -24,7 +24,9 @@ if(isset($_POST['submitAvatar'])) {
     <input type="file" name="fileToUpload" id="fileToUpload">
     <input type="submit" value="Upload Image" name="submitAvatar">
 </form>
-
-<img src="<?php echo $user->getAvatar(); ?>" alt="" />
+<?php 
+echo User::getAvatar();
+?>
+<img src="<?php echo User::getAvatar(); ?>" alt="" />
 </body>
 </html>

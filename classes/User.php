@@ -455,7 +455,7 @@ public function setAvatar(){
     }
     }
 
-    public static function getAvatar() {
+    public function getAvatar() {
         $conn = Db::getConnection();
         $statement = $conn->prepare("Select avatar from Users WHERE id = '".$_SESSION['id']."';");
         $statement->execute();
@@ -463,6 +463,7 @@ public function setAvatar(){
         echo $result['avatar'];
     }
     
+ 
 }
 
     
