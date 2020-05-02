@@ -1,35 +1,31 @@
 <?php
-    session_start();
-    include_once(__DIR__ . "/classes/Interests.php");
-    include_once(__DIR__ . "/classes/User.php");
-    //include_once(__DIR__ . "/index.php");
 
-    $result = new Interests();
-    $user = new User();
-    // $result = $result -> showInterests();
+include_once(__DIR__ . "/classes/Interests.php");
+include_once(__DIR__ . "/classes/User.php");
+//include_once(_DIR_ . "/index.php");
 
-    
-    
-    if (!empty($_POST)) {
-        echo "submit";
-        $interest = new User();
-        // $interest -> setInterests($_POST ["myinterests"]);
-        // $interest -> getInterests();
-        $user->setBuddy(($_POST['buddy']));
-        $user->saveBuddy(($_POST['buddy']));
-        // $interest = $interest -> exportInterests();
-        echo $_POST['buddy'];
-    }
+$result = new Interests();
+$result = $result -> showInterests();
 
-    /* 
-    Om te kijken of de variabelen binnen komen
 
-    foreach($result as $row) {
-        echo $row['interest_id'];
-        echo $row['interest_name'];
-    }
-    */
 
+if (!empty($_POST)) {
+    echo "submit";
+    $interest = new User();
+    $interest -> setInterests($_POST ["myinterests"]);
+    $interest -> getInterests();
+
+    $interest = $interest -> exportInterests();
+}
+
+/* 
+Om te kijken of de variabelen binnen komen
+
+foreach($result as $row) {
+    echo $row['interest_id'];
+    echo $row['interest_name'];
+}
+*/
 
 ?><!DOCTYPE html>
 <html lang="en">
@@ -44,7 +40,7 @@
 <body>
     <div class="completeProfile--content">
         <form action="" method="post">
-            <h1>Complete your profile</h1>
+            <h1>Complete your profile to find the best buddy</h1>
 
             <div class="characteristic characteristic-gender">
                 <label for="gender" class="title">Gender</label>
@@ -58,13 +54,13 @@
                 </div>
             </div>
             
-            <!-- <div class="characteristic characteristic-study">
+            <div class="characteristic characteristic-study">
                 <label for="study" class="title">Designer of developper?</label>
                 <select name="buddy" id="buddy">
                     <option value="designer">Designer</option>
                     <option value="developer">Developer</option>
                 </select>
-            </div> -->
+            </div> 
 
             <div class="characteristic characteristic-study">
                 <label for="study" class="title">Looking for a buddy or do you want to be a buddy?</label>

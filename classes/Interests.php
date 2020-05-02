@@ -1,7 +1,6 @@
 <?php
 
     include_once(__DIR__ . "/Db.php");
-    include_once(__DIR__ . "/../completeProfile.php");
     class Interests {
         private $interestsId;
         private $interestsName;
@@ -49,8 +48,6 @@
         }
 
         public function showInterests () {
-            /**connect to database */
-            /**echo $con ? 'connected' : 'not connected'; */
             try {
                 $conn = Db::getConnection();
                 echo "there is a connection!";
@@ -62,30 +59,14 @@
             //aanmaken van de query (bedoeling = om alle interest namen uit de db te krijgen)
             $query = "SELECT * FROM Interests";
             $statement = $conn->prepare($query);
-            //echo $statement;
             $statement->execute();
 
             $result = $statement->fetchall(); 
 
             return $result;
+            echo $result;
                 
         }
-
-        
-
-
-
-            /*try {
-                $conn = Db::getConnection();
-                echo "there is a connection!";
-            } catch(Exception $error) {
-                echo $error;
-            }
-
-            $query = "INSERT INTO User (interests) VALUES ()";
-            $statement = $conn->prepare($query);*/
-        
-
     }
 
 
