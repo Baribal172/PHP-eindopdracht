@@ -2,7 +2,7 @@
 session_start();
 include_once(__DIR__ . "/classes/User.php");
 include_once(__DIR__ . "/classes/Buddy.php");
-
+$buddy = new Buddy();
 
 if (isset($_SESSION['id'])) {
     $user1 = new User();
@@ -44,6 +44,7 @@ else {
         // if(Buddy::getBuddyActionUserId() == $_SESSION['id'] || Buddy::getBuddyStatus() == '0'){
         //     echo "je wacht op een antwoord van de buddy";
         // }
+        echo $buddy->checkBuddyRequest();
 ?>
 
 

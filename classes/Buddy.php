@@ -105,7 +105,7 @@ class Buddy{
 
     }
 
-    public static function getBuddyStatus(){
+    public function getBuddyStatus(){
         $conn = Db::getConnection();
         $statement = $conn->prepare("SELECT * from Buddy where user_one_id = '".$_SESSION['id']."';");
         $statement->execute();
@@ -119,5 +119,28 @@ class Buddy{
         $statement->execute();
         $result = $statement->fetch(PDO::FETCH_ASSOC);
         return $result['action_user_id'];
+    }
+    public function checkBuddyRequest(){
+        $status = $this->getBuddyStatus();
+        $actionUserId = $this->getBuddyActionUserId();
+        $conn = Db::getConnection();
+        $statement = $conn->prepare("SELECT first_name
+        FROM Buddy LEFT OUTER JOIN Users AS u1 ON Buddy.user_two_id = u1.id
+        WHERE STATUS = '0' AND Buddy.user_one_id = '".$_SESSION['id']."';");
+        $statement->execute();
+        $result = $statement->fetch(PDO::FETCH_ASSOC);
+        $result = $result['first_name'];
+        if($status == '0'){
+            if($actionUserId == $_SESSION['id']){
+                echo "Je wacht op het antwoord van $result";
+            }
+            else{
+                echo "Je hebt een verzoek van $result, hier moeten 2 knoppen om te accepteren of niet";
+            }
+        }
+        else if($status == '1'){
+            echo "Je bent een buddy met  $result";
+        }
+
     }
 }
