@@ -11,6 +11,7 @@ class User
     private $interests;
     private $newPassword;
     private $bio;
+    private $buddy;
   
     private $emailUsedError; // email is al in gebruik
     private $emailNotStudentError; // email is geen studentenemail
@@ -238,6 +239,26 @@ class User
         return $this;
     }
 
+    /**
+     * Get the value of buddy
+     */ 
+    public function getBuddy()
+    {
+        return $this->buddy;
+    }
+
+    /**
+     * Set the value of buddy
+     *
+     * @return  self
+     */ 
+    public function setBuddy($buddy)
+    {
+        $this->buddy = $buddy;
+
+        return $this;
+    }
+    
     public function registerUser()
     {
         /**connect to database */
@@ -373,18 +394,22 @@ class User
         $statement->bindValue(":email",$email);
         $statement->execute();
     }
+    public function saveBuddy(){
+        
+        $conn = Db::getConnection();
+        $buddy = $this->getBuddy();
+        $statement = $conn->prepare("UPDATE Users SET buddy = :buddy WHERE id = '".$_SESSION['id']."';");
+        $statement->bindValue(":buddy",$buddy);
+        $statement->execute();
 
+    }
+ 
 
     public function checkPassword(){
-        /**connect to database */
         $conn = Db::getConnection();
-
-        /**bind value */
-        $email = $this->getEmail();
         $password = $this->getPassword();
         $statement = $conn->prepare("
-        SELECT password FROM Users WHERE email = :email");
-        $statement->bindValue(':email', $email);
+        SELECT password FROM Users WHERE id = '".$_SESSION['id']."';");
         $statement->execute();
 
         $checkEmail = $statement->fetch(PDO::FETCH_ASSOC);
@@ -412,11 +437,9 @@ class User
             $conn = Db::getConnection();
 
             /**bind value */
-            $email = $this->getEmail();
             $newPassword = password_hash($this->getNewPassword(), PASSWORD_BCRYPT);
             $statement = $conn->prepare("
-            UPDATE Users SET password = :newPassword WHERE email = :email");
-            $statement->bindValue(':email', $email);
+            UPDATE Users SET password = :newPassword  WHERE id = '".$_SESSION['id']."';");
             $statement->bindValue(":newPassword", $newPassword);
             $statement->execute();
         }
@@ -424,7 +447,7 @@ class User
     }
 public function checkAvatarSize(){
     if ($_FILES["fileToUpload"]["size"] > 500000) {
-            echo "Sorry, your file is too large.";
+            echo "Sorry, your file is too large. Max 500kb";
             return true;
         }
 }
@@ -432,7 +455,7 @@ public function setAvatar(){
     $image = basename($_FILES['fileToUpload']['name']);
     $testSession = "33";
     $fileType = strtolower(pathinfo($image,PATHINFO_EXTENSION));
-    $newName = "uploads/" . $testSession . "." . $fileType;
+    $newName = "uploads/" . $_SESSION['id'] . "." . $fileType;
     $support = array('jpg','jpeg','png');
     // $fileNewName = "uploads/".$thi;
     if(in_array($fileType,$support)){
@@ -441,7 +464,7 @@ public function setAvatar(){
         if(move_uploaded_file($_FILES["fileToUpload"]["tmp_name"], $newName)){
             // echo $_FILES["fileToUpload"]["name"] . "has been uploaded";
             $conn = Db::getConnection();
-            $statement = $conn->prepare("UPDATE Users SET avatar = :avatarPath WHERE email = 'test3@student.thomasmore.be'");
+            $statement = $conn->prepare("UPDATE Users SET avatar = :avatarPath WHERE id = '".$_SESSION['id']."';");
             $statement->bindValue(":avatarPath",$newName);
             $statement->execute();
         } else{
@@ -452,6 +475,16 @@ public function setAvatar(){
         echo "Avatar has to be a jpg, jpeg or png file";
     }
     }
+
+    public function getAvatar() {
+        $conn = Db::getConnection();
+        $statement = $conn->prepare("Select avatar from Users WHERE id = '".$_SESSION['id']."';");
+        $statement->execute();
+        $result = $statement->fetch(PDO::FETCH_ASSOC);
+        echo $result['avatar'];
+    }
+    
+    
 }
 
     
