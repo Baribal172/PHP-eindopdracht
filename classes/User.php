@@ -358,8 +358,20 @@ class User
                 //log in & create session
                 session_start();
                 $_SESSION['id'] = $checkEmail['id'];
+
+                //redirect if profile empty
+                $statement = $conn->prepare("select * from Users where id = '".$_SESSION['id']."';");
+                $statement->execute();
+
+                $result = $statement->fetch(PDO::FETCH_ASSOC);
+
+                if ($result['user_interest_id'] === NULL) {
                 //redirect user
-                header("Location: home.php");
+                header("Location: completeProfile.php");
+                } 
+                else {
+                    header("Location: home.php");
+                    }
             }
             else {
 
@@ -519,7 +531,6 @@ public function setAvatar(){
         }
 
     }
-
 
 }
 
