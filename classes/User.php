@@ -333,10 +333,10 @@ class User
         if ($checkEmail !== false) {
             $checkPassword = password_verify($password, $checkEmail['password']);
 
-            if($checkPassword){
+            if($checkPassword !== false){
                 //log in & create session
 	            $_SESSION['id'] = $checkEmail['id'];
-            
+                session_start();
                 //redirect user
                 header("Location: home.php");
             }

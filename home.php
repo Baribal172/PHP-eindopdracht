@@ -2,10 +2,10 @@
 session_start();
 include_once(__DIR__ . "/classes/User.php");
 
-$user1 = new User();
-
 if (isset($_SESSION['id'])) {
+    $user1 = new User();
     $id = $_SESSION['id'];
+
     echo ($_SESSION['id']);
 
 ?>   
