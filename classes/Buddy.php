@@ -146,8 +146,13 @@ class Buddy{
     }
     public function acceptRequest(){
         $conn = Db::getConnection();
-        $statement = $conn->prepare("UPDATE Buddy set status = '1' WHERE user_One_Id = '".$_SESSION['id']."';");
+        $statement = $conn->prepare("UPDATE Buddy set status = '1' WHERE user_two_Id = '".$_SESSION['id']."';");
         $statement->execute();
+    }
 
+    public function declineRequest(){
+        $conn = Db::getConnection();
+        $statement = $conn->prepare("DELETE FROM WHERE user_two_Id = '".$_SESSION['id']."';");
+        $statement->execute();
     }
 }
