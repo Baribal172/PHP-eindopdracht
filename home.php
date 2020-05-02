@@ -2,12 +2,11 @@
 session_start();
 include_once(__DIR__ . "/classes/User.php");
 
-if (isset($_SESSION['id'])) {
+$user1 = new User();
 
-    $conn = Db::getConnection();
-    $statement = $conn->prepare("
-    SELECT * FROM Users WHERE email = :email");
-    $firstname = $statement->fetch(PDO::FETCH_ASSOC);
+if (isset($_SESSION['id'])) {
+    $id = $_SESSION['id'];
+    echo ($_SESSION['id']);
 
 ?>   
     Welcome <b><?php echo $firstname; ?></b>, You have successfully logged in!<br>
@@ -17,7 +16,7 @@ if (isset($_SESSION['id'])) {
 }
 else {
 ?> 
-    <h1>niet ingelogd</h1>
+    <h1>sessie niet gemaakt</h1>
 <?php
 }
 
@@ -31,7 +30,6 @@ else {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
     
-You are connected
 </head>
 <body>
     

@@ -324,7 +324,7 @@ class User
         $password = $this->getPassword();
 
         $statement = $conn->prepare("
-        SELECT email, password FROM Users WHERE email = :email");
+        SELECT * FROM Users WHERE email = :email");
         $statement->bindValue(':email', $email);
         $statement->execute();
 
@@ -333,23 +333,10 @@ class User
         if ($checkEmail !== false) {
             $checkPassword = password_verify($password, $checkEmail['password']);
 
-            if ($checkPassword) {
-                //log in
-                header("Location: index.php");
-                echo "ingelogd";
-            } else {
-
             if($checkPassword){
-                //fetch and bind Id from database to session
-                $statement = $conn->prepare("
-                SELECT * FROM Users WHERE email = :email");
-                $id = $statement->fetch(PDO::FETCH_ASSOC);
                 //log in & create session
-                session_start();
-                $_SESSION['id'] = $id;
-                //fetch information on logged in user from database for display
-
-
+	            $_SESSION['id'] = $checkEmail['id'];
+            
                 //redirect user
                 header("Location: home.php");
             }
@@ -359,9 +346,8 @@ class User
             }
         }
     }
-}
-    public function updateUser()
-    {
+
+    public function updateUser(){
         $conn = Db::getConnection();
 
         $firstName = $this->getFirstname();
