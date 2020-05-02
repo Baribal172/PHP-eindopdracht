@@ -14,7 +14,7 @@
         $interest = new User();
         $interest -> setInterests($_POST ["myinterests"]);
         $interest -> getInterests();
-
+        // $interest->setBuddy(($_POST['buddy']);
         $interest = $interest -> exportInterests();
     }
 
@@ -55,11 +55,19 @@
                 </div>
             </div>
             
-            <div class="characteristic characteristic-study">
+            <!-- <div class="characteristic characteristic-study">
                 <label for="study" class="title">Designer of developper?</label>
-                <select name="study" id="study">
+                <select name="buddy" id="buddy">
                     <option value="designer">Designer</option>
                     <option value="developer">Developer</option>
+                </select>
+            </div> -->
+
+            <div class="characteristic characteristic-study">
+                <label for="study" class="title">Looking for a buddy or do you want to be a buddy?</label>
+                <select name="study" id="study">
+                    <option value="searching">I am looking for a buddy</option>
+                    <option value="offering">I am offering to be a buddy</option>
                 </select>
             </div>
             
