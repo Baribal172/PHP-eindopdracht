@@ -335,8 +335,9 @@ class User
 
             if($checkPassword !== false){
                 //log in & create session
-	            $_SESSION['id'] = $checkEmail['id'];
                 session_start();
+	            $_SESSION['id'] = $checkEmail['id'];
+                
                 //redirect user
                 header("Location: home.php");
             }
