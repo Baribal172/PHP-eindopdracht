@@ -2,30 +2,18 @@
 
 include_once(__DIR__ . "/classes/Interests.php");
 include_once(__DIR__ . "/classes/User.php");
-//include_once(_DIR_ . "/index.php");
 
 $result = new Interests();
 $result = $result -> showInterests();
 
 
-
-if (!empty($_POST)) {
-    echo "submit";
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $interest = new User();
     $interest -> setInterests($_POST ["myinterests"]);
     $interest -> getInterests();
 
     $interest = $interest -> exportInterests();
 }
-
-/* 
-Om te kijken of de variabelen binnen komen
-
-foreach($result as $row) {
-    echo $row['interest_id'];
-    echo $row['interest_name'];
-}
-*/
 
 ?><!DOCTYPE html>
 <html lang="en">

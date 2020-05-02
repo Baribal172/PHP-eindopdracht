@@ -450,7 +450,7 @@ public function checkAvatarSize(){
             echo "Sorry, your file is too large. Max 500kb";
             return true;
         }
-}
+    }
 public function setAvatar(){
     $image = basename($_FILES['fileToUpload']['name']);
     $testSession = "33";
@@ -473,8 +473,8 @@ public function setAvatar(){
        
     } else{
         echo "Avatar has to be a jpg, jpeg or png file";
-    }
-    }
+        }
+}
 
     public function getAvatar() {
         $conn = Db::getConnection();
@@ -484,8 +484,46 @@ public function setAvatar(){
         echo $result['avatar'];
     }
     
-    
+    public function exportInterests () {
+        if(!empty($_POST)){
+            if (is_array($_POST['myinterests']) || is_object($_POST['myinterests'])) {
+            $conn = Db::getConnection();
+            session_start();
+            $userid = $_SESSION['id'];
+            $userInterestId = $_SESSION['id'];
+
+                foreach($_POST['myinterests'] as $selected_id){
+                    $arrayInterests[] = $selected_id;
+
+                    # TOEVOEGEN VAN USER_INTEREST_ID/INTEREST_ID AAN USER_INTEREST
+                    $userInterestQuery = "INSERT INTO user_interest(user_interest_id, interest_id) VALUES (:setuserinterestid, :setinterestid);";
+                    $statement = $conn->prepare($userInterestQuery);
+
+                    $statement->bindValue(":setuserinterestid", $userInterestId);
+                    $statement->bindValue(":setinterestid", $selected_id);
+                    $statement->execute();
+                    
+                }
+                
+
+                # toevoegen aan tabel
+                $userAddUserInterestIdQuery = "UPDATE Users SET user_interest_id=:setuserinterestid WHERE id=:setuserid";
+                $statement = $conn->prepare($userAddUserInterestIdQuery);
+                    
+                $statement->bindValue(":setuserinterestid", $userInterestId);
+                $statement->bindValue(":setuserid", $userid);
+                    
+                $statement->execute();
+            }
+            
+        }
+
+    }
+
+
 }
+
+
 
     
 

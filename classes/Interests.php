@@ -48,13 +48,7 @@
         }
 
         public function showInterests () {
-            try {
                 $conn = Db::getConnection();
-                echo "there is a connection!";
-            } catch(Exception $error) {
-                echo $error;
-            }
-            
             
             //aanmaken van de query (bedoeling = om alle interest namen uit de db te krijgen)
             $query = "SELECT * FROM Interests";
@@ -64,7 +58,6 @@
             $result = $statement->fetchall(); 
 
             return $result;
-            echo $result;
                 
         }
     }
