@@ -11,6 +11,7 @@ class User
     private $interests;
     private $newPassword;
     private $bio;
+    private $buddy;
   
     private $emailUsedError; // email is al in gebruik
     private $emailNotStudentError; // email is geen studentenemail
@@ -238,6 +239,26 @@ class User
         return $this;
     }
 
+    /**
+     * Get the value of buddy
+     */ 
+    public function getBuddy()
+    {
+        return $this->buddy;
+    }
+
+    /**
+     * Set the value of buddy
+     *
+     * @return  self
+     */ 
+    public function setBuddy($buddy)
+    {
+        $this->buddy = $buddy;
+
+        return $this;
+    }
+    
     public function registerUser()
     {
         /**connect to database */
@@ -420,7 +441,7 @@ public function setAvatar(){
     $image = basename($_FILES['fileToUpload']['name']);
     $testSession = "33";
     $fileType = strtolower(pathinfo($image,PATHINFO_EXTENSION));
-    $newName = "uploads/" . $testSession . "." . $fileType;
+    $newName = "uploads/" . $_SESSION['id'] . "." . $fileType;
     $support = array('jpg','jpeg','png');
     // $fileNewName = "uploads/".$thi;
     if(in_array($fileType,$support)){
@@ -429,7 +450,7 @@ public function setAvatar(){
         if(move_uploaded_file($_FILES["fileToUpload"]["tmp_name"], $newName)){
             // echo $_FILES["fileToUpload"]["name"] . "has been uploaded";
             $conn = Db::getConnection();
-            $statement = $conn->prepare("UPDATE Users SET avatar = :avatarPath WHERE email = 'test3@student.thomasmore.be'");
+            $statement = $conn->prepare("UPDATE Users SET avatar = :avatarPath WHERE id = '".$_SESSION['id']."';");
             $statement->bindValue(":avatarPath",$newName);
             $statement->execute();
         } else{
@@ -440,6 +461,15 @@ public function setAvatar(){
         echo "Avatar has to be a jpg, jpeg or png file";
     }
     }
+
+    public static function getAvatar() {
+        $conn = Db::getConnection();
+        $statement = $conn->prepare("Select avatar from Users WHERE id = '".$_SESSION['id']."';");
+        $statement->execute();
+        $result = $statement->fetch(PDO::FETCH_ASSOC);
+        echo $result['avatar'];
+    }
+    
 }
 
     

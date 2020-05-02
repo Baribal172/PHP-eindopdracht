@@ -24,15 +24,7 @@ if(isset($_POST['submitAvatar'])) {
     <input type="file" name="fileToUpload" id="fileToUpload">
     <input type="submit" value="Upload Image" name="submitAvatar">
 </form>
-<?php
-$conn = Db::getConnection();
 
-$statement = $conn->prepare("SELECT avatar FROM Users WHERE email = 'test3@student.thomasmore.be'");
-$statement->execute();
-$img = $statement->fetch();
-echo $img['avatar'];
-
-?>
-<img src="<?php echo $img['avatar']; ?>" alt="" />
+<img src="<?php echo $user->getAvatar(); ?>" alt="" />
 </body>
 </html>
