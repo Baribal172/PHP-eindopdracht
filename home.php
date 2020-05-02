@@ -3,7 +3,7 @@ session_start();
 include_once(__DIR__ . "/classes/User.php");
 include_once(__DIR__ . "/classes/Buddy.php");
 $buddy = new Buddy();
-
+echo $_SESSION['id'];
 if (isset($_SESSION['id'])) {
     $user1 = new User();
     $fetch_data = $user1->fetchUserData();

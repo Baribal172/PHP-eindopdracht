@@ -107,7 +107,7 @@ class Buddy{
 
     public function getBuddyStatus(){
         $conn = Db::getConnection();
-        $statement = $conn->prepare("SELECT * from Buddy where user_one_id = '".$_SESSION['id']."';");
+        $statement = $conn->prepare("SELECT * from Buddy where user_one_id = '".$_SESSION['id']."' OR user_two_id = '".$_SESSION['id']."';");
         $statement->execute();
         $result = $statement->fetch(PDO::FETCH_ASSOC);
         return $result['status'];
@@ -115,7 +115,7 @@ class Buddy{
 
     public function getBuddyActionUserId(){
         $conn = Db::getConnection();
-        $statement = $conn->prepare("SELECT * from Buddy where user_one_id = '".$_SESSION['id']."';");
+        $statement = $conn->prepare("SELECT * from Buddy where user_one_id = '".$_SESSION['id']."' OR user_two_id = '".$_SESSION['id']."';");
         $statement->execute();
         $result = $statement->fetch(PDO::FETCH_ASSOC);
         return $result['action_user_id'];
@@ -126,7 +126,7 @@ class Buddy{
         $conn = Db::getConnection();
         $statement = $conn->prepare("SELECT first_name
         FROM Buddy LEFT OUTER JOIN Users AS u1 ON Buddy.user_two_id = u1.id
-        WHERE STATUS = '0' AND Buddy.user_one_id = '".$_SESSION['id']."';");
+        WHERE STATUS = '0' AND Buddy.user_one_id = '".$_SESSION['id']."'OR user_two_id = '".$_SESSION['id']."';");
         $statement->execute();
         $result = $statement->fetch(PDO::FETCH_ASSOC);
         $result = $result['first_name'];
@@ -136,11 +136,18 @@ class Buddy{
             }
             else{
                 echo "Je hebt een verzoek van $result, hier moeten 2 knoppen om te accepteren of niet";
+                echo '<input type="submit" class="button" name="insert" value="accept" />';
+                echo '<input type="submit" class="button" name="select" value="decline" />';
             }
         }
         else if($status == '1'){
             echo "Je bent een buddy met  $result";
-        }
+        }      
+    }
+    public function acceptRequest(){
+        $conn = Db::getConnection();
+        $statement = $conn->prepare("UPDATE Buddy set status = '1' WHERE user_One_Id = '".$_SESSION['id']."';");
+        $statement->execute();
 
     }
 }
