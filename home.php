@@ -5,7 +5,6 @@ include_once(__DIR__ . "/classes/User.php");
 if (isset($_SESSION['id'])) {
     $user1 = new User();
     $fetch_data = $user1->fetchUserData();
-
 ?>  
 <!DOCTYPE html>
 <html lang="en">
