@@ -5,7 +5,7 @@ class Buddy{
     private $user_one;
     private $user_two;
     public $status;
-    
+    public $actionUserId;
 
     /**
      * Get the value of user_one
@@ -63,6 +63,26 @@ class Buddy{
     public function setStatus($status)
     {
         $this->status = $status;
+
+        return $this;
+    }
+
+    /**
+     * Get the value of actionUserId
+     */ 
+    public function getActionUserId()
+    {
+        return $this->actionUserId;
+    }
+
+    /**
+     * Set the value of actionUserId
+     *
+     * @return  self
+     */ 
+    public function setActionUserId($actionUserId)
+    {
+        $this->actionUserId = $actionUserId;
 
         return $this;
     }
