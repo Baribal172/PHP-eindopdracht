@@ -385,15 +385,10 @@ class User
 
 
     public function checkPassword(){
-        /**connect to database */
         $conn = Db::getConnection();
-
-        /**bind value */
-        $email = $this->getEmail();
         $password = $this->getPassword();
         $statement = $conn->prepare("
-        SELECT password FROM Users WHERE email = :email");
-        $statement->bindValue(':email', $email);
+        SELECT password FROM Users WHERE id = '".$_SESSION['id']."';");
         $statement->execute();
 
         $checkEmail = $statement->fetch(PDO::FETCH_ASSOC);
@@ -421,11 +416,9 @@ class User
             $conn = Db::getConnection();
 
             /**bind value */
-            $email = $this->getEmail();
             $newPassword = password_hash($this->getNewPassword(), PASSWORD_BCRYPT);
             $statement = $conn->prepare("
-            UPDATE Users SET password = :newPassword WHERE email = :email");
-            $statement->bindValue(':email', $email);
+            UPDATE Users SET password = :newPassword  WHERE id = '".$_SESSION['id']."';");
             $statement->bindValue(":newPassword", $newPassword);
             $statement->execute();
         }
@@ -433,7 +426,7 @@ class User
     }
 public function checkAvatarSize(){
     if ($_FILES["fileToUpload"]["size"] > 500000) {
-            echo "Sorry, your file is too large.";
+            echo "Sorry, your file is too large. Max 500kb";
             return true;
         }
 }
