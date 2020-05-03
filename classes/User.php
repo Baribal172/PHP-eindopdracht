@@ -343,7 +343,8 @@ class User
                         mail($to, $subject, $message, $headers); // Send our email
 
                         /*redirect user*/
-                        header("Location: home.php");
+                        header("http://baribal.me/PHP-eindopdracht/login.php");
+                        //header("Location: home.php");
                         }
                     }
                 } else {
