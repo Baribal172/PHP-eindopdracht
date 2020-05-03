@@ -96,6 +96,11 @@
     font-size: 18px;
 }
 
+.welkom {
+    text-transform: capitalize;
+    position: absolute;
+    left: 20px;
+}
 
 .email--error {
     color: #D45248;

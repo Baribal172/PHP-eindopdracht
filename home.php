@@ -33,14 +33,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <link rel="stylesheet" href="https://use.typekit.net/yvr7fmc.css">
 </head>
 <body>
-    <div class="navbar">
-    <ul>
-        <li><a href="register.php">Register</a></li>
-        <li><a href="login.php">Log in</a></li>
-    </ul>
-</div>
-<div id="register--page">
-<div class="container--page">
     <?php 
     if (isset($_SESSION['id'])) {
         $user1 = new User();
@@ -53,6 +45,15 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         //dont forget to change status to 1, when there are buddies
         $statement->execute();
 ?>
+    <div class="navbar">
+    <ul>
+        <span class="welkom">Welkom <?php echo $_SESSION['first_name']; ?> <?php echo $_SESSION['last_name']; ?></span>
+        <li><a href="#">Mijn profiel</a></li> <img src="<?php echo User::getAvatar(); ?>" alt="Uw avatar" />
+
+    </ul>
+</div>
+<div id="register--page">
+<div class="container--page">
 
 Welcome <b><?php echo $_SESSION['first_name']; ?></b>, You have successfully logged in!<br>
     Your bio is: <?php echo $_SESSION['bio']; ?> <br>
@@ -89,6 +90,14 @@ echo $user1->fetchMatchFirstName();
 }
 else {
 ?> 
+<div class="navbar">
+    <ul>
+        <li><a href="register.php">Register</a></li>
+        <li><a href="login.php">Log in</a></li>
+    </ul>
+</div>
+<div id="register--page">
+<div class="container--page">
     <h1>U bent niet ingelogd</h1><br>Click to <a href="./login.php" class="logout-button">Login</a>
 <?php
 }

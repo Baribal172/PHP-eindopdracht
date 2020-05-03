@@ -4150,6 +4150,7 @@ input[type="button"].btn-block {
   background-color: black;
   max-height: 50px;
   text-align: right;
+  color: white;
 }
 
 .navbar ul li{
