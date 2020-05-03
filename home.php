@@ -30,7 +30,7 @@ Welcome <b><?php echo $_SESSION['first_name']; ?></b>, You have successfully log
 }
 else {
 ?> 
-    <h1>sessie niet gemaakt</h1>
+    <h1>Account aangemaakt maar U bent niet ingelogd</h1><br>Click to <a href="./login.php" class="logout-button">Login</a>
 <?php
 }
 ?>
@@ -46,7 +46,17 @@ else {
 ?>
 <br>
 ----------------------------------------------------------- <br>
-
+?>
+<h2>The best match for you is    
+<?php
+$user1->fetchMatchFirstName();
+?>
+<h3>Because you have 
+<?php
+$user1->matchUserAantal();
+?>
+ interests in common </h3>
+ </h2>
 
 <script src="https://code.jquery.com/jquery-3.5.0.js" integrity="sha256-r/AaFHrszJtwpe+tHyNi/XCfMxYpbsRg2Uqn0x3s2zc=" crossorigin="anonymous"></script>
 <script src="app.js"></script>

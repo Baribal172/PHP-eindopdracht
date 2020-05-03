@@ -12,10 +12,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $user1->setBio($_POST['bio']);
 
     $user1->registerUser();
-
-    # FUNCTIE HIER TOEVOEGEN OM NAAR 'compleProfile.php' VEWIJST TE WORDEN
-    # + de variabel user1 (waar de gegevens van de gebruiker in staan)
-    # moet ook naar deze pagina gestuurd worden zodat ik deze kan inlezen
 }
 
 $emailUsedError = $user1->getEmailUsedError();
@@ -56,19 +52,12 @@ $globalError = $user1->getGlobalError();
             <input type="text" name="bio" id="bio" value="<?php echo htmlspecialchars(!empty($_POST["bio"]) ? $_POST["bio"] : ''); ?>" class="textfield" required>
             <br>
             <label for="email" class="label">E-mail</label>
-            <input type="text" name="email" id="email" value="<?php echo htmlspecialchars(!empty($_POST["email"]) ? $_POST["email"] : ''); ?>" class="textfield" required>
-            <!--<label for="email" class="label">E-mail</label>-->
             <input type="text" name="email" id="email" placeholder="Student email" value="<?php echo htmlspecialchars(!empty($_POST["email"]) ? $_POST["email"] : ''); ?>" class="textfield" required>
             <?php if(isset($emailUsedError)) :?>
             <p class="email--error"><?php echo $emailUsedError ?></p>
             <?php endif ?>
-            
-            <?php if(isset($emailNotStudentError)) :?>
-            <p class="email--error"><?php echo $emailNotStudentError ?></p>
-            
-            <?php endif ?>
             <!--<label for="password" class="label">Password</label>-->
-            <input type="password" placeholder="Password" name="password" id="password" class="textfield" required>
+            <input type="password" placeholder="Password (min. 8 characters and one letter)" value="<?php echo htmlspecialchars(!empty($_POST["password"]) ? $_POST["password"] : ''); ?>" name="password" id="password" class="textfield" required>
             <br>
             <?php if(isset($globalError)) :?>
             <p class="email--error"><?php echo $globalError ?></p>
@@ -85,4 +74,5 @@ $globalError = $user1->getGlobalError();
     if (window.history.replaceState) {
         window.history.replaceState(null, null, window.location.href);
     }
+</script>
 </script>

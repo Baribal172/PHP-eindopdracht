@@ -273,6 +273,7 @@ class User
         $bio = $this->getBio();
         /*password encryption*/
         $password = password_hash($this->getPassword(), PASSWORD_BCRYPT);
+        $hash = md5( rand(0,1000) ); //hash for validation email URL
 
 
         /******START VALIDATION STEPS BEFORE SUBMIT******/
@@ -304,19 +305,46 @@ class User
                     } else {
 
                         /*prepare to insert form input into database*/
-                        $statement = $conn->prepare("insert into Users (first_name, last_name, email, password, bio) values (:firstname, :lastname, :email, :password, :bio)");
-
+                        $statement = $conn->prepare("insert into Users (first_name, last_name, email, hash, password, bio) values (:firstname, :lastname, :email, :hash, :password, :bio)");
+                        if (!preg_match('/^(?=.*\d)(?=.*[A-Za-z])[0-9A-Za-z!@#$%]{8,}$/', $this->getPassword()))
+                        {
+                            echo "Passwoord moet min. 8 karakters lang zijn en een cijfer (0-9) bevatten";
+                        }
+                        else {
                         /* bind values from var to sql*/
                         $statement->bindValue(":firstname", $firstname);
                         $statement->bindValue(":lastname", $lastname);
                         $statement->bindValue(":email", $email);
+                        $statement->bindValue(":hash", $hash);
                         $statement->bindValue(":password", $password);
                         $statement->bindValue(":bio", $bio);
 
                         /*execute input from fields to database*/
                         $result = $statement->execute();
 
-                        //var_dump($result);
+                        /*send validation email*/
+                        $to      = $email; // Send email to our user
+                        $subject = 'Verify your email for BUDDY'; // Give the email a subject 
+                        $message = '
+                
+                        Thanks for signing up!
+                        Your account has been created, you can login with the following credentials after you have activated your account by clicking the url below.
+                
+                        ------------------------
+                        Registered email: '.$email.'
+                        Password: '.$this->getPassword().'
+                        ------------------------
+            
+                        Please click this link to activate your account:
+                        http://localhost:8887/PHP-eindopdracht/verify.php?email='.$email.'&hash='.$hash.'';
+                        //CHANGE URL FOR NEW URL
+                                    
+                        $headers = 'From:noreply@buddyapp.com' . "\r\n"; // Set from headers
+                        mail($to, $subject, $message, $headers); // Send our email
+
+                        /*redirect user*/
+                        header("Location: home.php");
+                        }
                     }
                 } else {
                     echo "geen studenten email";
@@ -358,8 +386,20 @@ class User
                 //log in & create session
                 session_start();
                 $_SESSION['id'] = $checkEmail['id'];
+
+                //redirect if profile empty
+                $statement = $conn->prepare("select * from Users where id = '".$_SESSION['id']."';");
+                $statement->execute();
+
+                $result = $statement->fetch(PDO::FETCH_ASSOC);
+
+                if ($result['user_interest_id'] === NULL) {
                 //redirect user
-                header("Location: home.php");
+                header("Location: completeProfile.php");
+                } 
+                else {
+                    header("Location: home.php");
+                    }
             }
             else {
 
@@ -445,34 +485,35 @@ class User
         }
        
     }
-public function checkAvatarSize(){
-    if ($_FILES["fileToUpload"]["size"] > 500000) {
-            echo "Sorry, your file is too large. Max 500kb";
-            return true;
-        }
-}
-public function setAvatar(){
+    public function checkAvatarSize(){
+        if ($_FILES["fileToUpload"]["size"] > 500000) {
+        echo "Sorry, your file is too large. Max 500kb";
+        return true;
+            }
+    }
+
+    public function setAvatar(){
     $image = basename($_FILES['fileToUpload']['name']);
     $testSession = "33";
     $fileType = strtolower(pathinfo($image,PATHINFO_EXTENSION));
     $newName = "uploads/" . $_SESSION['id'] . "." . $fileType;
     $support = array('jpg','jpeg','png');
     // $fileNewName = "uploads/".$thi;
-    if(in_array($fileType,$support)){
-        echo "img toegelaten";
-        echo $newName;
-        if(move_uploaded_file($_FILES["fileToUpload"]["tmp_name"], $newName)){
-            // echo $_FILES["fileToUpload"]["name"] . "has been uploaded";
-            $conn = Db::getConnection();
-            $statement = $conn->prepare("UPDATE Users SET avatar = :avatarPath WHERE id = '".$_SESSION['id']."';");
-            $statement->bindValue(":avatarPath",$newName);
-            $statement->execute();
+        if(in_array($fileType,$support)){
+            echo "img toegelaten";
+            echo $newName;
+            if(move_uploaded_file($_FILES["fileToUpload"]["tmp_name"], $newName)){
+                // echo $_FILES["fileToUpload"]["name"] . "has been uploaded";
+                $conn = Db::getConnection();
+                $statement = $conn->prepare("UPDATE Users SET avatar = :avatarPath WHERE id = '".$_SESSION['id']."';");
+                $statement->bindValue(":avatarPath",$newName);
+                $statement->execute();
         } else{
             echo "fout";
-        }
+            }
        
     } else{
-        echo "Avatar has to be a jpg, jpeg or png file";
+    echo "Avatar has to be a jpg, jpeg or png file";
     }
     }
 
@@ -484,8 +525,91 @@ public function setAvatar(){
         echo $result['avatar'];
     }
     
-    
+    public function exportInterests () {
+        if(!empty($_POST)){
+            if (is_array($_POST['myinterests']) || is_object($_POST['myinterests'])) {
+            $conn = Db::getConnection();
+            session_start();
+            $userid = $_SESSION['id'];
+            $userInterestId = $_SESSION['id'];
+
+                foreach($_POST['myinterests'] as $selected_id){
+                    $arrayInterests[] = $selected_id;
+
+                    # TOEVOEGEN VAN USER_INTEREST_ID/INTEREST_ID AAN USER_INTEREST
+                    $userInterestQuery = "iNSERT INTO user_interest(user_interest_id, interest_id) VALUES (:setuserinterestid, :setinterestid);";
+                    $statement = $conn->prepare($userInterestQuery);
+
+                    $statement->bindValue(":setuserinterestid", $userInterestId);
+                    $statement->bindValue(":setinterestid", $selected_id);
+                    $statement->execute();
+                    
+                }
+                
+
+                # toevoegen aan tabel
+                $userAddUserInterestIdQuery = "uPDATE Users SET user_interest_id=:setuserinterestid WHERE id=:setuserid";
+                $statement = $conn->prepare($userAddUserInterestIdQuery);
+                    
+                $statement->bindValue(":setuserinterestid", $userInterestId);
+                $statement->bindValue(":setuserid", $userid);
+                    
+                $statement->execute();
+            }
+            
+        }
+
+    }
+    public function fetchMatchFirstName(){
+        $id = $this->matchUserId();
+        $conn = Db::getConnection();
+        $statement = $conn->prepare("SELECT first_name from Users where id = :userId");
+        $statement->bindValue(":userId",$id);
+        $statement->execute();
+        $result = $statement->fetch(PDO::FETCH_ASSOC);
+        echo $result['first_name'];
+    }
+    public function matchUserId(){
+            $conn = Db::getConnection();
+            $statement = $conn->prepare("SELECT u2.user_interest_id, COUNT(u1.interest_id) AS aantal
+            FROM user_interest AS u1 INNER JOIN user_interest AS u2 ON (u1.interest_id = u2.interest_id) AND u1.user_interest_id = '".$_SESSION['id']."' AND '".$_SESSION['id']."' <> u2.user_interest_id
+            GROUP BY u2.user_interest_id
+            ORDER BY aantal DESC");
+            $statement->execute();
+            $result = $statement->fetch(PDO::FETCH_ASSOC);
+
+            $resultId = $result['user_interest_id'];
+            return $resultId;
+    }
+    public function matchUserAantal(){
+        $conn = Db::getConnection();
+        $statement = $conn->prepare("SELECT u2.user_interest_id, COUNT(u1.interest_id) AS aantal
+        FROM user_interest AS u1 INNER JOIN user_interest AS u2 ON (u1.interest_id = u2.interest_id) AND u1.user_interest_id = '".$_SESSION['id']."' AND '".$_SESSION['id']."' <> u2.user_interest_id
+        GROUP BY u2.user_interest_id
+        ORDER BY aantal DESC");
+        $statement->execute();
+        $result = $statement->fetch(PDO::FETCH_ASSOC);
+
+        $resultAantal = $result['aantal'];
+        echo $resultAantal;
 }
+
+    public function showNumbers(){
+        $conn = Db::getConnection();
+        $statement = $conn->prepare("select COUNT(*) usernumber from Users where activated = 1; select COUNT(*) matchnumber from Buddy where status = 1");
+        $statement->execute();
+        $result = $statement->fetch(PDO::FETCH_ASSOC);
+        $_SERVER['usernumber'] = $result['usernumber'];
+
+        $statement = $conn->prepare("select COUNT(*) matchnumber from Buddy where status = 1;");
+        $statement->execute();
+        $result = $statement->fetch(PDO::FETCH_ASSOC);
+        $_SERVER['matchnumber'] = $result['matchnumber'];
+        
+    }
+}
+
+
 
     
 

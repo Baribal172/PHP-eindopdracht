@@ -37,11 +37,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
                 <div class="form__field">
                     <label for="Email">Studentenmail</label>
-                    <input type="text" id="Email" name="email" required>
+                    <input type="text" id="Email" name="email" placeholder="Your email" value="<?php echo htmlspecialchars(!empty($_POST["email"]) ? $_POST["email"] : ''); ?>" required>
                 </div>
                 <div class="form__field">
                     <label for="Password">Password</label>
-                    <input type="password" id="Password" name="password" required>
+                    <input type="password" id="Password"  placeholder="Your password" value="<?php echo htmlspecialchars(!empty($_POST["password"]) ? $_POST["password"] : ''); ?>" name="password" required>
                 </div>
 
                 <div class="form__field">
@@ -60,4 +60,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     if (window.history.replaceState) {
         window.history.replaceState(null, null, window.location.href);
     }
+</script>
+<script src="https://www.google.com/recaptcha/api.js?render=_reCAPTCHA_site_key"></script>
+<script>
+grecaptcha.ready(function() {
+    grecaptcha.execute('_reCAPTCHA_site_key_', {action: 'homepage'}).then(function(token) {
+    ...
+    });
+});
 </script>
