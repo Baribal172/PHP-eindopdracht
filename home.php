@@ -29,8 +29,15 @@ else {
 }
 
 ?>
+<h2>The best match for you is    
 <?php
-$user1->matchUser();
+$user1->fetchMatchFirstName();
 ?>
+<h3>Because you have 
+<?php
+$user1->matchUserAantal();
+?>
+ interests in common </h3>
+ </h2>
 </body>
 </html>

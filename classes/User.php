@@ -559,25 +559,39 @@ public function setAvatar(){
         }
 
     }
-
-    public function matchUser(){
-            $conn = Db::getConnection();
-            $statement = $conn->prepare("SELECT interest_id FROM user_interest WHERE user_interest_id = '".$_SESSION['id']."';");
-            $statement->execute();
-            $result = $statement->fetchAll();
-            // var_dump($result);
-            // echo sizeof($result);
-            $arr1 = $result;
-            $arr2 = array("shop","Mobile","software");
-
-            // Get values from arr2 which exist in arr1
-            $overlap = array_intersect($arr2, $arr1);
-
-            // Count how many times each value exists
-            $length = count($overlap);
-            echo $length;
-
+    public function fetchMatchFirstName(){
+        $id = $this->matchUserId();
+        $conn = Db::getConnection();
+        $statement = $conn->prepare("SELECT first_name from Users where id = :userId");
+        $statement->bindValue(":userId",$id);
+        $statement->execute();
+        $result = $statement->fetch(PDO::FETCH_ASSOC);
+        echo $result['first_name'];
     }
+    public function matchUserId(){
+            $conn = Db::getConnection();
+            $statement = $conn->prepare("SELECT u2.user_interest_id, COUNT(u1.interest_id) AS aantal
+            FROM user_interest AS u1 INNER JOIN user_interest AS u2 ON (u1.interest_id = u2.interest_id) AND u1.user_interest_id = '".$_SESSION['id']."' AND '".$_SESSION['id']."' <> u2.user_interest_id
+            GROUP BY u2.user_interest_id
+            ORDER BY aantal DESC");
+            $statement->execute();
+            $result = $statement->fetch(PDO::FETCH_ASSOC);
+
+            $resultId = $result['user_interest_id'];
+            return $resultId;
+    }
+    public function matchUserAantal(){
+        $conn = Db::getConnection();
+        $statement = $conn->prepare("SELECT u2.user_interest_id, COUNT(u1.interest_id) AS aantal
+        FROM user_interest AS u1 INNER JOIN user_interest AS u2 ON (u1.interest_id = u2.interest_id) AND u1.user_interest_id = '".$_SESSION['id']."' AND '".$_SESSION['id']."' <> u2.user_interest_id
+        GROUP BY u2.user_interest_id
+        ORDER BY aantal DESC");
+        $statement->execute();
+        $result = $statement->fetch(PDO::FETCH_ASSOC);
+
+        $resultAantal = $result['aantal'];
+        echo $resultAantal;
+}
 
 }
 
