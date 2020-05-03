@@ -1,8 +1,10 @@
 <?php
 include_once(__DIR__ . "/classes/User.php");
+include_once(__DIR__ . "/classes/Buddy.php");
+
 session_start();
 
-echo $_SESSION['id'];
+// echo $_SESSION['id'];
 
 if(isset($_GET['query'])){
         $query = $_GET['query'];
@@ -12,15 +14,22 @@ if(isset($_GET['query'])){
         $statement->execute();
         // $result = $statement->fetchAll();
         // var_dump($result);
-        while($row = $statement->fetch()) {
-            
-            echo "<li>".$row['first_name'].$row['last_name']."</li>";
-           
-        }
+      
 }
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+//    echo $_POST['buddyRequest'];
+   $buddy = new Buddy();
+   
+   $userOne = $_SESSION['id'];
+   $userTwo = $_POST['buddyRequest'];
+   
+   $buddy->setUser_one($userOne);
+   $buddy->setUser_two($userTwo);
+    echo $userOne;
+    echo $userTwo;
+    $buddy->sendBuddyRequest();
 
-
-
+}
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -34,5 +43,13 @@ if(isset($_GET['query'])){
             <input type="text" name="query"/>
             <input type="submit" value="search"/>
         </form>
-    </body>
+        <?php 
+        while($row = $statement->fetch()) {?>
+
+        <li><?php echo $row['first_name'].$row['last_name'].$row['id']?></li>
+        <form action="" method="post">
+            <button type="submit" name="buddyRequest" value="<?php echo $row['id']?>">Send buddy request</button>
+        </form>
+        <?php } ?>
+        </body>
 </html>
