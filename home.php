@@ -11,7 +11,7 @@ if (isset($_SESSION['id'])) {
     $statement = $conn->prepare("SELECT u1.first_name,u2.first_name
     FROM (Buddy LEFT OUTER JOIN Users AS u1 ON Buddy.user_one_id = u1.id)
     LEFT OUTER JOIN Users AS u2 ON Buddy.user_two_id = u2.id
-    WHERE STATUS = '0'");
+    WHERE STATUS = '1'");
     //dont forget to change status to 1, when there are buddies
     $statement->execute();
 ?>  
@@ -40,13 +40,11 @@ else {
         <h4><?php echo $row[0]." and ".$row[1]?></h4>
         <?php } ?>
         <?php
-        //   echo Buddy::getBuddyStatus();
-        // if(Buddy::getBuddyActionUserId() == $_SESSION['id'] || Buddy::getBuddyStatus() == '0'){
-        //     echo "je wacht op een antwoord van de buddy";
-        // }
         echo $buddy->checkBuddyRequest();
+        
 ?>
 
-
+<script src="https://code.jquery.com/jquery-3.5.0.js" integrity="sha256-r/AaFHrszJtwpe+tHyNi/XCfMxYpbsRg2Uqn0x3s2zc=" crossorigin="anonymous"></script>
+<script src="app.js"></script>
 </body>
 </html>
