@@ -26,7 +26,7 @@ $globalError = $user1->getGlobalError();
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>registerUser</title>
+    <title>Creat an account</title>
     <link rel="stylesheet" href="css/normalize.css">
     <link rel="stylesheet" href="css/bootstrap.css">
     <link rel="stylesheet" href="css/style.css">
@@ -34,12 +34,18 @@ $globalError = $user1->getGlobalError();
     <link rel="stylesheet" href="https://use.typekit.net/yvr7fmc.css">
 </head>
 
-<body id="register--page">
+<body><div class="navbar">
+    <ul>
+        <li><a href="register.php">Register</a></li>
+        <li><a href="login.php">Log in</a></li>
+    </ul>
+</div>
+<div id="register--page">
     <div class="backgroundContent">
         <img src="images/mockup.png" alt="mockup">
     </div>
     <div id="loginForm">
-        <h1>Join IMD buddy-app Today!</h1>
+        <h1>Join GO BUD Today!</h1>
         <form method="post" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" class="">
             <!--<label for="firstName" class="label">First name</label>-->
             <input type="text" name="firstName" id="firstname" placeholder="First name" value="<?php echo htmlspecialchars(!empty($_POST["firstName"]) ? $_POST["firstName"] : ''); ?>" class="textfield" required>
@@ -65,6 +71,7 @@ $globalError = $user1->getGlobalError();
             <?php endif ?>
             <input type="submit" id="submit">
         </form>
+    </div>
     </div>
 </body>
 

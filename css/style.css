@@ -3,29 +3,27 @@
     margin: auto;
 }
 
-
-#register--page {
+#register--page, #index--page {
     font-family: niveau-grotesk, sans-serif;
     font-weight: 400;
-
     background-color: #2666A6;
     width: 100vw;
-    height: 100vh;
+    height: 95vh;
     display: flex;
     flex-direction: row;
     justify-content: space-evenly;
     box-sizing: border-box;
     padding: 40px;
 }
-#register--page .backgroundContent {
+#register--page .backgroundContent, #index--page .backgroundContent {
     box-sizing: border-box;
     width: 60%;
     height: 100%;
 }
-#register--page .backgroundContent img {
+#register--page .backgroundContent img, #index--page .backgroundContent img {
     width: 100%;
 }
-#register--page #loginForm {
+#register--page #loginForm, #index--page #loginForm {
     box-sizing: border-box;
     background-color: white;
     width: 40%;
@@ -38,7 +36,7 @@
     height: 400px;
     position: relative;
 }
-#register--page #loginForm h1 {
+#register--page #loginForm h1, #index--page #loginForm h1  {
     color: #7B7F83;
     font-size: 38px;
 }
@@ -61,11 +59,30 @@
     background-color: #95DA5D;
     width: 100%;
     height: 40px;
-    position: absolute;
-    bottom: 60px;
-    left: 0;
     border: none;
     border-radius: 4px;
+    left:0;
+}
+
+#index--page a.button {
+    color: white;
+    font-size: 24px;
+    background-color: #95DA5D;
+    height: 40px;
+    border: none;
+    border-radius: 4px;
+    padding: 10px;
+}
+
+.desc--index {
+    padding: 10px;
+    text-align: justify;
+}
+
+.numbers {
+    color: #2666A6;
+    font-weight: bold;
+    font-size: 18px;
 }
 
 

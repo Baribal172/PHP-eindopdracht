@@ -13,12 +13,33 @@ $user1->showNumbers();
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>IMD-Buddy</title>
+    <link rel="stylesheet" href="css/normalize.css">
+    <link rel="stylesheet" href="css/bootstrap.css">
+    <link rel="stylesheet" href="css/style.css">
 </head>
-
 <body>
-    <h1>welkom</h1>
-    Dit is de IMD-Buddy app. <br>
-    Momenteel hebben wij <?php echo $_SERVER['usernumber'];  ?> gebruikers en <?php echo $_SERVER['matchnumber'];  ?> matches.
+    <div class="navbar">
+    <ul>
+        <li><a href="register.php">Register</a></li>
+        <li><a href="login.php">Log in</a></li>
+    </ul>
+</div>
+<div id="index--page">
+
+<div class="backgroundContent">
+        <img src="images/mockup.png" alt="mockup">
+    </div>
+<div id="loginForm">
+
+    <h1>GO BUD</h1>
+
+    <div class="desc--index">Dit is de IMD-Buddy app. <br><br>Dankzij deze app kun je een buddy zoeken die je tijdens je studies in IMD zal kunnen helpen, of jezelf als buddy voorstellen.<br><br>
+    Momenteel hebben wij <span class="numbers"><?php echo $_SERVER['usernumber'];  ?></span> gebruikers en <span class="numbers"><?php echo $_SERVER['matchnumber'];  ?></span> matches.
+    <br><br></div>
+    <a href="register.php" class="button">PROBEER NU</a>
+
+</div>
+</div>
 </body>
 
 </html>
