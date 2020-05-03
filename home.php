@@ -39,10 +39,14 @@ else {
         while($row = $statement->fetch()) {?>
         <h4><?php echo $row[0]." and ".$row[1]?></h4>
         <?php } ?>
+----------------------------------------------------------- <br>
+<h2>This is your buddy status</h2>
         <?php
         echo $buddy->checkBuddyRequest();
-        
 ?>
+<br>
+----------------------------------------------------------- <br>
+
 
 <script src="https://code.jquery.com/jquery-3.5.0.js" integrity="sha256-r/AaFHrszJtwpe+tHyNi/XCfMxYpbsRg2Uqn0x3s2zc=" crossorigin="anonymous"></script>
 <script src="app.js"></script>
