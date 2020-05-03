@@ -123,21 +123,15 @@ class Buddy{
     public function checkBuddyRequest(){
         $status = $this->getBuddyStatus();
         $actionUserId = $this->getBuddyActionUserId();
-        $conn = Db::getConnection();
-        $statement = $conn->prepare("SELECT first_name
-        FROM Buddy LEFT OUTER JOIN Users AS u1 ON Buddy.user_two_id = u1.id
-        WHERE STATUS = '0' AND Buddy.user_one_id = '".$_SESSION['id']."'OR user_two_id = '".$_SESSION['id']."';");
-        $statement->execute();
-        $result = $statement->fetch(PDO::FETCH_ASSOC);
-        $result = $result['first_name'];
+        $result = $this->getBuddyName();
         if($status == '0'){
             if($actionUserId == $_SESSION['id']){
                 echo "Je wacht op het antwoord van $result";
             }
             else{
                 echo "Je hebt een verzoek van $result, hier moeten 2 knoppen om te accepteren of niet";
-                echo '<input type="submit" class="button" name="insert" value="accept" />';
-                echo '<input type="submit" class="button" name="select" value="decline" />';
+                echo '<input type="submit" id="btnAccept" name="btnAccept" value="accept" />';
+                echo '<input type="submit" id="btnDecline" name="btnDecline" value="decline" />';
             }
         }
         else if($status == '1'){
@@ -146,13 +140,35 @@ class Buddy{
     }
     public function acceptRequest(){
         $conn = Db::getConnection();
-        $statement = $conn->prepare("UPDATE Buddy set status = '1' WHERE user_two_Id = '".$_SESSION['id']."';");
+        $statement = $conn->prepare("UPDATE Buddy set status = '1' WHERE user_two_id = '".$_SESSION['id']."';");
         $statement->execute();
     }
 
     public function declineRequest(){
         $conn = Db::getConnection();
-        $statement = $conn->prepare("DELETE FROM WHERE user_two_Id = '".$_SESSION['id']."';");
+        $statement = $conn->prepare("DELETE FROM Buddy WHERE user_two_id = '".$_SESSION['id']."';");
         $statement->execute();
+    }
+    public function getBuddyName(){
+        $actionUserId = $this->getBuddyActionUserId();
+        $conn = Db::getConnection();
+
+        if($actionUserId == $_SESSION['id']){
+            $statement = $conn->prepare("SELECT first_name
+            FROM Buddy LEFT OUTER JOIN Users AS u1 ON Buddy.user_two_id = u1.id
+            WHERE STATUS = '0' AND Buddy.user_one_id ='".$_SESSION['id']."';");
+            $statement->execute();
+            $result = $statement->fetch(PDO::FETCH_ASSOC);
+            $result = $result['first_name'];
+        }else{
+            $statement = $conn->prepare("SELECT first_name
+            FROM Buddy LEFT OUTER JOIN Users AS u1 ON Buddy.user_one_id = u1.id
+            WHERE STATUS = '0' AND Buddy.user_two_id = '".$_SESSION['id']."';");
+            $statement->execute();
+            $result = $statement->fetch(PDO::FETCH_ASSOC);
+            
+            $result = $result['first_name'];
+        }
+        return $result;
     }
 }
