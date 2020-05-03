@@ -4,6 +4,20 @@ include_once(__DIR__ . "/classes/User.php");
 include_once(__DIR__ . "/classes/Buddy.php");
 $buddy = new Buddy();
 echo $_SESSION['id'];
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    //    echo $_POST['buddyRequest'];
+       $buddy = new Buddy();
+       
+       $userOne = $_SESSION['id'];
+       $userTwo = $_POST['buddyRequest'];
+       
+       $buddy->setUser_one($userOne);
+       $buddy->setUser_two($userTwo);
+        echo $userOne;
+        echo $userTwo;
+        $buddy->sendBuddyRequest();
+    
+    }
 if (isset($_SESSION['id'])) {
     $user1 = new User();
     $fetch_data = $user1->fetchUserData();
@@ -14,6 +28,8 @@ if (isset($_SESSION['id'])) {
     WHERE STATUS = '1'");
     //dont forget to change status to 1, when there are buddies
     $statement->execute();
+
+
 ?>  
 <!DOCTYPE html>
 <html lang="en">
@@ -46,7 +62,6 @@ else {
 ?>
 <br>
 ----------------------------------------------------------- <br>
-?>
 <h2>The best match for you is    
 <?php
 $user1->fetchMatchFirstName();
@@ -57,6 +72,11 @@ $user1->matchUserAantal();
 ?>
  interests in common </h3>
  </h2>
+ <form action="" method="post">
+            <button type="submit" name="buddyRequest" value="<?php echo $user1->matchUserId();?>">Send buddy request to <?php
+echo $user1->fetchMatchFirstName();
+?></button>
+</form>
 
 <script src="https://code.jquery.com/jquery-3.5.0.js" integrity="sha256-r/AaFHrszJtwpe+tHyNi/XCfMxYpbsRg2Uqn0x3s2zc=" crossorigin="anonymous"></script>
 <script src="app.js"></script>

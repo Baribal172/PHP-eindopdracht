@@ -605,7 +605,6 @@ class User
         $statement->execute();
         $result = $statement->fetch(PDO::FETCH_ASSOC);
         $_SERVER['matchnumber'] = $result['matchnumber'];
-        
     }
 }
 

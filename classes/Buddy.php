@@ -102,7 +102,6 @@ class Buddy{
         $statement->bindValue(":userTwoId",$user_two);
         $statement->bindValue(":actionUserId",$user_one);
         $statement->execute();
-
     }
 
     public function getBuddyStatus(){
@@ -128,8 +127,12 @@ class Buddy{
         if($status == '2'){
             if(isset($reason)){
                 echo "Je bent geen buddy geworden met $result omdat $reason";
+                echo '<input type="submit" id="btnDelete" name="btnDelete" value="delete request" />';
+
             }else{
                 echo "Je bent geen buddy geworden met $result";
+                echo '<input type="submit" id="btnDelete" name="btnDelete" value="delete" />';
+
             }
         }else{
             if($status == '0'){
@@ -167,6 +170,11 @@ class Buddy{
     public function declineRequest(){
         $conn = Db::getConnection();
         $statement = $conn->prepare("UPDATE Buddy set status = '2' WHERE user_two_id = '".$_SESSION['id']."';");
+        $statement->execute();
+    }
+    public function deleteRequest(){
+        $conn = Db::getConnection();
+        $statement = $conn->prepare("DELETE FROM Buddy WHERE user_two_id = '".$_SESSION['id']."'or user_one_id = '".$_SESSION['id']."';");
         $statement->execute();
     }
     public function getBuddyName(){

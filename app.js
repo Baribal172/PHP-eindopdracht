@@ -25,5 +25,17 @@ $(document).ready(function(){
           alert( msg );
         });
         });
+        $('#btnDelete').click(function() {
+        var clickBtnValue = $(this).val();
+        $.ajax({
+          type: "POST",
+          url: "requestButton.php",
+          data: { 
+            'delete': clickBtnValue,
+            }
+        }).done(function( msg ) {
+          alert( msg );
+        });
+        });
     
 });

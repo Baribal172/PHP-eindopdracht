@@ -20,4 +20,7 @@ session_start();
                 break;
         }
     }
+    if(isset($_POST['delete'])){
+        echo $buddy->deleteRequest();
+    }
 ?>
