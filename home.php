@@ -29,5 +29,8 @@ else {
 }
 
 ?>
+<?php
+$user1->matchUser();
+?>
 </body>
 </html>

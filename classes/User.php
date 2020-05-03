@@ -536,6 +536,25 @@ public function setAvatar(){
 
     }
 
+    public function matchUser(){
+            $conn = Db::getConnection();
+            $statement = $conn->prepare("SELECT interest_id FROM user_interest WHERE user_interest_id = '".$_SESSION['id']."';");
+            $statement->execute();
+            $result = $statement->fetchAll();
+            // var_dump($result);
+            // echo sizeof($result);
+            $arr1 = $result;
+            $arr2 = array("shop","Mobile","software");
+
+            // Get values from arr2 which exist in arr1
+            $overlap = array_intersect($arr2, $arr1);
+
+            // Count how many times each value exists
+            $length = count($overlap);
+            echo $length;
+
+    }
+
 }
 
 
