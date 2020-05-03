@@ -24,7 +24,7 @@ Welcome <b><?php echo $_SESSION['first_name']; ?></b>, You have successfully log
 }
 else {
 ?> 
-    <h1>sessie niet gemaakt</h1>
+    <h1>Account aangemaakt maar U bent niet ingelogd</h1><br>Click to <a href="./login.php" class="logout-button">Login</a>
 <?php
 }
 

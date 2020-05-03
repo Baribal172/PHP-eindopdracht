@@ -305,7 +305,11 @@ class User
 
                         /*prepare to insert form input into database*/
                         $statement = $conn->prepare("insert into Users (first_name, last_name, email, password, bio) values (:firstname, :lastname, :email, :password, :bio)");
-
+                        if (!preg_match('/^(?=.*\d)(?=.*[A-Za-z])[0-9A-Za-z!@#$%]{8,}$/', $this->getPassword()))
+                        {
+                            echo "Passwoord moet min. 8 karakters lang zijn en een cijfer (0-9) bevatten";
+                        }
+                        else {
                         /* bind values from var to sql*/
                         $statement->bindValue(":firstname", $firstname);
                         $statement->bindValue(":lastname", $lastname);
@@ -315,8 +319,8 @@ class User
 
                         /*execute input from fields to database*/
                         $result = $statement->execute();
-
-                        //var_dump($result);
+                        header("Location: home.php");
+                        }
                     }
                 } else {
                     echo "geen studenten email";
