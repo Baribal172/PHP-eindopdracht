@@ -3,7 +3,7 @@
     margin: auto;
 }
 
-#register--page, #index--page {
+#register--page, #index--page, #login--page {
     font-family: niveau-grotesk, sans-serif;
     font-weight: 400;
     background-color: #2666A6;
@@ -32,6 +32,17 @@
     padding: 40px 60px;
     text-align: center;
 }
+
+.container--page {
+    box-sizing: border-box;
+    background-color: white;
+    width: 80%;
+    height: 100%;
+    border-radius: 4px;
+    padding: 40px 60px;
+    text-align: center;
+}
+
 #register--page #loginForm form {
     height: 400px;
     position: relative;

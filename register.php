@@ -47,22 +47,16 @@ $globalError = $user1->getGlobalError();
     <div id="loginForm">
         <h1>Join GO BUD Today!</h1>
         <form method="post" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" class="">
-            <!--<label for="firstName" class="label">First name</label>-->
             <input type="text" name="firstName" id="firstname" placeholder="First name" value="<?php echo htmlspecialchars(!empty($_POST["firstName"]) ? $_POST["firstName"] : ''); ?>" class="textfield" required>
             <br>
-            <!--<label for="lastName" class="label">Last name</label>-->
             <input type="text" name="lastName" id="lastname" placeholder="Last name" value="<?php echo htmlspecialchars(!empty($_POST["lastName"]) ? $_POST["lastName"] : ''); ?>" class="textfield" required>
             <br>
-
-            <label for="bio" class="label">Bio</label>
-            <input type="text" name="bio" id="bio" value="<?php echo htmlspecialchars(!empty($_POST["bio"]) ? $_POST["bio"] : ''); ?>" class="textfield" required>
+            <!--<input type="text" name="bio" id="bio" value="<?php echo htmlspecialchars(!empty($_POST["bio"]) ? $_POST["bio"] : ''); ?>" class="textfield" required>-->
             <br>
-            <label for="email" class="label">E-mail</label>
             <input type="text" name="email" id="email" placeholder="Student email" value="<?php echo htmlspecialchars(!empty($_POST["email"]) ? $_POST["email"] : ''); ?>" class="textfield" required>
             <?php if(isset($emailUsedError)) :?>
             <p class="email--error"><?php echo $emailUsedError ?></p>
             <?php endif ?>
-            <!--<label for="password" class="label">Password</label>-->
             <input type="password" placeholder="Password (min. 8 characters and one letter)" value="<?php echo htmlspecialchars(!empty($_POST["password"]) ? $_POST["password"] : ''); ?>" name="password" id="password" class="textfield" required>
             <br>
             <?php if(isset($globalError)) :?>
