@@ -485,36 +485,37 @@ class User
         }
        
     }
-public function checkAvatarSize(){
-    if ($_FILES["fileToUpload"]["size"] > 500000) {
-            echo "Sorry, your file is too large. Max 500kb";
-            return true;
-        }
+    public function checkAvatarSize(){
+        if ($_FILES["fileToUpload"]["size"] > 500000) {
+        echo "Sorry, your file is too large. Max 500kb";
+        return true;
+            }
     }
-public function setAvatar(){
+
+    public function setAvatar(){
     $image = basename($_FILES['fileToUpload']['name']);
     $testSession = "33";
     $fileType = strtolower(pathinfo($image,PATHINFO_EXTENSION));
     $newName = "uploads/" . $_SESSION['id'] . "." . $fileType;
     $support = array('jpg','jpeg','png');
     // $fileNewName = "uploads/".$thi;
-    if(in_array($fileType,$support)){
-        echo "img toegelaten";
-        echo $newName;
-        if(move_uploaded_file($_FILES["fileToUpload"]["tmp_name"], $newName)){
-            // echo $_FILES["fileToUpload"]["name"] . "has been uploaded";
-            $conn = Db::getConnection();
-            $statement = $conn->prepare("UPDATE Users SET avatar = :avatarPath WHERE id = '".$_SESSION['id']."';");
-            $statement->bindValue(":avatarPath",$newName);
-            $statement->execute();
+        if(in_array($fileType,$support)){
+            echo "img toegelaten";
+            echo $newName;
+            if(move_uploaded_file($_FILES["fileToUpload"]["tmp_name"], $newName)){
+                // echo $_FILES["fileToUpload"]["name"] . "has been uploaded";
+                $conn = Db::getConnection();
+                $statement = $conn->prepare("UPDATE Users SET avatar = :avatarPath WHERE id = '".$_SESSION['id']."';");
+                $statement->bindValue(":avatarPath",$newName);
+                $statement->execute();
         } else{
             echo "fout";
-        }
+            }
        
     } else{
-        echo "Avatar has to be a jpg, jpeg or png file";
-        }
-}
+    echo "Avatar has to be a jpg, jpeg or png file";
+    }
+    }
 
     public function getAvatar() {
         $conn = Db::getConnection();
@@ -536,7 +537,7 @@ public function setAvatar(){
                     $arrayInterests[] = $selected_id;
 
                     # TOEVOEGEN VAN USER_INTEREST_ID/INTEREST_ID AAN USER_INTEREST
-                    $userInterestQuery = "INSERT INTO user_interest(user_interest_id, interest_id) VALUES (:setuserinterestid, :setinterestid);";
+                    $userInterestQuery = "iNSERT INTO user_interest(user_interest_id, interest_id) VALUES (:setuserinterestid, :setinterestid);";
                     $statement = $conn->prepare($userInterestQuery);
 
                     $statement->bindValue(":setuserinterestid", $userInterestId);
@@ -547,7 +548,7 @@ public function setAvatar(){
                 
 
                 # toevoegen aan tabel
-                $userAddUserInterestIdQuery = "UPDATE Users SET user_interest_id=:setuserinterestid WHERE id=:setuserid";
+                $userAddUserInterestIdQuery = "uPDATE Users SET user_interest_id=:setuserinterestid WHERE id=:setuserid";
                 $statement = $conn->prepare($userAddUserInterestIdQuery);
                     
                 $statement->bindValue(":setuserinterestid", $userInterestId);
@@ -579,6 +580,19 @@ public function setAvatar(){
 
     }
 
+    public function showNumbers(){
+        $conn = Db::getConnection();
+        $statement = $conn->prepare("select COUNT(*) usernumber from Users where activated = 1; select COUNT(*) matchnumber from Buddy where status = 1");
+        $statement->execute();
+        $result = $statement->fetch(PDO::FETCH_ASSOC);
+        $_SERVER['usernumber'] = $result['usernumber'];
+
+        $statement = $conn->prepare("select COUNT(*) matchnumber from Buddy where status = 1;");
+        $statement->execute();
+        $result = $statement->fetch(PDO::FETCH_ASSOC);
+        $_SERVER['matchnumber'] = $result['matchnumber'];
+        
+    }
 }
 
 
