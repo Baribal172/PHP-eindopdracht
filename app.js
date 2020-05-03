@@ -13,11 +13,13 @@ $(document).ready(function(){
       });
       $('#btnDecline').click(function() {
         var clickBtnValue = $(this).val();
+        var value = $("#reason").val();
         $.ajax({
           type: "POST",
           url: "requestButton.php",
           data: { 
-            'action': clickBtnValue
+            'action': clickBtnValue,
+            'reason': value
             }
         }).done(function( msg ) {
           alert( msg );
