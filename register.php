@@ -12,10 +12,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $user1->setBio($_POST['bio']);
 
     $user1->registerUser();
-
-    # FUNCTIE HIER TOEVOEGEN OM NAAR 'compleProfile.php' VEWIJST TE WORDEN
-    # + de variabel user1 (waar de gegevens van de gebruiker in staan)
-    # moet ook naar deze pagina gestuurd worden zodat ik deze kan inlezen
 }
 
 $emailUsedError = $user1->getEmailUsedError();
@@ -78,7 +74,5 @@ $globalError = $user1->getGlobalError();
     if (window.history.replaceState) {
         window.history.replaceState(null, null, window.location.href);
     }
-
-}
 </script>
 </script>

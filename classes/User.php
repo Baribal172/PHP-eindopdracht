@@ -273,6 +273,7 @@ class User
         $bio = $this->getBio();
         /*password encryption*/
         $password = password_hash($this->getPassword(), PASSWORD_BCRYPT);
+        $hash = md5( rand(0,1000) ); //hash for validation email URL
 
 
         /******START VALIDATION STEPS BEFORE SUBMIT******/
@@ -304,7 +305,7 @@ class User
                     } else {
 
                         /*prepare to insert form input into database*/
-                        $statement = $conn->prepare("insert into Users (first_name, last_name, email, password, bio) values (:firstname, :lastname, :email, :password, :bio)");
+                        $statement = $conn->prepare("insert into Users (first_name, last_name, email, hash, password, bio) values (:firstname, :lastname, :email, :hash, :password, :bio)");
                         if (!preg_match('/^(?=.*\d)(?=.*[A-Za-z])[0-9A-Za-z!@#$%]{8,}$/', $this->getPassword()))
                         {
                             echo "Passwoord moet min. 8 karakters lang zijn en een cijfer (0-9) bevatten";
@@ -314,11 +315,34 @@ class User
                         $statement->bindValue(":firstname", $firstname);
                         $statement->bindValue(":lastname", $lastname);
                         $statement->bindValue(":email", $email);
+                        $statement->bindValue(":hash", $hash);
                         $statement->bindValue(":password", $password);
                         $statement->bindValue(":bio", $bio);
 
                         /*execute input from fields to database*/
                         $result = $statement->execute();
+
+                        /*send validation email*/
+                        $to      = $email; // Send email to our user
+                        $subject = 'Verify your email for BUDDY'; // Give the email a subject 
+                        $message = '
+                
+                        Thanks for signing up!
+                        Your account has been created, you can login with the following credentials after you have activated your account by clicking the url below.
+                
+                        ------------------------
+                        Registered email: '.$email.'
+                        Password: '.$this->getPassword().'
+                        ------------------------
+            
+                        Please click this link to activate your account:
+                        http://localhost:8887/PHP-eindopdracht/verify.php?email='.$email.'&hash='.$hash.'';
+                        //CHANGE URL FOR NEW URL
+                                    
+                        $headers = 'From:noreply@buddyapp.com' . "\r\n"; // Set from headers
+                        mail($to, $subject, $message, $headers); // Send our email
+
+                        /*redirect user*/
                         header("Location: home.php");
                         }
                     }
