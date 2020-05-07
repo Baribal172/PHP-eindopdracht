@@ -7,10 +7,10 @@ session_start();
 // echo $_SESSION['id'];
 
 if(isset($_GET['query'])){
-        $query = $_GET['query'];
-
+        $query = htmlspecialchars($_GET['query']);
         $conn = Db::getConnection();
-        $statement = $conn->prepare("SELECT * FROM Users WHERE (first_name LIKE '%".$query."%') OR (last_name LIKE '%".$query."%')");
+        $statement = $conn->prepare("SELECT * FROM Users WHERE (first_name LIKE '%' :setQuery '%') OR (last_name LIKE '%' :setQuery '%')");
+        $statement->bindValue(":setQuery",$query);
         $statement->execute();
         // $result = $statement->fetchAll();
         // var_dump($result);
@@ -18,13 +18,13 @@ if(isset($_GET['query'])){
 }
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
 //    echo $_POST['buddyRequest'];
-   $buddy = new Buddy();
+    $buddy = new Buddy();
    
-   $userOne = $_SESSION['id'];
-   $userTwo = $_POST['buddyRequest'];
+    $userOne = $_SESSION['id'];
+    $userTwo = $_POST['buddyRequest'];
    
-   $buddy->setUser_one($userOne);
-   $buddy->setUser_two($userTwo);
+    $buddy->setUser_one($userOne);
+    $buddy->setUser_two($userTwo);
     echo $userOne;
     echo $userTwo;
     $buddy->sendBuddyRequest();
