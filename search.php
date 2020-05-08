@@ -4,20 +4,19 @@ include_once(__DIR__ . "/classes/Buddy.php");
 
 session_start();
 
-// echo $_SESSION['id'];
-
 if(isset($_GET['query'])){
         $query = htmlspecialchars($_GET['query']);
         $conn = Db::getConnection();
-        $statement = $conn->prepare("SELECT * FROM Users WHERE (first_name LIKE '%' :setQuery '%') OR (last_name LIKE '%' :setQuery '%')");
+        $statement = $conn->prepare("SELECT *
+        FROM Interests
+        LEFT JOIN user_interest ON Interests.interest_id = user_interest.interest_id
+        LEFT JOIN Users ON user_interest.user_interest_id = Users.user_interest_id
+        WHERE interest_name LIKE '%' :setQuery '%'");
         $statement->bindValue(":setQuery",$query);
         $statement->execute();
-        // $result = $statement->fetchAll();
-        // var_dump($result);
       
 }
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-//    echo $_POST['buddyRequest'];
     $buddy = new Buddy();
    
     $userOne = $_SESSION['id'];
