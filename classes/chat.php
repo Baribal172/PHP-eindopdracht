@@ -6,6 +6,7 @@ class Chat{
     private $reciever;
     private $timestamp;
     private $message;
+    private $buddyId;
 
     /**
      * Get the value of sender
@@ -86,17 +87,40 @@ class Chat{
 
         return $this;
     }
+        /**
+     * Get the value of buddyId
+     */ 
+    public function getBuddyId()
+    {
+        return $this->buddyId;
+    }
+
+    /**
+     * Set the value of buddyId
+     *
+     * @return  self
+     */ 
+    public function setBuddyId($buddyId)
+    {
+        $this->buddyId = $buddyId;
+
+        return $this;
+    }
     public function addMessage(){
         $sender = $this->getSender();
         $reciever = $this->getReciever();
         $message = $this->getMessage();
         $timestamp = $this->getTimestamp();
+        $buddyId = $this->getBuddyId();
         $conn = Db::getConnection();
 
-        $statement = $conn->prepare("INSERT into Chat (sender, reciever, timestamp, message) VALUES (:sender, :reciever, '$timestamp', :message)");
+        $statement = $conn->prepare("INSERT into Chat (sender, reciever, timestamp, message,buddyId) VALUES (:sender, :reciever, '$timestamp', :message, $buddyId)");
         $statement->bindValue(":sender",$sender);
         $statement->bindValue(":reciever",$reciever);
         $statement->bindValue(":message",$message);
         $statement->execute();
     }
+
+  
+
 }

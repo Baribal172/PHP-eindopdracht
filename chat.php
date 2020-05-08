@@ -13,15 +13,18 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     $buddyId = $buddy->getBuddy();
     $reciever = $buddyId['id'];
+    $relationId = $buddy->getRelationId();
+    $relationId = $relationId['id'];
 
     $message = $_POST['message'];
     $time = new Datetime();
     $timestamp = date('h:i:s d-m-y');
-    echo $timestamp;
+
     $chat->setTimestamp($timestamp);
     $chat->setSender($sender);
     $chat->setReciever($reciever);
     $chat->setMessage($message);
+    $chat->setBuddyId($relationId);
     
     $chat->addMessage();
 }
