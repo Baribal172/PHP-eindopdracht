@@ -1,7 +1,7 @@
 <?php 
 include_once(__DIR__ . "/Db.php");
 
-class Message{
+class Chat{
     private $sender;
     private $reciever;
     private $timestamp;
@@ -85,5 +85,18 @@ class Message{
         $this->message = $message;
 
         return $this;
+    }
+    public function addMessage(){
+        $sender = $this->getSender();
+        $reciever = $this->getReciever();
+        $message = $this->getMessage();
+        $timestamp = $this->getTimestamp();
+        $conn = Db::getConnection();
+
+        $statement = $conn->prepare("INSERT into Chat (sender, reciever, timestamp, message) VALUES (:sender, :reciever, '$timestamp', :message)");
+        $statement->bindValue(":sender",$sender);
+        $statement->bindValue(":reciever",$reciever);
+        $statement->bindValue(":message",$message);
+        $statement->execute();
     }
 }
