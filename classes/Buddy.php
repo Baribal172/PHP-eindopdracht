@@ -149,6 +149,7 @@ class Buddy{
             }
             elseif($status == '1'){
                 echo "Je bent een buddy met  $result";
+
             }
         }
      

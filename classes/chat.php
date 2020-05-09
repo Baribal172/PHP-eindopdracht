@@ -135,7 +135,7 @@ class Chat{
             $stm->bindValue(":sender",$row['sender']);
             $stm->execute();
             $result = $stm->fetch(PDO::FETCH_ASSOC);
-            $message .= '<li class="message">' . $result['first_name'] . ': ' . $row['message'] . '</li><span>(' . $row['timestamp'] . ')</span>';
+            $message .= '<li class="message">' . $result['first_name'] . ': ' . $row['message'] . '</li><span>(' . $row['timestamp'] . ')</span> <p class="emoji">werkt<p>';
             
          } 
         echo $message;
