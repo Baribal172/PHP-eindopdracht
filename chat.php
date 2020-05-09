@@ -53,5 +53,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 <form action=""method ="POST">
 	 <div><input type="text" name="message" /><input type="submit" value="Send message" name="send" /></div>
 </form>
+<script src="https://code.jquery.com/jquery-3.5.0.js" integrity="sha256-r/AaFHrszJtwpe+tHyNi/XCfMxYpbsRg2Uqn0x3s2zc=" crossorigin="anonymous"></script>
+<script src="./js/app.js"></script>
 </body>
 </html>

@@ -189,9 +189,3 @@
 	border: 1px solid red;
 	background-color: #ffcccc;
 }
-.message:hover {
-	color: red;
-}
-.emoji {
-	visibility: hidden;
-}

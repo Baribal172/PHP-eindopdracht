@@ -44,7 +44,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         </form>
         <?php 
         while($row = $statement->fetch()) {?>
-
         <li><?php echo $row['first_name'].$row['last_name'].$row['id']?></li>
         <form action="" method="post">
             <button type="submit" name="buddyRequest" value="<?php echo $row['id']?>">Send buddy request</button>
