@@ -2,11 +2,13 @@
 include_once(__DIR__ . "/Db.php");
 
 class Chat{
+    private $id;
     private $sender;
     private $reciever;
     private $timestamp;
     private $message;
     private $buddyId;
+    private $emoji;
 
     /**
      * Get the value of sender
@@ -106,6 +108,44 @@ class Chat{
 
         return $this;
     }
+      /**
+     * Get the value of emoji
+     */ 
+    public function getEmoji()
+    {
+        return $this->emoji;
+    }
+
+    /**
+     * Set the value of emoji
+     *
+     * @return  self
+     */ 
+    public function setEmoji($emoji)
+    {
+        $this->emoji = $emoji;
+
+        return $this;
+    }
+       /**
+     * Get the value of id
+     */ 
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    /**
+     * Set the value of id
+     *
+     * @return  self
+     */ 
+    public function setId($id)
+    {
+        $this->id = $id;
+
+        return $this;
+    }
     public function addMessage(){
         $sender = $this->getSender();
         $reciever = $this->getReciever();
@@ -121,7 +161,6 @@ class Chat{
         $statement->bindValue(":timestamp",$timestamp);
         $statement->execute();
     }
-
     public function getConversation(){
         $buddyId = $this->getBuddyId();
         $conn = Db::getConnection();
@@ -135,16 +174,30 @@ class Chat{
             $stm->bindValue(":sender",$row['sender']);
             $stm->execute();
             $result = $stm->fetch(PDO::FETCH_ASSOC);
-            $message .= '<div class="message">' . $result['first_name'] . ': ' . $row['message'] . '<span>(' . $row['timestamp'] . ')
+            $message .= '<div class="message" >' . $result['first_name'] . ': ' . $row['message'] . $row['emoji'] . '<span>(' . $row['timestamp'] . ')
             </span> 
             <div class="emojis">
-            <a class="emoji" href="">😊</a>
-            <a class="emoji" href="">😂</a>
-            <a class="emoji" href="">❤</a>
-            <a class="emoji" href="">😍</a>
-            <a class="emoji" href="">😒</a>
+            <a class="emoji" id='. $row['id'] . ' href="">😊</a>
+            <a class="emoji" id='. $row['id'] . ' href="">😂</a>
+            <a class="emoji" id='. $row['id'] . ' href="">❤</a>
+            <a class="emoji" id='. $row['id'] . ' href="">😍</a>
+            <a class="emoji" id='. $row['id'] . ' href="">😒</a>
             </div></div>';
          } 
         echo $message;
     }
+
+    public function saveEmoji(){
+        $emoji = $this->getEmoji();
+        $id = $this->getId();
+        $conn = Db::getConnection();
+       
+        $statement = $conn->prepare("UPDATE Chat set emoji = :emoji WHERE id = :id");
+        $statement->bindValue(":id",$id);
+        $statement->bindValue(":emoji",$emoji);
+        $statement->execute();
+
+    }
+
+ 
 }

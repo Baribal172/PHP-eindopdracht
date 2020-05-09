@@ -49,15 +49,15 @@ $(document).ready(function () {
 		});
 	$(".emoji").click(function () {
 		var emoji = $(this).text();
+		var id = $(this).attr("id");
 		console.log(emoji);
 		$.ajax({
 			type: "POST",
 			url: "ajax/emoji.php",
 			data: {
 				res: emoji,
+				id: id,
 			},
-		}).done(function (msg) {
-			alert(msg);
 		});
 	});
 });
