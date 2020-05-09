@@ -4,28 +4,26 @@ include_once(__DIR__ . "/classes/Buddy.php");
 include_once(__DIR__ . "/classes/Chat.php");
 
 session_start();
-
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $chat = new Chat();
-    $buddy = new Buddy();
-   
-    $sender = $_SESSION['id'];
-
+    $buddy = new Buddy(); 
     $buddyId = $buddy->getBuddy();
-    $reciever = $buddyId['id'];
     $relationId = $buddy->getRelationId();
+    $reciever = $buddy->getBuddy();
+
+    $sender = $_SESSION['id'];
+    $reciever = $reciever['id'];
     $relationId = $relationId['id'];
-
-    $message = $_POST['message'];
-    $time = new Datetime();
-    $timestamp = date('h:i:s d-m-y');
-
-    $chat->setTimestamp($timestamp);
+    
+    $chat->setBuddyId($relationId);
     $chat->setSender($sender);
     $chat->setReciever($reciever);
+
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    $message = $_POST['message'];
+    $time = new Datetime();
+    $timestamp = $time->format('h:i:s d-m-y');
+    $chat->setTimestamp($timestamp);
     $chat->setMessage($message);
-    $chat->setBuddyId($relationId);
-    
     $chat->addMessage();
 }
 ?>
@@ -40,8 +38,14 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <title>Chatbox</title>
 </head>
 <body>
+<div class="chatbox">
+
+<?php     $chat->getConversation(); 
+?>
+</div>
+
 <form action=""method ="POST">
-	 <div><input type="text" name="message" /><input type="submit" value="message" name="send" /></div>
+	 <div><input type="text" name="message" /><input type="submit" value="Send message" name="send" /></div>
 </form>
 </body>
 </html>
