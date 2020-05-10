@@ -425,8 +425,7 @@ class User
         $email = $this->getEmail();
         $password = $this->getPassword();
 
-        $statement = $conn->prepare("
-        SELECT * FROM Users WHERE email = :email");
+        $statement = $conn->prepare("select * FROM Users WHERE email = :email AND activated = 1");
         $statement->bindValue(':email', $email);
         $statement->execute();
 
