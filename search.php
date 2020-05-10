@@ -12,8 +12,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $userTwo = $_POST['buddyRequest'];  
     $buddy->setUser_one($userOne);
     $buddy->setUser_two($userTwo);
-    echo $userOne;
-    echo $userTwo;
     $buddy->sendBuddyRequest();
 }
  
