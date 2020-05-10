@@ -14,7 +14,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $interest -> getInterests();
     $interest->setGender($_POST['gender']);
     $interest->setRole($_POST['role']);
+<<<<<<< HEAD
     $interest->setBuddy(($_POST['buddy']));
+=======
+
+>>>>>>> 0d404b65dce6f4cadc8c57eb5c5ae02cbcba54cc
     $interest = $interest -> exportInterests();
 }
 
