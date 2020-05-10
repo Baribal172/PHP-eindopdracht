@@ -4,6 +4,7 @@ include_once(__DIR__ . "/classes/Interests.php");
 include_once(__DIR__ . "/classes/User.php");
 
 $result = new Interests();
+$user = new User();
 $result = $result -> showInterests();
 
 
@@ -12,8 +13,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $interest -> setInterests($_POST ["myinterests"]);
     $interest -> getInterests();
     $interest->setGender($_POST['gender']);
-    $interest->setRole($_POST['buddy']);
-
+    $interest->setRole($_POST['role']);
+    $interest->setBuddy(($_POST['buddy']));
     $interest = $interest -> exportInterests();
 }
 
@@ -54,7 +55,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             </div> 
 
             <div class="characteristic characteristic-study">
-                <label for="study" class="title">Are you looking for a buddy or do you want to be a buddy?</label>
+                <label for="buddy" class="title">Are you looking for a buddy or do you want to be a buddy?</label>
                 <select name="buddy" id="buddy" required>
                     <option value="">Please select</option>
                     <option value="searching">I am looking for a buddy</option>
