@@ -148,7 +148,7 @@ class Buddy{
                 }
             }
             elseif($status == '1'){
-                echo "Je bent een buddy met  $result";
+                echo "Je bent een buddy met  $result, klik in de navigatie op 'Chat with your buddy' om een gesprek te beginnen met je IMD-buddy ";
 
             }
         }

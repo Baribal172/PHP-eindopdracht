@@ -2,6 +2,7 @@
 session_start();
 include_once(__DIR__ . "/classes/Interests.php");
 include_once(__DIR__ . "/classes/User.php");
+include_once(__DIR__ . "/classes/Buddy.php");
 
 if (isset($_SESSION['id'])) {
 
