@@ -81,6 +81,18 @@
 	left: 0;
 }
 
+#completeProfileSubmit {
+	color: white;
+	font-size: 24px;
+	background-color: #95da5d;
+	width: 20%;
+	height: 40px;
+	border: none;
+	border-radius: 4px;
+	left: 0;
+}
+
+
 #index--page a.button {
 	color: white;
 	font-size: 24px;
@@ -103,7 +115,6 @@
 }
 
 .welkom {
-	text-transform: capitalize;
 	position: absolute;
 	left: 20px;
 }
@@ -146,17 +157,18 @@
 
 #hobby {
 	text-align: center;
+	max-height: 350px;
+	overflow: scroll;
 }
 
 .checklabel {
-	width: 40%;
+	width: 20%;
 	margin: 20px;
 	background: #f2f2f2;
 	border-radius: 3px;
 	text-align: center;
 	font-size: 1.2rem;
 	box-shadow: 0 0 5px 5px rgba(0, 0, 0, 0.2);
-
 	padding: 10px;
 }
 .checklabel:hover {
@@ -172,16 +184,6 @@
 
 .checkbox:checked + .checklabel {
 	background-color: #a3d3d9;
-}
-
-#completeProfileSubmit {
-	background-color: lightgray;
-	border: none;
-	border-radius: 5px;
-	font-size: 24px;
-	width: 200px;
-	height: 40px;
-	margin: 30px auto;
 }
 
 .email--error {

@@ -6,7 +6,7 @@ include_once(__DIR__ . "/classes/User.php");
 $result = new Interests();
 $result = $result -> showInterests();
 
-
+if (isset($_SESSION['id'])) {
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $interest = new User();
     $interest -> setInterests($_POST ["myinterests"]);
@@ -25,10 +25,18 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <link rel="stylesheet" href="css/normalize.css">
     <link rel="stylesheet" href="css/bootstrap.css">
     <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="https://use.typekit.net/yvr7fmc.css">
     <title>Complete profile</title>
 </head>
 <body>
-    <div class="completeProfile--content">
+<div class="navbar">
+    <ul>
+    <span class="welkom"><img src="<?php echo User::getAvatar(); ?>" alt="Uw avatar" height="20px"/> Welkom <?php echo $_SESSION['first_name']; ?></span>
+        <li><a href="/completeProfile.php">My profile</a></li><li><a href="./PHP-eindopdracht/logout.php">Log out</a></li>
+</ul>
+</div>
+<div id="register--page">
+<div class="container--page">
     <form method="post" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" class="">
             <h1>Complete your profile to find the best buddy</h1>
 
@@ -63,7 +71,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             </div>
             
             <div class="characteristic-hobby">
-                <label for="hobby" class="title">Interests</label>
+                <label for="hobby" class="title">Select your interests</label>
                 <div id="hobby">
                     <?php foreach ($result as $row) : ?>
                     <input class="checkbox" type="checkbox" value="<?php echo $row['interest_id']; ?>" name="myinterests[]" id="<?php echo "checkid" . $row['interest_id']; ?>">
@@ -71,8 +79,19 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     <?php endforeach;?>
                 </div>
             </div>
+            <br>
             <input type="submit" id="completeProfileSubmit">
         </form>
     </div>
+</div>
+    <?php
+}
+else {
+    header("Location: login.php");
+?> 
+
+<?php
+}
+?>
 </body>
 </html>

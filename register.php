@@ -9,7 +9,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $user1->setLastname($_POST['lastName']);
     $user1->setEmail($_POST['email']);
     $user1->setPassword($_POST['password']);
-    $user1->setBio($_POST['bio']);
 
     $user1->registerUser();
 }
