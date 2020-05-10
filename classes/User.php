@@ -526,22 +526,18 @@ class User
 
     public function setAvatar(){
     $image = basename($_FILES['fileToUpload']['name']);
-    $testSession = "33";
     $fileType = strtolower(pathinfo($image,PATHINFO_EXTENSION));
     $newName = "uploads/" . $_SESSION['id'] . "." . $fileType;
     $support = array('jpg','jpeg','png');
-    // $fileNewName = "uploads/".$thi;
         if(in_array($fileType,$support)){
-            echo "img toegelaten";
-            echo $newName;
             if(move_uploaded_file($_FILES["fileToUpload"]["tmp_name"], $newName)){
-                // echo $_FILES["fileToUpload"]["name"] . "has been uploaded";
+                echo $_FILES["fileToUpload"]["name"] . "has been uploaded";
                 $conn = Db::getConnection();
                 $statement = $conn->prepare("UPDATE Users SET avatar = :avatarPath WHERE id = '".$_SESSION['id']."';");
                 $statement->bindValue(":avatarPath",$newName);
                 $statement->execute();
         } else{
-            echo "fout";
+            echo "There was an error uploading, try again";
             }
        
     } else{

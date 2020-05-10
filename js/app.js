@@ -7,8 +7,6 @@ $(document).ready(function () {
 			data: {
 				action: clickBtnValue,
 			},
-		}).done(function (msg) {
-			alert(msg);
 		});
 	});
 
@@ -22,8 +20,6 @@ $(document).ready(function () {
 				action: clickBtnValue,
 				reason: value,
 			},
-		}).done(function (msg) {
-			alert(msg);
 		});
 	});
 
@@ -44,7 +40,7 @@ $(document).ready(function () {
 	$(".message")
 		.mouseover(function () {
 			$(this).find(".emoji").show();
-			$(".tmp").show();
+			$(this).find(".tmp").show();
 		})
 		.mouseout(function () {
 			$(this).find(".emoji").hide();
