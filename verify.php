@@ -2,8 +2,12 @@
 include_once(__DIR__ . "/classes/Verify.php");
 
 $verify = new Verify;
+$email = $verify->setEmail($_GET['email']);
+$getEmail = $verify->getEmail();
+$hash = $verify->setHash($_GET['hash']);
+$getHash = $verify->getHash();
+
 $verify->verifyEmail();
-var_dump($verify);
 
 ?>
 
@@ -26,7 +30,7 @@ var_dump($verify);
 </div>
 <div id="register--page">
 <div class="container--page">
-    Uw activatie email is verzonden, gelieve deze te bekijken.
+    
 </div>
 </div>
 </body>
