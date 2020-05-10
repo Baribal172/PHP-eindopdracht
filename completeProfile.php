@@ -2,6 +2,7 @@
 session_start();
 include_once(__DIR__ . "/classes/Interests.php");
 include_once(__DIR__ . "/classes/User.php");
+include_once(__DIR__ . "/classes/Buddy.php");
 
 if (isset($_SESSION['id'])) {
 
@@ -31,12 +32,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <title>Complete profile</title>
 </head>
 <body>
-<div class="navbar">
-    <ul>
-    <span class="welkom"><img src="<?php echo $showAvatar; ?>" alt="Uw avatar" height="20px"/> Welkom <?php echo $_SESSION['first_name']; ?></span>
-        <li><a href="completeProfile.php">My profile</a></li><li><a href="logout.php">Log out</a></li>
-</ul>
-</div>
+<?php
+        include_once("nav.php");
+?>
 <div id="register--page">
 <div class="container--page">
     <form method="post" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" class="">

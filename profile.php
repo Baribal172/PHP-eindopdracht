@@ -3,15 +3,21 @@ include_once(__DIR__ . "/classes/User.php");
 session_start();
 
 if (isset($_SESSION['id'])) {
+    if (isset($_POST["bio"])){
+        $updateBio = new User();
+        $updateBio->setBio($_POST['bio']);
+        $updateBio->updateBio();
 
-if (isset($_POST["profile"])){
-    $updateProfile = new User();
-    $updateProfile->setEmail($_POST['email']);
-    $updateProfile->setBio($_POST['bio']);
-    $updateProfile->updateUser();
+    }
+
+if (isset($_POST["email1"])){
+    $updateEmail = new User();
+    $updateEmail->setEmail($_POST['email']);
+    $updateEmail->setPassword($_POST['password']);  
+    $updateEmail->updateEmail();
 }
 
-if (isset($_POST["password"])){
+if (isset($_POST["updatePassword"])){
     $updatePassword = new User();
     $updatePassword->setEmail($_POST['email']);
     $updatePassword->setPassword($_POST['oldPassword']);
@@ -44,12 +50,10 @@ if(isset($_POST['submitAvatar'])) {
 </head>
 
 <body>
-<div class="navbar">
-    <ul>
-    <span class="welkom"><img src="<?php User::getAvatar(); ?>" alt="Uw avatar" height="20px"/> Welkom <?php echo $_SESSION['first_name']; ?></span>
-        <li><a href="completeProfile.php">My profile</a></li><li><a href="logout.php">Log out</a></li>
-</ul>
-</div>
+<?php
+        include_once("nav.php");
+?>
+ 
 <div id="register--page">
 <div class="container--page">
 
@@ -68,13 +72,21 @@ Bio: <?php echo $_SESSION['bio']?><br>
             <label for="bio" class="label">Bio</label>
             <input type="text" name="bio" id="bio" value="<?php echo htmlspecialchars(!empty($_POST["bio"]) ? $_POST["bio"] : ''); ?>" class="textfield" >
             <br>
-            <label for="email" class="label">E-mail</label>
-            <input type="text" name="email" id="email" value="<?php echo htmlspecialchars(!empty($_POST["email"]) ? $_POST["email"] : ''); ?>" class="textfield" required>
-            <br>
-            <input type="submit" id="submit" name="profile">
+            <input type="submit" id="submit" name="bio" value="Update bio">
             <br>
         </form>
         <form method="post" action="" class="">
+            <label for="email1" class="label">E-mail</label>
+            <input type="text" name="email1" id="email1" value="<?php echo htmlspecialchars(!empty($_POST["email1"]) ? $_POST["email1"] : ''); ?>" class="textfield" required>
+            <br>
+            <label for="password" class="label">Password</label>
+            <input type="password" name="password" id="password" value="<?php echo htmlspecialchars(!empty($_POST["password"]) ? $_POST["password"] : ''); ?>" class="textfield" required>
+        <br>
+            <input type="submit" id="submit" name="email" value="Update email">
+            <br>
+        </form>
+        <form method="post" action="" class="">
+        <h1>Edit password</h1>
         <label for="email" class="label">E-mail</label>
             <input type="text" name="email" id="email" value="<?php echo htmlspecialchars(!empty($_POST["email"]) ? $_POST["email"] : ''); ?>" class="textfield" required>
         <br>
@@ -84,9 +96,10 @@ Bio: <?php echo $_SESSION['bio']?><br>
             <label for="password" class="label">New-Password</label>
             <input type="password" name="newPassword" id="newPassword" value="<?php echo htmlspecialchars(!empty($_POST["newPassword"]) ? $_POST["newPassword"] : ''); ?>" class="textfield" required>
         <br>
-            <input type="submit" id="submit" name="password">
+            <input type="submit" id="submit" name="updatePassword" value="Change password">
         </form>
     </div>
+    <br>
     <div class="upload">
     <form action="" method="post" enctype="multipart/form-data">
     Select image to upload:

@@ -462,19 +462,24 @@ class User
         
 
     }
-
-    public function updateUser(){
+    public function updateBio(){
         $conn = Db::getConnection();
-
-        $firstName = $this->getFirstname();
-        $lastName = $this->getLastname();
         $bio = $this->getBio();
+        $statement = $conn->prepare("update Users set bio = :bio where id = '".$_SESSION['id']."';");
+        $statement->bindValue(":bio", $bio);
+        $statement->execute();
+    }
+    public function updateEmail(){
+        if(!$this->checkPassword()){
+            echo "Geef een juist wachtwoord in om je gegevens aan te passen";
+        }else{
+        $conn = Db::getConnection();
         $email = $this->getEmail();
 
-        $statement = $conn->prepare("update Users set bio = :bio where email = :email;");
-        $statement->bindValue(":bio", $bio);
+        $statement = $conn->prepare("update Users set email = :email where id = '".$_SESSION['id']."';");
         $statement->bindValue(":email",$email);
         $statement->execute();
+        }
     }
  
     public function checkPassword(){
