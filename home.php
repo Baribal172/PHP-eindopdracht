@@ -48,7 +48,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <div class="navbar">
     <ul>
         <span class="welkom">Welkom <?php echo $_SESSION['first_name']; ?> <?php echo $_SESSION['last_name']; ?></span>
-        <li><a href="#">Mijn profiel</a></li> <img src="<?php echo User::getAvatar(); ?>" alt="Uw avatar" />
+        <li><a href="#">Mijn profiel</a></li> <img src="<?php echo User::getAvatar(); ?>" alt="Uw avatar" height="20px"/>
 
     </ul>
 </div>
