@@ -19,7 +19,7 @@
     </ul>
 </div>
 <div id="register--page">
-    <div class="backgroundContent">
+<div class="container--page">
     Uw activatie email is verzonden, gelieve deze te bekijken.
 </div>
 </div>
