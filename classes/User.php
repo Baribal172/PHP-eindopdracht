@@ -367,16 +367,12 @@ class User
 
                         /*send validation email*/
                         $to      = 'yaiza.ng@gmail.com'; // Send email to our user
+                        $from = 'GO BUDDY';
                         $subject = 'Verify your email for BUDDY'; // Give the email a subject 
                         $message = '
                 
                         Thanks for signing up!
                         Your account has been created, you can login with the following credentials after you have activated your account by clicking the url below.
-                
-                        ------------------------
-                        Registered email: '.$email.'
-                        Password: '.$this->getPassword().'
-                        ------------------------
             
                         Please click this link to activate your account:
                         http://localhost:8887/PHP-eindopdracht/verify.php?email='.$email.'&hash='.$hash.'';
