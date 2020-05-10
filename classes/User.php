@@ -383,7 +383,7 @@ class User
 
                                 //Recipients
                                 $mail->setFrom('noreply@php.baribal.me', 'GO BUD');
-                                $mail->addAddress('yaiza.ng@gmail.com');     // Add a recipient
+                                $mail->addAddress($email);     // Add a recipient
 
                                 // Content
                                 $mail->isHTML(true);                                  // Set email format to HTML
