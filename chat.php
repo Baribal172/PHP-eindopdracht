@@ -43,6 +43,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <title>Chatbox</title>
 </head>
 <body>
+<?php
+        include_once("nav.php");
+?>
+ 
 <div class="container">
 
 <?php $chat->getConversation(); 

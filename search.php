@@ -24,8 +24,16 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>Search</title>
+        <link rel="stylesheet" href="css/normalize.css">
+        <link rel="stylesheet" href="css/bootstrap.css">
+        <link rel="stylesheet" href="css/style.css">
+        <link rel="stylesheet" href="https://use.typekit.net/yvr7fmc.css">
     </head>
     <body>
+    <?php
+        include_once("nav.php");
+?>
+ 
         <form action="" method="GET">
             <input type="text" name="query"/>
             <input type="submit" value="search"/>
