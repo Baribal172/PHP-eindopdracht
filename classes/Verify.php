@@ -15,7 +15,6 @@ class Verify
         
 
         $to      = 'yaiza.ng@gmail.com'; // Send email to our user
-        $from = 'GO BUDDY';
         $subject = 'Verify your email for BUDDY'; // Give the email a subject 
         $message = '
                 
@@ -27,6 +26,7 @@ class Verify
         //CHANGE URL FOR NEW URL
                                     
         $headers = 'From:noreply@php.baribal.me' . "\r\n"; // Set from headers
+        $smtp = Mail::factory('smtp', array ('host' => $host,'auth' => true,'username' => $username,'password' => $password));
         mail($to, $subject, $message, $headers); // Send our email
     }
 }

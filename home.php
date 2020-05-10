@@ -32,8 +32,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 <body>
     <?php 
     if (isset($_SESSION['id'])) {
-        $user1 = new User();
-        $fetch_data = $user1->fetchUserData();
+        $user = new User();
+        $fetch_data = $user->fetchUserData();
         $conn = Db::getConnection();
         $statement = $conn->prepare("SELECT u1.first_name,u2.first_name
         FROM (Buddy LEFT OUTER JOIN Users AS u1 ON Buddy.user_one_id = u1.id)
@@ -41,10 +41,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         WHERE STATUS = '1'");
         //dont forget to change status to 1, when there are buddies
         $statement->execute();
+        $showAvatar = $user->getAvatar();
 ?>
 <div class="navbar">
     <ul>
-    <span class="welkom"><img src="<?php echo User::getAvatar(); ?>" alt="Uw avatar" height="20px"/> Welkom <?php echo $_SESSION['first_name']; ?></span>
+    <span class="welkom"><img src="<?php echo $showAvatar; ?>" alt="Uw avatar" height="20px"/> Welkom <?php echo $_SESSION['first_name']; ?></span>
         <li><a href="profile.php">My profile</a></li><li><a href="logout.php">Log out</a></li>
 </ul>
 </div>
@@ -68,17 +69,17 @@ Welcome <b><?php echo $_SESSION['first_name']; ?></b>, You have successfully log
 ----------------------------------------------------------- <br>
 <h2>The best match for you is    
 <?php
-$user1->fetchMatchFirstName();
+$user->fetchMatchFirstName();
 ?>
 <h3>Because you have 
 <?php
-$user1->matchUserAantal();
+$user->matchUserAantal();
 ?>
  interests in common </h3>
  </h2>
  <form action="" method="post">
-            <button type="submit" name="buddyRequest" value="<?php echo $user1->matchUserId();?>">Send buddy request to <?php
-echo $user1->fetchMatchFirstName();
+            <button type="submit" name="buddyRequest" value="<?php echo $user->matchUserId();?>">Send buddy request to <?php
+echo $user->fetchMatchFirstName();
 ?></button>
 </form>
 

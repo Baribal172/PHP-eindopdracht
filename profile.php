@@ -2,6 +2,7 @@
 include_once(__DIR__ . "/classes/User.php");
 session_start();
 
+if (isset($_SESSION['id'])) {
 
 if (isset($_POST["profile"])){
     $updateProfile = new User();
@@ -25,6 +26,8 @@ if(isset($_POST['submitAvatar'])) {
     }
    
 }
+$user = new User();
+$showAvatar = $user->getAvatar();
 
 ?>
 
@@ -35,17 +38,29 @@ if(isset($_POST['submitAvatar'])) {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="css/normalize.css">
+    <link rel="stylesheet" href="css/bootstrap.css">
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="https://use.typekit.net/yvr7fmc.css">
     <title>Profile</title>
 </head>
 
 <body>
-<h1>Profile page</h1>
-<div class="profile">
-<h1><?php echo $_SESSION['first_name']?></h1>
-<h2><?php echo $_SESSION['last_name']?></h2>
-<h2><?php echo $_SESSION['email']?></h2>
-<h2><?php echo $_SESSION['bio']?></h2>
+<div class="navbar">
+    <ul>
+    <span class="welkom"><img src="<?php echo $howAvatar; ?>" alt="Uw avatar" height="20px"/> Welkom <?php echo $_SESSION['first_name']; ?></span>
+        <li><a href="completeProfile.php">My profile</a></li><li><a href="logout.php">Log out</a></li>
+</ul>
+</div>
+<div id="register--page">
+<div class="container--page">
 
+<h1>My profile</h1>
+<div class="profile">
+First name: <?php echo $_SESSION['first_name']?><br>
+Last name: <?php echo $_SESSION['last_name']?><br>
+Email: <?php echo $_SESSION['email']?><br>
+Bio: <?php echo $_SESSION['bio']?><br>
 
 </div>
     <div id="profileForm">
@@ -80,14 +95,17 @@ if(isset($_POST['submitAvatar'])) {
     <input type="file" name="fileToUpload" id="fileToUpload">
     <input type="submit" value="Upload Image" name="submitAvatar">
 </form>
-<?php 
-echo User::getAvatar();
+</div>
+</div>
+<img src="<?php echo $showAvatar; ?>" alt="" />
+</div>
+
+
+    <?php
+}
+else {
+    header("Location: login.php");
+}
 ?>
-<img src="<?php echo User::getAvatar(); ?>" alt="" />
-    </div>
-
-
-
 </body>
-
 </html>

@@ -3,19 +3,20 @@ session_start();
 include_once(__DIR__ . "/classes/Interests.php");
 include_once(__DIR__ . "/classes/User.php");
 
+if (isset($_SESSION['id'])) {
+
 $result = new Interests();
 $user = new User();
 $result = $result -> showInterests();
+$showAvatar = $user->getAvatar();
 
-if (isset($_SESSION['id'])) {
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    $interest = new User();
-    $interest -> setInterests($_POST ["myinterests"]);
-    $interest -> getInterests();
-    $interest->setGender($_POST['gender']);
-    $interest->setRole($_POST['role']);
-    $interest->setBuddy(($_POST['buddy']));
-    $interest = $interest -> exportInterests();
+    $user -> setInterests($_POST ["myinterests"]);
+    $user -> getInterests();
+    $user->setGender($_POST['gender']);
+    $user->setRole($_POST['role']);
+    $user->setBuddy(($_POST['buddy']));
+    $interest = $user -> exportInterests();
 }
 
 ?><!DOCTYPE html>
@@ -32,7 +33,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 <body>
 <div class="navbar">
     <ul>
-    <span class="welkom"><img src="<?php echo User::getAvatar(); ?>" alt="Uw avatar" height="20px"/> Welkom <?php echo $_SESSION['first_name']; ?></span>
+    <span class="welkom"><img src="<?php echo $showAvatar; ?>" alt="Uw avatar" height="20px"/> Welkom <?php echo $_SESSION['first_name']; ?></span>
         <li><a href="completeProfile.php">My profile</a></li><li><a href="logout.php">Log out</a></li>
 </ul>
 </div>
@@ -89,9 +90,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 }
 else {
     header("Location: login.php");
-?> 
-
-<?php
 }
 ?>
 </body>
