@@ -394,11 +394,11 @@ class User
                                 Your account has been created, you can login with the following credentials after you have activated your account by clicking the url below.
                                     
                                 Please click this link to activate your account:
-                                http://localhost:8887/PHP-eindopdracht/verify.php?email='.$email.'&hash='.$hash.'';
+                                http://baribal.me/verify.php?email='.$email.'&hash='.$hash.'';
                                 //CHANGE URL FOR NEW URL
 
                                 $mail->send();
-                                header("Location: verify.php");
+                                header("Location: thanks.php");
                         }
                     }
                 } else {

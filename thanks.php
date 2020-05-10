@@ -1,12 +1,3 @@
-<?php
-include_once(__DIR__ . "/classes/Verify.php");
-
-$verify = new Verify;
-$verify->verifyEmail();
-var_dump($verify);
-
-?>
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -17,7 +8,7 @@ var_dump($verify);
     <link rel="stylesheet" href="css/style.css">
 
     <link rel="stylesheet" href="https://use.typekit.net/yvr7fmc.css">
-    <title>Verify your account</title>
+    <title>Thank you</title>
 </head>
 <body><div class="navbar">
     <ul>
@@ -26,7 +17,7 @@ var_dump($verify);
 </div>
 <div id="register--page">
 <div class="container--page">
-    Uw activatie email is verzonden, gelieve deze te bekijken.
+    Thank you for creating an account ! A validation email has been sent to you.
 </div>
 </div>
 </body>
