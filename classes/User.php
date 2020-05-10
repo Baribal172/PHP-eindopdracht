@@ -478,17 +478,7 @@ class User
         $statement->bindValue(":email",$email);
         $statement->execute();
     }
-    public function saveBuddy(){
-        
-        $conn = Db::getConnection();
-        $buddy = $this->getBuddy();
-        $statement = $conn->prepare("UPDATE Users SET buddy = :buddy WHERE id = '".$_SESSION['id']."';");
-        $statement->bindValue(":buddy",$buddy);
-        $statement->execute();
-
-    }
  
-
     public function checkPassword(){
         $conn = Db::getConnection();
         $password = $this->getPassword();
@@ -577,6 +567,7 @@ class User
 
             $gender = $this->getGender();
             $role = $this->getRole();
+            $buddy = $this->getBuddy();
 
             if (is_array($_POST['myinterests']) || is_object($_POST['myinterests'])) {
             
@@ -608,6 +599,12 @@ class User
                 $statement = $conn->prepare("update Users set role=:role WHERE id = '".$_SESSION['id']."';");
                 $statement->bindValue(":role", $role);
                 $statement->execute();
+            }
+            if (isset($_POST['buddy'])){
+                $statement = $conn->prepare("UPDATE Users SET buddy = :buddy WHERE id = '".$_SESSION['id']."';");
+                $statement->bindValue(":buddy",$buddy);
+                $statement->execute();
+
             }
             
         }
