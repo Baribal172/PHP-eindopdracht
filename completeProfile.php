@@ -12,7 +12,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $interest -> setInterests($_POST ["myinterests"]);
     $interest -> getInterests();
     $interest->setGender($_POST['gender']);
-    $interest->setRole($_POST['buddy']);
+    $interest->setRole($_POST['role']);
 
     $interest = $interest -> exportInterests();
 }
