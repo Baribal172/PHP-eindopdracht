@@ -459,16 +459,11 @@ class User
 
         $_SESSION['first_name'] = $result['first_name'];
         $_SESSION['last_name'] = $result['last_name'];
-        $_SESSION['email'] = $result['email'];
-
         $_SESSION['bio'] = $result['bio'];
-<<<<<<< HEAD
         $_SESSION['email'] = $result['email'];
-=======
         $_SESSION['gender'] = $result['gender'];
         $_SESSION['role'] = $result['role'];
         
->>>>>>> 08a0a6124fdab79d480d306888fa935a96fcca55
 
     }
 
