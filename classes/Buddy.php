@@ -236,4 +236,17 @@ class Buddy{
     }
     echo $result;
     }
+    public function getAllBuddies(){
+        $conn = Db::getConnection();
+        $statement = $conn->prepare("SELECT u1.first_name,u2.first_name
+        FROM (Buddy LEFT OUTER JOIN Users AS u1 ON Buddy.user_one_id = u1.id)
+        LEFT OUTER JOIN Users AS u2 ON Buddy.user_two_id = u2.id
+        WHERE STATUS = '1'");
+        $statement->execute();  
+        $result ='';
+        while($row = $statement->fetch()) {
+            $result .= '<h4>'. $row[0]. " and ". $row[1] .'</h4>';
+        } 
+        echo $result;
+    }
 }
