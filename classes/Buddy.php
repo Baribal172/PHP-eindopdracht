@@ -217,5 +217,23 @@ class Buddy{
         }
         return $result;
     }
-
+    public function searchBuddy(){
+        $query = htmlspecialchars($_GET['query']);
+        $conn = Db::getConnection();
+        $statement = $conn->prepare("SELECT *
+        FROM Interests
+        LEFT JOIN user_interest ON Interests.interest_id = user_interest.interest_id
+        LEFT JOIN Users ON user_interest.user_interest_id = Users.user_interest_id
+        WHERE interest_name LIKE '%' :setQuery '%'");
+        $statement->bindValue(":setQuery",$query);
+        $statement->execute();
+        $result = '';
+        while($row = $statement->fetch()) {
+            $result .= '<li>' . $row['first_name'] . " " . $row['last_name'] .'</li>' .
+            '<form action="" method="post">
+                <button type="submit" name="buddyRequest" value='.$row['id'] . '>Send buddy request</button>
+            </form>';
+    }
+    echo $result;
+    }
 }
