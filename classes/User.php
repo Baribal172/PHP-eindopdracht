@@ -365,9 +365,9 @@ class User
                         /*execute input from fields to database*/
                         $result = $statement->execute();
 
-                        /*send validation email*/
+                        /*send validation email
                         $to      = 'yaiza.ng@gmail.com'; // Send email to our user
-                        $from = 'noreply@php.baribal.me';
+                        $from = 'php.baribal.me';
                         $subject = 'Verify your email for BUDDY'; // Give the email a subject 
                         $message = '
                 
@@ -382,7 +382,7 @@ class User
                         mail($to, $subject, $message, $headers); // Send our email
 
                         /*redirect user*/
-                        header("Location: login.php");
+                        //header("Location: verify.php");
                         }
                     }
                 } else {
@@ -462,24 +462,19 @@ class User
         
 
     }
-    public function updateBio(){
+
+    public function updateUser(){
         $conn = Db::getConnection();
+
+        $firstName = $this->getFirstname();
+        $lastName = $this->getLastname();
         $bio = $this->getBio();
-        $statement = $conn->prepare("update Users set bio = :bio where id = '".$_SESSION['id']."';");
-        $statement->bindValue(":bio", $bio);
-        $statement->execute();
-    }
-    public function updateEmail(){
-        if(!$this->checkPassword()){
-            echo "Geef een juist wachtwoord in om je gegevens aan te passen";
-        }else{
-        $conn = Db::getConnection();
         $email = $this->getEmail();
 
-        $statement = $conn->prepare("update Users set email = :email where id = '".$_SESSION['id']."';");
+        $statement = $conn->prepare("update Users set bio = :bio where email = :email;");
+        $statement->bindValue(":bio", $bio);
         $statement->bindValue(":email",$email);
         $statement->execute();
-        }
     }
  
     public function checkPassword(){
