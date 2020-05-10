@@ -122,7 +122,8 @@ class Buddy{
     public function checkBuddyRequest(){
         $status = $this->getBuddyStatus();
         $actionUserId = $this->getBuddyActionUserId();
-        $result = $this->getBuddyName();
+        $result = $this->getBuddy();
+        $result = $result['first_name'];
         $reason = $this->getDeclineReason();
         if($status == '2'){
             if(isset($reason)){
@@ -148,6 +149,7 @@ class Buddy{
             }
             elseif($status == '1'){
                 echo "Je bent een buddy met  $result";
+
             }
         }
      
@@ -177,25 +179,41 @@ class Buddy{
         $statement = $conn->prepare("DELETE FROM Buddy WHERE user_two_id = '".$_SESSION['id']."'or user_one_id = '".$_SESSION['id']."';");
         $statement->execute();
     }
-    public function getBuddyName(){
-        $actionUserId = $this->getBuddyActionUserId();
+    public function getRelationId(){
         $conn = Db::getConnection();
+        $actionUserId = $this->getBuddyActionUserId();
 
         if($actionUserId == $_SESSION['id']){
-            $statement = $conn->prepare("SELECT first_name
+            $statement = $conn->prepare("SELECT Buddy.id
             FROM Buddy LEFT OUTER JOIN Users AS u1 ON Buddy.user_two_id = u1.id
             WHERE Buddy.user_one_id ='".$_SESSION['id']."';");
             $statement->execute();
             $result = $statement->fetch(PDO::FETCH_ASSOC);
-            $result = $result['first_name'];
         }else{
-            $statement = $conn->prepare("SELECT first_name
+            $statement = $conn->prepare("SELECT Buddy.id
             FROM Buddy LEFT OUTER JOIN Users AS u1 ON Buddy.user_one_id = u1.id
             WHERE Buddy.user_two_id = '".$_SESSION['id']."';");
             $statement->execute();
+            $result = $statement->fetch(PDO::FETCH_ASSOC);                
+        }
+            return $result;
+    }
+    public function getBuddy(){
+        $actionUserId = $this->getBuddyActionUserId();
+        $conn = Db::getConnection();
+
+        if($actionUserId == $_SESSION['id']){
+            $statement = $conn->prepare("SELECT *
+            FROM Buddy LEFT OUTER JOIN Users AS u1 ON Buddy.user_two_id = u1.id
+            WHERE Buddy.user_one_id ='".$_SESSION['id']."';");
+            $statement->execute();
             $result = $statement->fetch(PDO::FETCH_ASSOC);
-            
-            $result = $result['first_name'];
+        }else{
+            $statement = $conn->prepare("SELECT *
+            FROM Buddy LEFT OUTER JOIN Users AS u1 ON Buddy.user_one_id = u1.id
+            WHERE Buddy.user_two_id = '".$_SESSION['id']."';");
+            $statement->execute();
+            $result = $statement->fetch(PDO::FETCH_ASSOC);                
         }
         return $result;
     }

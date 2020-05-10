@@ -549,7 +549,7 @@ class User
                 
 
                 # toevoegen aan tabel
-                $userAddUserInterestIdQuery = "uPDATE Users SET user_interest_id=:setuserinterestid WHERE id=:setuserid";
+                $userAddUserInterestIdQuery = "update Users SET user_interest_id=:setuserinterestid WHERE id=:setuserid";
                 $statement = $conn->prepare($userAddUserInterestIdQuery);
                     
                 $statement->bindValue(":setuserinterestid", $userInterestId);

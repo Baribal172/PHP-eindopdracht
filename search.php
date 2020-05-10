@@ -4,27 +4,26 @@ include_once(__DIR__ . "/classes/Buddy.php");
 
 session_start();
 
-// echo $_SESSION['id'];
-
 if(isset($_GET['query'])){
-        $query = $_GET['query'];
-
+        $query = htmlspecialchars($_GET['query']);
         $conn = Db::getConnection();
-        $statement = $conn->prepare("SELECT * FROM Users WHERE (first_name LIKE '%".$query."%') OR (last_name LIKE '%".$query."%')");
+        $statement = $conn->prepare("SELECT *
+        FROM Interests
+        LEFT JOIN user_interest ON Interests.interest_id = user_interest.interest_id
+        LEFT JOIN Users ON user_interest.user_interest_id = Users.user_interest_id
+        WHERE interest_name LIKE '%' :setQuery '%'");
+        $statement->bindValue(":setQuery",$query);
         $statement->execute();
-        // $result = $statement->fetchAll();
-        // var_dump($result);
       
 }
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-//    echo $_POST['buddyRequest'];
-   $buddy = new Buddy();
+    $buddy = new Buddy();
    
-   $userOne = $_SESSION['id'];
-   $userTwo = $_POST['buddyRequest'];
+    $userOne = $_SESSION['id'];
+    $userTwo = $_POST['buddyRequest'];
    
-   $buddy->setUser_one($userOne);
-   $buddy->setUser_two($userTwo);
+    $buddy->setUser_one($userOne);
+    $buddy->setUser_two($userTwo);
     echo $userOne;
     echo $userTwo;
     $buddy->sendBuddyRequest();
@@ -45,7 +44,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         </form>
         <?php 
         while($row = $statement->fetch()) {?>
-
         <li><?php echo $row['first_name'].$row['last_name'].$row['id']?></li>
         <form action="" method="post">
             <button type="submit" name="buddyRequest" value="<?php echo $row['id']?>">Send buddy request</button>

@@ -1,188 +1,191 @@
 #loginForm {
-    width: 40%;
-    margin: auto;
+	width: 40%;
+	margin: auto;
 }
 
-#register--page, #index--page, #login--page {
-    font-family: niveau-grotesk, sans-serif;
-    font-weight: 400;
-    background-color: #2666A6;
-    width: 100vw;
-    height: 95vh;
-    display: flex;
-    flex-direction: row;
-    justify-content: space-evenly;
-    box-sizing: border-box;
-    padding: 40px;
+#register--page,
+#index--page,
+#login--page {
+	font-family: niveau-grotesk, sans-serif;
+	font-weight: 400;
+	background-color: #2666a6;
+	width: 100vw;
+	height: 95vh;
+	display: flex;
+	flex-direction: row;
+	justify-content: space-evenly;
+	box-sizing: border-box;
+	padding: 40px;
 }
-#register--page .backgroundContent, #index--page .backgroundContent {
-    box-sizing: border-box;
-    width: 60%;
-    height: 100%;
+#register--page .backgroundContent,
+#index--page .backgroundContent {
+	box-sizing: border-box;
+	width: 60%;
+	height: 100%;
 }
-#register--page .backgroundContent img, #index--page .backgroundContent img {
-    width: 100%;
+#register--page .backgroundContent img,
+#index--page .backgroundContent img {
+	width: 100%;
 }
-#register--page #loginForm, #index--page #loginForm {
-    box-sizing: border-box;
-    background-color: white;
-    width: 40%;
-    height: 100%;
-    border-radius: 4px;
-    padding: 40px 60px;
-    text-align: center;
+#register--page #loginForm,
+#index--page #loginForm {
+	box-sizing: border-box;
+	background-color: white;
+	width: 40%;
+	height: 100%;
+	border-radius: 4px;
+	padding: 40px 60px;
+	text-align: center;
 }
 
 .container--page {
-    box-sizing: border-box;
-    background-color: white;
-    width: 80%;
-    height: 100%;
-    border-radius: 4px;
-    padding: 40px 60px;
-    text-align: center;
+	box-sizing: border-box;
+	background-color: white;
+	width: 80%;
+	height: 100%;
+	border-radius: 4px;
+	padding: 40px 60px;
+	text-align: center;
 }
 
 #register--page #loginForm form {
-    height: 400px;
-    position: relative;
+	height: 400px;
+	position: relative;
 }
-#register--page #loginForm h1, #index--page #loginForm h1  {
-    color: #7B7F83;
-    font-size: 38px;
+#register--page #loginForm h1,
+#index--page #loginForm h1 {
+	color: #7b7f83;
+	font-size: 38px;
 }
 #register--page #loginForm .textfield {
-    width: 100%;
-    margin: 5px 0;
-    border-radius: 3px;
-    border: 1px solid #BEC1C4;
-    padding: 4px 8px;
-    
-    color: #7B7F83;
+	width: 100%;
+	margin: 5px 0;
+	border-radius: 3px;
+	border: 1px solid #bec1c4;
+	padding: 4px 8px;
+
+	color: #7b7f83;
 }
 #register--page #loginForm .textfield::placeholder {
-    color: #BEC1C4;
-    opacity: 0.5;
+	color: #bec1c4;
+	opacity: 0.5;
 }
 #register--page #loginForm #submit {
-    color: white;
-    font-size: 24px;
-    background-color: #95DA5D;
-    width: 100%;
-    height: 40px;
-    border: none;
-    border-radius: 4px;
-    left:0;
+	color: white;
+	font-size: 24px;
+	background-color: #95da5d;
+	width: 100%;
+	height: 40px;
+	border: none;
+	border-radius: 4px;
+	left: 0;
 }
 
 #index--page a.button {
-    color: white;
-    font-size: 24px;
-    background-color: #95DA5D;
-    height: 40px;
-    border: none;
-    border-radius: 4px;
-    padding: 10px;
+	color: white;
+	font-size: 24px;
+	background-color: #95da5d;
+	height: 40px;
+	border: none;
+	border-radius: 4px;
+	padding: 10px;
 }
 
 .desc--index {
-    padding: 10px;
-    text-align: justify;
+	padding: 10px;
+	text-align: justify;
 }
 
 .numbers {
-    color: #2666A6;
-    font-weight: bold;
-    font-size: 18px;
+	color: #2666a6;
+	font-weight: bold;
+	font-size: 18px;
 }
 
 .welkom {
-    text-transform: capitalize;
-    position: absolute;
-    left: 20px;
+	text-transform: capitalize;
+	position: absolute;
+	left: 20px;
 }
 
 .email--error {
-    color: #D45248;
-    border: 1px solid #D45248;
-    margin: 0 0 10px 0;
-    height: 30px;
-    background-color: #ffcccc;
+	color: #d45248;
+	border: 1px solid #d45248;
+	margin: 0 0 10px 0;
+	height: 30px;
+	background-color: #ffcccc;
 }
 
 .label {
-    width: 30%;
+	width: 30%;
 }
 .textfield {
-    color: green;
-    
+	color: green;
 }
 #submit {
-    width: 50%;
-    margin: auto;
+	width: 50%;
+	margin: auto;
 }
 
 .title {
-    font-size: 18;
-    font-weight: bold;
+	font-size: 18;
+	font-weight: bold;
 }
 .completeProfile--content {
-    padding: 40px;
-    width: 50%;
-    margin: auto;
-    background-color: #E8E8E8;
+	padding: 40px;
+	width: 50%;
+	margin: auto;
+	background-color: #e8e8e8;
 }
 .lbl-gender {
-    margin-right: 20px;
+	margin-right: 20px;
 }
 .characteristic {
-    margin-top: 20px;
+	margin-top: 20px;
 }
 
-
 #hobby {
-    text-align: center;
+	text-align: center;
 }
 
 .checklabel {
-    width: 40%;
-    margin: 20px;
-    background: #f2f2f2;
-    border-radius: 3px;
-    text-align: center;
-    font-size: 1.2rem;
-    box-shadow: 0 0 5px 5px rgba(0,0,0,0.2);
+	width: 40%;
+	margin: 20px;
+	background: #f2f2f2;
+	border-radius: 3px;
+	text-align: center;
+	font-size: 1.2rem;
+	box-shadow: 0 0 5px 5px rgba(0, 0, 0, 0.2);
 
-    padding: 10px;
+	padding: 10px;
 }
 .checklabel:hover {
-    background:#ddd;
+	background: #ddd;
 }
 .checklabel:checked {
-    background-color: red;
+	background-color: red;
 }
 
 .checkbox {
-    display: none;
+	display: none;
 }
 
 .checkbox:checked + .checklabel {
-    background-color: #A3D3D9;
+	background-color: #a3d3d9;
 }
 
 #completeProfileSubmit {
-    background-color: lightgray;
-    border: none;
-    border-radius: 5px;
-    font-size: 24px;
-    width: 200px;
-    height: 40px;
-    margin: 30px auto;
+	background-color: lightgray;
+	border: none;
+	border-radius: 5px;
+	font-size: 24px;
+	width: 200px;
+	height: 40px;
+	margin: 30px auto;
 }
 
 .email--error {
-    color: red;
-    border: 1px solid red;
-    background-color: #ffcccc;
+	color: red;
+	border: 1px solid red;
+	background-color: #ffcccc;
 }
-
