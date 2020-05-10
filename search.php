@@ -33,10 +33,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <?php
         include_once("nav.php");
 ?>
- 
-        <form action="" method="GET">
+        <form class="mx-auto" action="" method="GET">
             <input type="text" name="query"/>
-            <input type="submit" value="search"/>
+            <input class="btn btn-primary" type="submit" value="search"/>
         </form>
         <?php  if(isset($_GET['query'])){
        $buddy->searchBuddy();
