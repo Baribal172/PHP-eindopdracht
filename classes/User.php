@@ -367,7 +367,7 @@ class User
 
                         /*send validation email*/
                         $to      = 'yaiza.ng@gmail.com'; // Send email to our user
-                        $from = 'GO BUDDY';
+                        $from = 'noreply@php.baribal.me';
                         $subject = 'Verify your email for BUDDY'; // Give the email a subject 
                         $message = '
                 
@@ -378,7 +378,7 @@ class User
                         http://localhost:8887/PHP-eindopdracht/verify.php?email='.$email.'&hash='.$hash.'';
                         //CHANGE URL FOR NEW URL
                                     
-                        $headers = 'From:noreply@php.baribal.me' . "\r\n"; // Set from headers
+                        $headers = 'From:' . $from; // Set from headers
                         mail($to, $subject, $message, $headers); // Send our email
 
                         /*redirect user*/
