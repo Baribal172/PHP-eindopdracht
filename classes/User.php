@@ -12,6 +12,8 @@ class User
     private $newPassword;
     private $bio;
     private $buddy;
+    private $gender;
+    private $role;
   
     private $emailUsedError; // email is al in gebruik
     private $emailNotStudentError; // email is geen studentenemail
@@ -258,6 +260,47 @@ class User
 
         return $this;
     }
+
+        /**
+     * Get the value of gender
+     */ 
+    public function getGender()
+    {
+        return $this->gender;
+    }
+
+    /**
+     * Set the value of gender
+     *
+     * @return  self
+     */ 
+    public function setGender($gender)
+    {
+        $this->gender = $gender;
+
+        return $this;
+    }
+
+    /**
+     * Get the value of role
+     */ 
+    public function getRole()
+    {
+        return $this->role;
+    }
+
+    /**
+     * Set the value of role
+     *
+     * @return  self
+     */ 
+    public function setRole($role)
+    {
+        $this->role = $role;
+
+        return $this;
+    }
+
     
     public function registerUser()
     {
@@ -305,7 +348,7 @@ class User
                     } else {
 
                         /*prepare to insert form input into database*/
-                        $statement = $conn->prepare("insert into Users (first_name, last_name, email, hash, password, bio) values (:firstname, :lastname, :email, :hash, :password, :bio)");
+                        $statement = $conn->prepare("insert into Users (first_name, last_name, email, hash, password) values (:firstname, :lastname, :email, :hash, :password)");
                         if (!preg_match('/^(?=.*\d)(?=.*[A-Za-z])[0-9A-Za-z!@#$%]{8,}$/', $this->getPassword()))
                         {
                             echo "Passwoord moet min. 8 karakters lang zijn en een cijfer (0-9) bevatten";
@@ -317,7 +360,7 @@ class User
                         $statement->bindValue(":email", $email);
                         $statement->bindValue(":hash", $hash);
                         $statement->bindValue(":password", $password);
-                        $statement->bindValue(":bio", $bio);
+                        //$statement->bindValue(":bio", $bio);
 
                         /*execute input from fields to database*/
                         $result = $statement->execute();
@@ -525,42 +568,54 @@ class User
         $result = $statement->fetch(PDO::FETCH_ASSOC);
         echo $result['avatar'];
     }
-    
+
     public function exportInterests () {
-        if(!empty($_POST)){
-            if (is_array($_POST['myinterests']) || is_object($_POST['myinterests'])) {
+        if($_SERVER["REQUEST_METHOD"] == "POST"){
             $conn = Db::getConnection();
-            session_start();
             $userid = $_SESSION['id'];
             $userInterestId = $_SESSION['id'];
 
+            $gender = $this->getGender();
+            $role = $this->getRole();
+
+            if (is_array($_POST['myinterests']) || is_object($_POST['myinterests'])) {
+            
                 foreach($_POST['myinterests'] as $selected_id){
                     $arrayInterests[] = $selected_id;
 
                     # TOEVOEGEN VAN USER_INTEREST_ID/INTEREST_ID AAN USER_INTEREST
-                    $userInterestQuery = "iNSERT INTO user_interest(user_interest_id, interest_id) VALUES (:setuserinterestid, :setinterestid);";
-                    $statement = $conn->prepare($userInterestQuery);
-
+                    $statement = $conn->prepare("iNSERT INTO user_interest(user_interest_id, interest_id) VALUES (:setuserinterestid, :setinterestid);");
                     $statement->bindValue(":setuserinterestid", $userInterestId);
                     $statement->bindValue(":setinterestid", $selected_id);
                     $statement->execute();
                     
                 }
                 
-
                 # toevoegen aan tabel
-                $userAddUserInterestIdQuery = "update Users SET user_interest_id=:setuserinterestid WHERE id=:setuserid";
-                $statement = $conn->prepare($userAddUserInterestIdQuery);
-                    
+                $statement = $conn->prepare("update Users SET user_interest_id=:setuserinterestid WHERE id=:setuserid");
                 $statement->bindValue(":setuserinterestid", $userInterestId);
                 $statement->bindValue(":setuserid", $userid);
-                    
+                $statement->execute();
+            }
+
+            if (isset($_POST['gender'])) {
+                $statement = $conn->prepare("update Users set gender=:gender WHERE id = '".$_SESSION['id']."';");
+                $statement->bindValue(":gender", $gender);
+                $statement->execute();
+            }
+
+            if (isset($_POST['role'])) {
+                $statement = $conn->prepare("update Users set role=:role WHERE id = '".$_SESSION['id']."';");
+                $statement->bindValue(":role", $role);
                 $statement->execute();
             }
             
         }
 
     }
+
+
+
     public function fetchMatchFirstName(){
         $id = $this->matchUserId();
         $conn = Db::getConnection();
@@ -607,6 +662,8 @@ class User
         $result = $statement->fetch(PDO::FETCH_ASSOC);
         $_SERVER['matchnumber'] = $result['matchnumber'];
     }
+
+
 }
 
 
