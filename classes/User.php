@@ -1,5 +1,9 @@
 <?php
 include_once(__DIR__ . "/Db.php");
+use PHPMailer\PHPMailer\PHPMailer;
+use PHPMailer\PHPMailer\SMTP;
+use PHPMailer\PHPMailer\Exception;
+require 'vendor/autoload.php';
 
 class User
 {
@@ -365,24 +369,37 @@ class User
                         /*execute input from fields to database*/
                         $result = $statement->execute();
 
-                        /*send validation email
-                        $to      = 'yaiza.ng@gmail.com'; // Send email to our user
-                        $from = 'php.baribal.me';
-                        $subject = 'Verify your email for BUDDY'; // Give the email a subject 
-                        $message = '
-                
-                        Thanks for signing up!
-                        Your account has been created, you can login with the following credentials after you have activated your account by clicking the url below.
-            
-                        Please click this link to activate your account:
-                        http://localhost:8887/PHP-eindopdracht/verify.php?email='.$email.'&hash='.$hash.'';
-                        //CHANGE URL FOR NEW URL
-                                    
-                        $headers = 'From:' . $from; // Set from headers
-                        mail($to, $subject, $message, $headers); // Send our email
+                        $mail = new PHPMailer(true);
 
-                        /*redirect user*/
-                        //header("Location: verify.php");
+                            //Server settings
+                                $mail->SMTPDebug = SMTP::DEBUG_SERVER;                      // Enable verbose debug output
+                                $mail->isSMTP();                                            // Send using SMTP
+                                $mail->Host       = 'php.baribal.me';                    // Set the SMTP server to send through
+                                $mail->SMTPAuth   = true;                                   // Enable SMTP authentication
+                                $mail->Username   = 'noreply@php.baribal.me';                     // SMTP username
+                                $mail->Password   = 'Ditisvoorphp';                               // SMTP password
+                                $mail->SMTPSecure = "ssl"; 
+                                $mail->Port       = 465;                                    // TCP port to connect to, use 465 for PHPMailer::ENCRYPTION_SMTPS above
+
+                                //Recipients
+                                $mail->setFrom('noreply@php.baribal.me', 'GO BUD');
+                                $mail->addAddress('yaiza.ng@gmail.com');     // Add a recipient
+
+                                // Content
+                                $mail->isHTML(true);                                  // Set email format to HTML
+                                $mail->Subject = 'Verify your email for GO BUD';
+                                $mail->Body    = '
+                
+                                Thanks for signing up!
+                                Your account has been created, you can login with the following credentials after you have activated your account by clicking the url below.
+                                    
+                                Please click this link to activate your account:
+                                http://localhost:8887/PHP-eindopdracht/verify.php?email='.$email.'&hash='.$hash.'';
+                                //CHANGE URL FOR NEW URL
+
+                                $mail->send();
+                                echo 'Message has been sent';
+                                header("Location: verify.php");
                         }
                     }
                 } else {
@@ -392,11 +409,9 @@ class User
             } else {
 
                 /*mail format invalid, create error message for user*/
-                $this->setEmailNotStudentError("This is not a student mail") ;
+                $this->setEmailNotStudentError("This is not a valid mail format") ;
                 //$this->setError("Email is ongeldig") ;
             }
-
-            /*check if submit worked*/
 
             /*submit didn't work, create error for user*/
         }
