@@ -220,11 +220,11 @@ class Buddy{
     public function searchBuddy(){
         $query = htmlspecialchars($_GET['query']);
         $conn = Db::getConnection();
-        $statement = $conn->prepare("SELECT *
+        $statement = $conn->prepare("SELECT DISTINCT first_name, last_name,id
         FROM Interests
         LEFT JOIN user_interest ON Interests.interest_id = user_interest.interest_id
         LEFT JOIN Users ON user_interest.user_interest_id = Users.user_interest_id
-        WHERE interest_name LIKE '%' :setQuery '%'");
+        WHERE interest_name LIKE '%' :setQuery '%' or first_name LIKE '%' :setQuery '%' or last_name LIKE '%' :setQuery '%'");
         $statement->bindValue(":setQuery",$query);
         $statement->execute();
         $result = '';
