@@ -36,7 +36,7 @@ $user1->showNumbers();
     <div class="desc--index">Dit is de IMD-Buddy app. <br><br>Dankzij deze app kun je een buddy zoeken die je tijdens je studies in IMD zal kunnen helpen, of jezelf als buddy voorstellen.<br><br>
     Momenteel hebben wij <span class="numbers"><?php echo $_SERVER['usernumber'];  ?></span> gebruikers en <span class="numbers"><?php echo $_SERVER['matchnumber'];  ?></span> matches.
     <br><br></div>
-    <a href="register.php" class="button">PROBEER NU</a>
+    <a href="register.php" class="button">REGISTREER</a>
 
 </div>
 </div>

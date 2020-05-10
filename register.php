@@ -35,7 +35,6 @@ $globalError = $user1->getGlobalError();
 
 <body><div class="navbar">
     <ul>
-        <li><a href="register.php">Register</a></li>
         <li><a href="login.php">Log in</a></li>
     </ul>
 </div>

@@ -386,7 +386,7 @@ class User
                         mail($to, $subject, $message, $headers); // Send our email
 
                         /*redirect user*/
-                        header("http://baribal.me/PHP-eindopdracht/login.php");
+                        header("login.php");
                         //header("Location: home.php");
                         }
                     }

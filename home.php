@@ -4,7 +4,6 @@ include_once(__DIR__ . "/classes/User.php");
 include_once(__DIR__ . "/classes/Buddy.php");
 $buddy = new Buddy();
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    //    echo $_POST['buddyRequest'];
        $buddy = new Buddy();
        
        $userOne = $_SESSION['id'];
@@ -12,8 +11,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
        
        $buddy->setUser_one($userOne);
        $buddy->setUser_two($userTwo);
-        echo $userOne;
-        echo $userTwo;
         $buddy->sendBuddyRequest();
     
 }
@@ -45,12 +42,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         //dont forget to change status to 1, when there are buddies
         $statement->execute();
 ?>
-    <div class="navbar">
+<div class="navbar">
     <ul>
-        <span class="welkom">Welkom <?php echo $_SESSION['first_name']; ?> <?php echo $_SESSION['last_name']; ?></span>
-        <li><a href="#">Mijn profiel</a></li> <img src="<?php echo User::getAvatar(); ?>" alt="Uw avatar" height="20px"/>
-
-    </ul>
+    <span class="welkom"><img src="<?php echo User::getAvatar(); ?>" alt="Uw avatar" height="20px"/> Welkom <?php echo $_SESSION['first_name']; ?></span>
+        <li><a href="completeProfile.php">My profile</a></li><li><a href="logout.php">Log out</a></li>
+</ul>
 </div>
 <div id="register--page">
 <div class="container--page">
