@@ -18,6 +18,13 @@ if (isset($_POST["password"])){
     // $updatePassword->checkPassword();
     $updatePassword->updatePassword();
 }
+if(isset($_POST['submitAvatar'])) {
+    $avatar = new User();
+    if(!$avatar->checkAvatarSize()){
+        $avatar->setAvatar();
+    }
+   
+}
 
 ?>
 
@@ -34,10 +41,10 @@ if (isset($_POST["password"])){
 <body>
 <h1>Profile page</h1>
 <div class="profile">
-<h1>voornaam</h1>
-<h2>achternaam</h2>
-<h2>email</h2>
-<h2>bio </h2>
+<h1><?php echo $_SESSION['first_name']?></h1>
+<h2><?php echo $_SESSION['last_name']?></h2>
+<h2><?php echo $_SESSION['email']?></h2>
+<h2><?php echo $_SESSION['bio']?></h2>
 
 
 </div>
@@ -66,6 +73,17 @@ if (isset($_POST["password"])){
         <br>
             <input type="submit" id="submit" name="password">
         </form>
+    </div>
+    <div class="upload">
+    <form action="" method="post" enctype="multipart/form-data">
+    Select image to upload:
+    <input type="file" name="fileToUpload" id="fileToUpload">
+    <input type="submit" value="Upload Image" name="submitAvatar">
+</form>
+<?php 
+echo User::getAvatar();
+?>
+<img src="<?php echo User::getAvatar(); ?>" alt="" />
     </div>
 
 

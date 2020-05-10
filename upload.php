@@ -19,14 +19,6 @@ if(isset($_POST['submitAvatar'])) {
     <title>upload</title>
 </head>
 <body>
-<form action="" method="post" enctype="multipart/form-data">
-    Select image to upload:
-    <input type="file" name="fileToUpload" id="fileToUpload">
-    <input type="submit" value="Upload Image" name="submitAvatar">
-</form>
-<?php 
-echo User::getAvatar();
-?>
-<img src="<?php echo User::getAvatar(); ?>" alt="" />
+
 </body>
 </html>
