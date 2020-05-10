@@ -40,12 +40,15 @@ $(document).ready(function () {
 		});
 	});
 	$(".emoji").hide();
+	$(".tmp").hide();
 	$(".message")
 		.mouseover(function () {
 			$(this).find(".emoji").show();
+			$(".tmp").show();
 		})
 		.mouseout(function () {
 			$(this).find(".emoji").hide();
+			$(".tmp").hide();
 		});
 	$(".emoji").click(function () {
 		var emoji = $(this).text();

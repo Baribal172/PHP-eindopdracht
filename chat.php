@@ -43,16 +43,17 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <title>Chatbox</title>
 </head>
 <body>
-<div class="chatbox">
+<div class="container">
 
-<?php     $chat->getConversation(); 
+<?php $chat->getConversation(); 
 ?>
 
-</div>
+
 
 <form action=""method ="POST">
-	 <div><input type="text" name="message" /><input type="submit" value="Send message" name="send" /></div>
+	 <div><input class="form-control-sm"type="text" name="message" /><input class="btn-primary" type="submit" value="Send message" name="send" /></div>
 </form>
+</div>
 <script src="https://code.jquery.com/jquery-3.5.0.js" integrity="sha256-r/AaFHrszJtwpe+tHyNi/XCfMxYpbsRg2Uqn0x3s2zc=" crossorigin="anonymous"></script>
 <script src="./js/app.js"></script>
 </body>
