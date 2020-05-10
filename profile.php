@@ -26,8 +26,6 @@ if(isset($_POST['submitAvatar'])) {
     }
    
 }
-$user = new User();
-$showAvatar = $user->getAvatar();
 
 ?>
 
@@ -97,7 +95,7 @@ Bio: <?php echo $_SESSION['bio']?><br>
 </form>
 </div>
 </div>
-<img src="<?php echo $showAvatar; ?>" alt="" />
+<img src="<?php User::getAvatar();?>" alt="" />
 </div>
 
 

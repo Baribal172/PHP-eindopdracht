@@ -39,13 +39,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         FROM (Buddy LEFT OUTER JOIN Users AS u1 ON Buddy.user_one_id = u1.id)
         LEFT OUTER JOIN Users AS u2 ON Buddy.user_two_id = u2.id
         WHERE STATUS = '1'");
-        //dont forget to change status to 1, when there are buddies
         $statement->execute();
-        $showAvatar = $user->getAvatar();
 ?>
 <div class="navbar">
     <ul>
-    <span class="welkom"><img src="<?php echo $showAvatar; ?>" alt="Uw avatar" height="20px"/> Welkom <?php echo $_SESSION['first_name']; ?></span>
+    <span class="welkom"><img src="<?php User::getAvatar(); ?>" alt="Uw avatar" height="20px"/> Welkom <?php echo $_SESSION['first_name']; ?></span>
         <li><a href="profile.php">My profile</a></li><li><a href="logout.php">Log out</a></li>
 </ul>
 </div>
