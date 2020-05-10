@@ -386,8 +386,7 @@ class User
                         mail($to, $subject, $message, $headers); // Send our email
 
                         /*redirect user*/
-                        header("login.php");
-                        //header("Location: home.php");
+                        header("Location: login.php");
                         }
                     }
                 } else {
@@ -608,7 +607,7 @@ class User
             }
             
         }
-
+        header("Location: home.php");
     }
 
 
