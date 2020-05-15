@@ -12,14 +12,11 @@ session_start();
                 $buddy->acceptRequest();
                 break;
             case 'decline':
+                $buddy->setReason($_POST['reason']);
                 $buddy->declineRequest();
-                $conn = Db::getConnection();
-                $statement = $conn->prepare("UPDATE Buddy set declineReason = :declineReason WHERE user_two_id = '".$_SESSION['id']."';");
-                $statement->bindValue(":declineReason", $_POST['reason']);
-                $statement->execute();
                 break;
         }
-    }
+     }
     if(isset($_POST['delete'])){
         echo $buddy->deleteRequest();
     }

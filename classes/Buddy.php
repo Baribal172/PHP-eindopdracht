@@ -12,7 +12,7 @@ class Buddy{
     //https://www.codedodle.com/2014/12/social-network-friends-database.html
 
     public $actionUserId;
-    
+    public $reason;
     /**
      * Get the value of user_one
      */ 
@@ -92,6 +92,25 @@ class Buddy{
 
         return $this;
     }
+    /**
+     * Get the value of reason
+     */ 
+    public function getReason()
+    {
+        return $this->reason;
+    }
+
+    /**
+     * Set the value of reason
+     *
+     * @return  self
+     */ 
+    public function setReason($reason)
+    {
+        $this->reason = $reason;
+
+        return $this;
+    }
     public function sendBuddyRequest(){
         $user_one = $this->getUser_one();
         $user_two = $this->getUser_two();
@@ -161,8 +180,8 @@ class Buddy{
         $statement->execute();
         $result = $statement->fetch(PDO::FETCH_ASSOC);
         return $result['declineReason'];
-
     }
+    
     public function acceptRequest(){
         $conn = Db::getConnection();
         $statement = $conn->prepare("UPDATE Buddy set status = '1' WHERE user_two_id = '".$_SESSION['id']."';");
@@ -170,8 +189,10 @@ class Buddy{
     }
 
     public function declineRequest(){
+        $declineReason = $this->getReason();
         $conn = Db::getConnection();
-        $statement = $conn->prepare("UPDATE Buddy set status = '2' WHERE user_two_id = '".$_SESSION['id']."';");
+        $statement = $conn->prepare("UPDATE Buddy set status = '2', declineReason = :declineReason  WHERE user_two_id = '".$_SESSION['id']."';");
+        $statement->bindValue(":declineReason", $declineReason);
         $statement->execute();
     }
     public function deleteRequest(){
@@ -249,4 +270,6 @@ class Buddy{
         } 
         echo $result;
     }
+
+    
 }

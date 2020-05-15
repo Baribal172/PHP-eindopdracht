@@ -7,6 +7,8 @@ $(document).ready(function () {
 			data: {
 				action: clickBtnValue,
 			},
+		}).done(function (msg) {
+			alert(msg);
 		});
 	});
 
@@ -20,6 +22,8 @@ $(document).ready(function () {
 				action: clickBtnValue,
 				reason: value,
 			},
+		}).done(function (msg) {
+			alert(msg);
 		});
 	});
 
